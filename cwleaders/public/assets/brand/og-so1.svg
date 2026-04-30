@@ -1,0 +1,34 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="98" y1="44" x2="1080" y2="590" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#12324A" />
+      <stop offset="0.58" stop-color="#3498DB" />
+      <stop offset="1" stop-color="#2ECC71" />
+    </linearGradient>
+    <filter id="blur" x="0" y="0" width="1200" height="630" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="44" />
+    </filter>
+  </defs>
+  <rect width="1200" height="630" rx="48" fill="url(#bg)" />
+  <g opacity="0.26" filter="url(#blur)">
+    <circle cx="1038" cy="126" r="130" fill="#2ECC71" />
+    <circle cx="160" cy="520" r="152" fill="#E67E22" />
+  </g>
+  <rect x="88" y="82" width="1024" height="466" rx="36" fill="white" fill-opacity="0.14" stroke="white" stroke-opacity="0.24" />
+  <rect x="144" y="132" width="250" height="364" rx="32" fill="white" fill-opacity="0.9" />
+  <rect x="182" y="176" width="120" height="18" rx="9" fill="#16324A" fill-opacity="0.12" />
+  <rect x="182" y="214" width="170" height="18" rx="9" fill="#3498DB" fill-opacity="0.18" />
+  <rect x="182" y="270" width="174" height="84" rx="20" fill="#EAF8FF" />
+  <rect x="182" y="370" width="174" height="84" rx="20" fill="#F5FFF8" />
+  <text x="448" y="178" fill="#E8F8FF" font-family="Poppins, Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="3">CW LEADERS ROLE PAGE</text>
+  <text x="448" y="258" fill="white" font-family="Poppins, Arial, sans-serif" font-size="58" font-weight="800">Strategist and</text>
+  <text x="448" y="322" fill="white" font-family="Poppins, Arial, sans-serif" font-size="58" font-weight="800">Operationalist 1</text>
+  <text x="448" y="386" fill="#E7F8FF" font-family="Roboto, Arial, sans-serif" font-size="26" font-weight="500">
+    Hybrid Los Angeles role for executive workflow, logistics,
+  </text>
+  <text x="448" y="424" fill="#E7F8FF" font-family="Roboto, Arial, sans-serif" font-size="26" font-weight="500">
+    financial stewardship, and discreet high-trust execution.
+  </text>
+  <rect x="448" y="468" width="264" height="52" rx="26" fill="white" fill-opacity="0.16" stroke="white" stroke-opacity="0.22" />
+  <text x="479" y="502" fill="#FFFFFF" font-family="Poppins, Arial, sans-serif" font-size="20" font-weight="700">SO1 | Direct apply</text>
+</svg>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  CW Leaders Studio — Hardened Runtime entitlements.
+  Closed P0-9 from release audit. Required for notarization on macOS 10.15+.
+
+  Each entitlement is included only if the feature is actually used:
+    - audio-input        → screen recording with mic
+    - camera             → optional webcam overlay
+    - screen-capture     → core feature
+    - allow-jit          → V8 JIT inside webview (default)
+    - allow-unsigned-mem → reqwest+rustls native dylib needs this
+    - get-task-allow=N   → blocks debugger attach in production (no key written = false)
+-->
+<plist version="1.0">
+<dict>
+  <!-- Required for screen capture via ScreenCaptureKit/Quartz -->
+  <key>com.apple.security.device.screen-capture</key>
+  <true/>
+
+  <!-- Microphone — narration on recordings -->
+  <key>com.apple.security.device.audio-input</key>
+  <true/>
+
+  <!-- Webcam — selfie overlay during recordings (optional) -->
+  <key>com.apple.security.device.camera</key>
+  <true/>
+
+  <!-- Outbound network for license validation, telemetry, AI calls -->
+  <key>com.apple.security.network.client</key>
+  <true/>
+
+  <!-- Required for the WebView's JS runtime -->
+  <key>com.apple.security.cs.allow-jit</key>
+  <true/>
+
+  <!-- Required because rustls-native-certs may use unsigned memory in some configs -->
+  <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+  <true/>
+
+  <!-- Lets the app launch helper executables (ffmpeg) bundled inside .app -->
+  <key>com.apple.security.cs.disable-library-validation</key>
+  <true/>
+
+  <!-- File access — Tauri uses these for the asset protocol scope -->
+  <key>com.apple.security.files.user-selected.read-write</key>
+  <true/>
+  <key>com.apple.security.files.downloads.read-write</key>
+  <true/>
+  <key>com.apple.security.files.movies.read-write</key>
+  <true/>
+
+  <!-- DO NOT set get-task-allow → defaults to false → blocks debugger in prod -->
+</dict>
+</plist>

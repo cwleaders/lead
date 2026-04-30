@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0e1a" />
+  <title>Apply — MyHire by CW Leaders</title>
+  <meta name="description" content="Apply to CW Leaders. Four steps, four minutes, real human review within five business days." />
+  <link rel="canonical" href="https://myhire.cwleaders.com/apply/" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="robots" content="noindex,follow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/tokens.css" />
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/lead.css" />
+  <link rel="stylesheet" href="/nav.css" />
+</head>
+<body>
+  <div class="dotgrid" aria-hidden="true"></div>
+
+  <header id="cw-nav"></header>
+
+  <main>
+    <div class="apply-shell">
+      <span class="role-chip" id="role-chip" hidden></span>
+      <h1>Apply to CW Leaders.</h1>
+      <p class="lede">Four short steps. Save a draft any time — your progress sticks even if you close the tab. We'll reply within five business days.</p>
+
+      <ul class="stepper" id="stepper" aria-label="Application progress">
+        <li class="is-active" data-step="0">About you</li>
+        <li data-step="1">Your work</li>
+        <li data-step="2">Your story</li>
+        <li data-step="3">Review &amp; submit</li>
+      </ul>
+
+      <form id="application-form" class="form-card glass" novalidate>
+
+        <!-- STEP 1: About you -->
+        <div class="form-step" data-step-panel="0">
+          <h2>About you</h2>
+          <p class="step-sub">The basics. Five fields, then you're moving.</p>
+
+          <div class="field-grid">
+            <div class="field"><label>First name</label><input name="firstName" required maxlength="80" autocomplete="given-name" /></div>
+            <div class="field"><label>Last name</label><input name="lastName" required maxlength="80" autocomplete="family-name" /></div>
+          </div>
+          <div class="field-grid">
+            <div class="field"><label>Email</label><input type="email" name="email" required autocomplete="email" /></div>
+            <div class="field"><label>Phone</label><input type="tel" name="phone" required autocomplete="tel" /></div>
+          </div>
+          <div class="field-grid">
+            <div class="field"><label>City</label><input name="city" required autocomplete="address-level2" /></div>
+            <div class="field"><label>State / Region</label><input name="state" required autocomplete="address-level1" /></div>
+          </div>
+          <div class="field-grid full">
+            <div class="field"><label>Country</label><input name="country" required autocomplete="country-name" /></div>
+          </div>
+          <div class="field-grid">
+            <div class="field"><label>LinkedIn (optional)</label><input type="url" name="linkedin" placeholder="https://linkedin.com/in/…" /></div>
+            <div class="field"><label>Portfolio (optional)</label><input type="url" name="portfolio" placeholder="https://…" /></div>
+          </div>
+        </div>
+
+        <!-- STEP 2: Your work -->
+        <div class="form-step" data-step-panel="1" hidden>
+          <h2>Your work</h2>
+          <p class="step-sub">What you do now, and what you'd want to do here.</p>
+
+          <div class="field-grid full">
+            <div class="field">
+              <label>Target role</label>
+              <input name="targetRole" required placeholder="e.g. Strategist and Operationalist 1" />
+              <span class="hint">Or write "General application" if you don't see your role.</span>
+            </div>
+          </div>
+          <div class="field-grid">
+            <div class="field"><label>Current title</label><input name="currentTitle" required /></div>
+            <div class="field"><label>Current company</label><input name="currentCompany" /></div>
+          </div>
+          <div class="field-grid">
+            <div class="field"><label>Years of experience</label><input type="number" name="yearsExperience" min="0" max="60" required /></div>
+            <div class="field"><label>Compensation expectations</label><input name="compensation" placeholder="e.g. $130k base + equity" /></div>
+          </div>
+          <div class="field-grid">
+            <div class="field">
+              <label>Availability</label>
+              <select name="availability" required>
+                <option value="">Select…</option>
+                <option>Right away</option>
+                <option>2 weeks</option>
+                <option>1 month</option>
+                <option>2-3 months</option>
+                <option>Flexible</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Work authorization</label>
+              <select name="workAuthorization" required>
+                <option value="">Select…</option>
+                <option>US citizen / permanent resident</option>
+                <option>Authorized to work in US, no sponsorship needed</option>
+                <option>Will need sponsorship</option>
+                <option>Outside US (remote-friendly only)</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-grid full">
+            <div class="field">
+              <label>Travel / relocation</label>
+              <select name="travelPreference" required>
+                <option value="">Select…</option>
+                <option>Open to relocation to LA</option>
+                <option>LA-based already</option>
+                <option>Remote-only</option>
+                <option>Hybrid (some travel okay)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: Your story + uploads -->
+        <div class="form-step" data-step-panel="2" hidden>
+          <h2>Your story</h2>
+          <p class="step-sub">Two short answers, two optional files. Done.</p>
+
+          <div class="field">
+            <label>Why CW Leaders?</label>
+            <textarea name="whyCwLeaders" required minlength="50" maxlength="2000" placeholder="In your own voice — what draws you to this work, what you'd want to build here. 2-3 sentences is plenty."></textarea>
+            <span class="hint">50+ characters. We read every word.</span>
+          </div>
+          <div class="field">
+            <label>Standout strength (optional)</label>
+            <textarea name="standoutStrength" maxlength="2000" placeholder="What you do better than 95% of people, in a way that's relevant here."></textarea>
+          </div>
+
+          <div class="field" style="margin-top:8px">
+            <label>Resume (PDF, DOCX, or link)</label>
+            <label class="upload-tile" id="resume-tile">
+              <span class="glyph">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/>
+                  <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+              </span>
+              <div class="info">
+                <strong id="resume-name">Click to choose your resume</strong>
+                <span id="resume-meta">PDF, DOCX, or link · max 10 MB</span>
+              </div>
+              <div class="progress" hidden><i id="resume-progress"></i></div>
+              <input type="file" name="resume" hidden accept=".pdf,.doc,.docx,.txt" />
+            </label>
+          </div>
+
+          <div class="field">
+            <label>Cover letter (optional)</label>
+            <label class="upload-tile" id="cover-tile">
+              <span class="glyph">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9h16"/>
+                </svg>
+              </span>
+              <div class="info">
+                <strong id="cover-name">Add a cover letter</strong>
+                <span id="cover-meta">Optional · PDF, DOCX, or text</span>
+              </div>
+              <div class="progress" hidden><i id="cover-progress"></i></div>
+              <input type="file" name="coverLetter" hidden accept=".pdf,.doc,.docx,.txt" />
+            </label>
+          </div>
+        </div>
+
+        <!-- STEP 4: Review -->
+        <div class="form-step" data-step-panel="3" hidden>
+          <h2>Review &amp; submit</h2>
+          <p class="step-sub">A quick look before you send. You can still go back to edit anything.</p>
+
+          <div class="review-grid" id="review-grid"></div>
+
+          <div class="consent-row" style="margin-top:18px">
+            <input type="checkbox" id="privacyConsent" name="privacyConsent" required />
+            <label for="privacyConsent">I've read the <a href="/privacy/">privacy notice</a> and agree to how my information is used here.</label>
+          </div>
+          <div class="consent-row">
+            <input type="checkbox" id="accuracyConsent" name="accuracyConsent" required />
+            <label for="accuracyConsent">Everything in this application is true and accurate to the best of my knowledge.</label>
+          </div>
+        </div>
+
+        <!-- Hidden / honeypot fields -->
+        <input type="text" name="companyWebsite" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true" />
+        <input type="hidden" name="sourcePage" value="/apply/" />
+        <input type="hidden" name="referrer" value="" />
+        <input type="hidden" name="role" value="" />
+        <input type="hidden" name="skillCheckToken" value="" />
+        <input type="hidden" name="resumeFileId" value="" />
+        <input type="hidden" name="coverLetterFileId" value="" />
+
+        <div class="form-status" role="status" aria-live="polite"></div>
+
+        <div class="form-buttons">
+          <button type="button" class="ghost" data-back-step hidden>← Back</button>
+          <button type="button" class="primary" data-next-step>Continue →</button>
+          <button type="submit" class="primary" data-submit-application hidden>Submit application →</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script src="/firebase-config.js"></script>
+  <script src="/lead.js"></script>
+  <script src="/apply.js"></script>
+  <script src="/nav.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0e1a" />
+  <title>Download a file — CW Leaders</title>
+  <meta name="description" content="Preview any file before you download it. See exactly what's inside, who sent it, and download safely with one click." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./tokens.css" />
+  <link rel="stylesheet" href="./eq.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./lead.css" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Download — CW Leaders" />
+  <meta property="og:description" content="See the file before you download. Cinematic Visual Receipts on every link." />
+  <link rel="stylesheet" href="/nav.css" />
+</head>
+<body>
+  <div class="dotgrid" aria-hidden="true"></div>
+
+  <header id="cw-nav"></header>
+
+  <main>
+    <section class="stage" id="stage">
+      <!-- Loading state -->
+      <div class="state" data-view="loading" id="view-loading">
+        <div class="spinner" aria-hidden="true"></div>
+        <p>Loading preview…</p>
+      </div>
+
+      <!-- Empty / landing state (no token in URL) -->
+      <div class="state hidden" data-view="empty" id="view-empty">
+        <div class="empty-mark"></div>
+        <h1>Know what's inside<br/><em>before</em> you click.</h1>
+        <p class="sub">Every shared link shows you a clear preview of the file first — so you can see exactly what you're about to download. No surprises, no risk.</p>
+        <a class="cta" href="https://upload.cwleaders.com">Send a file of your own →</a>
+      </div>
+
+      <!-- File view -->
+      <div class="state hidden file-view" data-view="file" id="view-file">
+        <div class="receipt-wrap glass">
+          <div class="receipt" id="receipt"></div>
+          <div class="receipt-meta">
+            <h1 id="filename">filename.ext</h1>
+            <div class="metarow">
+              <span class="pill" id="filesize">— B</span>
+              <span class="pill" id="filetype">type</span>
+              <span class="pill" id="fileexp">expires —</span>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="dl primary" id="dl-btn">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Download
+            </button>
+            <a class="dl ghost" href="https://upload.cwleaders.com/?from=download" id="back-cta">↻ Send one back</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error state -->
+      <div class="state hidden" data-view="error" id="view-error">
+        <div class="empty-mark error"></div>
+        <h1>This file isn't here.</h1>
+        <p class="sub" id="errmsg">The link may have expired or the file was removed.</p>
+        <a class="cta" href="https://upload.cwleaders.com">Send a file instead →</a>
+      </div>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
+  <script src="/nav.js" defer></script>
+</body>
+</html>

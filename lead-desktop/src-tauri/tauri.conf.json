@@ -1,0 +1,106 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "CW Leaders Studio",
+  "version": "0.1.1",
+  "identifier": "com.cwleaders.studio",
+  "build": {
+    "frontendDist": "../src",
+    "devUrl": "http://localhost:1420",
+    "beforeDevCommand": "",
+    "beforeBuildCommand": ""
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "CW Leaders Studio",
+        "width": 1180,
+        "height": 760,
+        "minWidth": 880,
+        "minHeight": 560,
+        "resizable": true,
+        "fullscreen": false,
+        "decorations": true,
+        "transparent": false,
+        "alwaysOnTop": false,
+        "theme": "Dark",
+        "titleBarStyle": "Overlay",
+        "hiddenTitle": true
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://api.cwleaders.com https://*.cwleaders.com https://*.amazonaws.com; frame-ancestors 'none'; base-uri 'self'; object-src 'none'",
+      "assetProtocol": {
+        "enable": true,
+        "scope": [
+          "$HOME/CW-Leaders-Recordings/**",
+          "$APPDATA/CW-Leaders-Studio/**",
+          "$APPLOCALDATA/CW-Leaders-Studio/**"
+        ]
+      }
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": [
+      "app",
+      "dmg",
+      "msi",
+      "appimage",
+      "deb"
+    ],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "category": "Productivity",
+    "shortDescription": "Record. Send. Hire. Manage. Four tools, one free download.",
+    "longDescription": "CW Leaders Studio is a unified, lightweight desktop app for screen recording, file sharing, hiring, and team telemetry. Local-first AI, ~10MB installer, runs on any modern machine. One license unlocks features across all four tools.",
+    "copyright": "© 2026 Wareactics Corporation",
+    "publisher": "Wareactics Corporation",
+    "homepage": "https://lead.cwleaders.com",
+    "license": "Proprietary — see https://lead.cwleaders.com/eula",
+    "macOS": {
+      "minimumSystemVersion": "11.0",
+      "exceptionDomain": "cwleaders.com",
+      "entitlements": "entitlements.plist",
+      "signingIdentity": "Developer ID Application: Wareactics Corporation (CWT985BC6W)",
+      "providerShortName": "CWT985BC6W",
+      "hardenedRuntime": true,
+      "frameworks": []
+    },
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": "http://timestamp.digicert.com",
+      "wix": {
+        "language": ["en-US"]
+      },
+      "nsis": null,
+      "webviewInstallMode": {
+        "type": "embedBootstrapper"
+      },
+      "allowDowngrades": false
+    },
+    "linux": {
+      "appimage": {
+        "bundleMediaFramework": false
+      },
+      "deb": {
+        "depends": ["libwebkit2gtk-4.1-0", "libssl3"]
+      }
+    }
+  },
+  "plugins": {
+    "updater": {
+      "active": true,
+      "endpoints": [
+        "https://api.cwleaders.com/desktop/update?platform={{target}}-{{arch}}&current={{current_version}}&channel={{channel}}"
+      ],
+      "dialog": true,
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEQxNzk5Njk4OTc3RkNEMEUKUldRT3pYK1htSlo1MFFUbjEzRDNENVlQUDJsKzBxcldxZkFsZ2o0a0FMcm5xM1RnTWhDSHpRSUUK"
+    }
+  }
+}

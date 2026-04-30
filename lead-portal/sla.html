@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0e1a" />
+  <title>Service Level Agreement — CW Leaders</title>
+  <meta name="description" content="The CW Leaders Service Level Agreement for paid plans: 99.9% uptime target with service-credit remedies." />
+  <link rel="canonical" href="https://lead.cwleaders.com/sla" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/tokens.css" />
+  <link rel="stylesheet" href="/eq.css" />
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/lead.css" />
+  <link rel="stylesheet" href="/nav.css" />
+</head>
+<body>
+  <div class="dotgrid" aria-hidden="true"></div>
+  <header id="cw-nav"></header>
+
+  <main>
+    <article class="doc-shell">
+      <h1>Service Level Agreement.</h1>
+      <p class="lede">Applies only to paid Powerhouse, Agentic, and Enterprise tiers. We commit to 99.9% monthly uptime on the cloud Services that power those plans. The Free tier is best-effort with no SLA.</p>
+      <p style="color:var(--t3);font-size:12px">Effective: April 2026 · Version 1.0</p>
+
+      <h2>1. Service availability commitment</h2>
+      <table style="width:100%;border-collapse:collapse;margin:20px 0;font-size:14px">
+        <thead>
+          <tr style="border-bottom:1px solid var(--border, #252b48); text-align:left">
+            <th style="padding:10px 12px 10px 0;color:var(--t3);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;font-size:11px">Tier</th>
+            <th style="padding:10px 12px;color:var(--t3);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;font-size:11px">Monthly uptime</th>
+            <th style="padding:10px 12px;color:var(--t3);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;font-size:11px">Response time SLA</th>
+          </tr>
+        </thead>
+        <tbody style="color:var(--t2);line-height:1.55">
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+            <td style="padding:12px 12px 12px 0">Free / Basic</td>
+            <td style="padding:12px">Best-effort (no SLA)</td>
+            <td style="padding:12px">Best-effort</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+            <td style="padding:12px 12px 12px 0">Powerhouse</td>
+            <td style="padding:12px">99.9%</td>
+            <td style="padding:12px">P1 8h, P2 24h, P3 5d</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+            <td style="padding:12px 12px 12px 0">Agentic</td>
+            <td style="padding:12px">99.9%</td>
+            <td style="padding:12px">P1 4h, P2 12h, P3 3d</td>
+          </tr>
+          <tr>
+            <td style="padding:12px 12px 12px 0">Enterprise</td>
+            <td style="padding:12px">99.95%</td>
+            <td style="padding:12px">P1 1h, P2 4h, P3 1d</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>2. Measurement methodology</h2>
+      <p>"Monthly uptime" is calculated as the percentage of one-minute intervals in a calendar month during which the API endpoint <code>https://api.cwleaders.com/health</code> returned HTTP 200 within 5 seconds. Measurement is from our public synthetic-monitoring system, sampling at 1-minute intervals. Maintenance windows are excluded per Section 3.</p>
+
+      <h2>3. Exclusions</h2>
+      <p>Downtime caused by the following is excluded:</p>
+      <ul>
+        <li><strong>Scheduled maintenance:</strong> Announced at least 7 days in advance via the in-app banner and email; capped at 4 hours per month and scheduled outside US-business hours;</li>
+        <li><strong>Force majeure:</strong> Acts of God, war, terrorism, government action, internet failures outside our control;</li>
+        <li><strong>Customer-caused downtime:</strong> Customer's misuse, customer-side network issues, customer's own integrations;</li>
+        <li><strong>Third-party SaaS dependencies:</strong> Stripe, Firebase, AI providers — outages there are credited only if they exceed 4 hours and the affected feature is unusable;</li>
+        <li><strong>Beta features:</strong> Anything labeled "Beta" or "Preview" is excluded from SLA.</li>
+      </ul>
+
+      <h2>4. Service credits</h2>
+      <p>If we miss the monthly uptime target, you receive a service credit on your next invoice:</p>
+      <table style="width:100%;border-collapse:collapse;margin:20px 0;font-size:14px">
+        <thead>
+          <tr style="border-bottom:1px solid var(--border, #252b48); text-align:left">
+            <th style="padding:10px 12px 10px 0;color:var(--t3);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;font-size:11px">Achieved uptime</th>
+            <th style="padding:10px 12px;color:var(--t3);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;font-size:11px">Credit</th>
+          </tr>
+        </thead>
+        <tbody style="color:var(--t2);line-height:1.55">
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04)"><td style="padding:12px 12px 12px 0">99.9% – 100%</td><td style="padding:12px">No credit</td></tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04)"><td style="padding:12px 12px 12px 0">99.0% – 99.89%</td><td style="padding:12px">10% of monthly fee</td></tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04)"><td style="padding:12px 12px 12px 0">95.0% – 98.99%</td><td style="padding:12px">25% of monthly fee</td></tr>
+          <tr><td style="padding:12px 12px 12px 0">&lt;95.0%</td><td style="padding:12px">50% of monthly fee</td></tr>
+        </tbody>
+      </table>
+
+      <h2>5. How to claim a credit</h2>
+      <p>Within 30 days of the month in which the SLA was missed, email <a href="mailto:billing@cwleaders.com">billing@cwleaders.com</a> with subject "SLA Credit" and include: the affected month, the incident IDs (we publish at <a href="/status">/status</a>), and your customer ID. We respond within 5 business days.</p>
+
+      <h2>6. Sole remedy</h2>
+      <p>Service credits are your sole and exclusive remedy for any failure to meet the SLA. Credits do not expire as long as your subscription remains active. If your subscription terminates, accrued credits are forfeit.</p>
+
+      <h2>7. Status page</h2>
+      <p>Real-time service status, incident history, and scheduled maintenance: <a href="https://status.cwleaders.com">status.cwleaders.com</a> <span style="color:var(--c-warning)">[CUSTOMIZE — status page not yet built; see <code>docs/MIGRATION-ROADMAP.md</code>]</span></p>
+
+      <h2>8. Changes</h2>
+      <p>We may update this SLA. Material changes are communicated 30 days in advance to active paying customers.</p>
+
+      <h2>9. Contact</h2>
+      <p><a href="mailto:billing@cwleaders.com">billing@cwleaders.com</a></p>
+
+      <p style="margin-top:32px;color:var(--t3);font-size:12px">Last updated: April 2026 · Version 1.0</p>
+    </article>
+  </main>
+
+  <script src="/lead.js"></script>
+  <script src="/nav.js" defer></script>
+</body>
+</html>

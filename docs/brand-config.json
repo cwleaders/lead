@@ -1,0 +1,200 @@
+{
+  "$schema": "https://cwleaders.com/schema/brand-config-v1.json",
+  "version": "1.0.0",
+  "lastUpdated": "2026-04-30",
+
+  "identity": {
+    "name": "CW Leaders Studio",
+    "shortName": "CW Leaders",
+    "tagline": "One free download. Four billion-dollar tools.",
+    "secondaryTagline": "The screen recorder that thinks the way you do.",
+    "legalEntity": "[CUSTOMIZE — register the LLC/Inc and update]",
+    "trademark": {
+      "wordmark": "CW Leaders",
+      "secondary": "Mind-Free",
+      "symbol": "™",
+      "registered": false,
+      "useGuidance": "First mention on each marketing surface gets the ™ symbol; subsequent mentions plain."
+    }
+  },
+
+  "visual": {
+    "colors": {
+      "_palette_source": "tokens.css — single source of truth",
+      "primary": {
+        "void":     { "hex": "#0a0e1a", "use": "Page background, splash, modal scrim base" },
+        "surface":  { "hex": "#11172a", "use": "Card / panel surface" },
+        "elevated": { "hex": "#161e36", "use": "Modal, top-nav glass, raised surface" },
+        "dot":      { "hex": "#1c2444", "use": "Dot-grid texture only" }
+      },
+      "text": {
+        "t1": { "hex": "#e8eaf2", "contrast_on_void": 16.4, "use": "Headings, body, primary text" },
+        "t2": { "hex": "#8a93b3", "contrast_on_void": 7.2,  "use": "Secondary text, meta" },
+        "t3": { "hex": "#4a5176", "contrast_on_void": 4.6,  "use": "Tertiary captions only" },
+        "t3_on_surface": { "hex": "#5a6088", "contrast_on_surface": 4.5, "use": "Tertiary text on raised surfaces — WCAG bump" }
+      },
+      "semantic": {
+        "frontend":   { "hex": "#4f8cff", "meaning": "Information, links" },
+        "backend":    { "hex": "#ff5d73", "meaning": "Errors, warnings of irreversibility" },
+        "theory":     { "hex": "#4ade80", "meaning": "Success, confirmation, positive state" },
+        "warning":    { "hex": "#fbbf24", "meaning": "Brand-primary CTA, attention, focus rings" },
+        "creative":   { "hex": "#c084fc", "meaning": "Premium / agentic features" },
+        "neutral":    { "hex": "#94a3b8", "meaning": "Disabled, neutral state" }
+      },
+      "tier_accents": {
+        "tier_1": "#94a3b8",
+        "tier_2": "#c084fc",
+        "tier_3": "#fbbf24"
+      }
+    },
+    "typography": {
+      "_loaded_via": "fonts.googleapis.com — Inter 300/400/500/600/700",
+      "display": {
+        "family": "Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif",
+        "weights": { "light": 300, "regular": 400, "medium": 500, "semibold": 600, "bold": 700 },
+        "featureSettings": "ss01, cv11"
+      },
+      "mono": {
+        "family": "ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace"
+      },
+      "scale": {
+        "h1":     { "size": "clamp(28px, 4vw, 44px)", "weight": 700, "tracking": "-0.02em" },
+        "h2":     { "size": "clamp(18px, 2.2vw, 22px)", "weight": 600, "tracking": "-0.01em" },
+        "h3":     { "size": "16px", "weight": 600 },
+        "body":   { "size": "15px", "weight": 400, "lineHeight": 1.65 },
+        "small":  { "size": "13px", "weight": 400, "lineHeight": 1.55 },
+        "micro":  { "size": "11px", "weight": 600, "tracking": "0.06em", "transform": "uppercase" }
+      }
+    },
+    "logos": {
+      "primary": {
+        "path": "/og.svg",
+        "minWidth": "24px",
+        "clearSpace": "1× cap-height around"
+      },
+      "favicon": {
+        "path": "/favicon.svg",
+        "sizes": ["16x16","32x32","180x180"]
+      },
+      "monogram": {
+        "renderedBy": "shared/nav.js#svgMonogram()",
+        "use": "Top-nav primary brand"
+      }
+    },
+    "darkMode": {
+      "default": true,
+      "lightMode": "[CUSTOMIZE — light mode token set not yet generated; defer until user demand]"
+    },
+    "spacingScale": {
+      "_token": "consistent multiples of 4px",
+      "values": [0, 4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 100, 120]
+    },
+    "borderRadius": {
+      "r1": "6px",
+      "r2": "12px",
+      "r3": "22px",
+      "pill": "999px"
+    },
+    "shadows": {
+      "raise":   "0 4px 14px -6px rgba(0,0,0,0.5)",
+      "lift":    "0 18px 60px -20px rgba(0,0,0,0.6)",
+      "elevate": "0 30px 80px rgba(0,0,0,0.45)"
+    },
+    "motion": {
+      "easings": {
+        "snap":   "cubic-bezier(0.2, 0.9, 0.2, 1)",
+        "glide":  "cubic-bezier(0.45, 0, 0.15, 1)"
+      },
+      "durations": { "fast": "140ms", "base": "280ms", "cinema": "520ms" },
+      "respectsReducedMotion": true
+    },
+    "imagery": {
+      "style": "Mind-Free — abstract geometric, dot-grid texture, dark deep blue palette",
+      "photography": "[CUSTOMIZE — guideline for marketing photography not yet defined]",
+      "illustration": "[CUSTOMIZE — defer until brand book v2]"
+    }
+  },
+
+  "voice": {
+    "tone": "confident, direct, technical when needed, never breathless",
+    "personalityTraits": [
+      "blunt without being rude",
+      "never patronizing",
+      "respects the reader's time",
+      "explains the why, not just the what",
+      "comfortable saying no"
+    ],
+    "readingLevel": "Flesch-Kincaid grade 8 target",
+    "forbiddenWords": [
+      "leverage", "synergy", "ecosystem", "best-of-breed", "world-class",
+      "robust", "seamless", "frictionless", "bleeding edge", "next-gen",
+      "ninja", "rockstar", "guru", "10x", "disruptive", "revolutionary",
+      "users", "consumers", "endpoints"
+    ],
+    "preferredTerms": {
+      "users": "people · creators · the team using it",
+      "consumers": "people",
+      "click here": "go to settings · open the dashboard",
+      "leverage": "use",
+      "synergy": "fit · work together",
+      "robust": "reliable · durable",
+      "seamless": "uninterrupted · smooth",
+      "frictionless": "fast · simple",
+      "best-in-class": "good"
+    },
+    "sentenceLengthGuide": "default 12-18 words; cap at 25; vary cadence",
+    "formality": "professional-casual — uses contractions, never slang"
+  },
+
+  "patterns": {
+    "buttons": {
+      "primary":   { "class": "cta",  "bg": "warning", "fg": "void", "radius": "pill", "padding": "12px 22px" },
+      "secondary": { "class": "ghost", "bg": "transparent", "border": "1px solid rgba(255,255,255,0.08)", "fg": "t1" },
+      "destructive": { "class": "danger", "bg": "backend", "fg": "void" },
+      "minSizeMobile": "44×44 CSS px"
+    },
+    "cards": {
+      "base":   { "bg": "rgba(22,30,54,0.65)", "backdrop": "blur(18px)", "border": "1px solid rgba(255,255,255,0.06)", "radius": "r3", "shadow": "lift" }
+    },
+    "modals": {
+      "scrim":  { "bg": "rgba(10,14,26,0.7)", "backdrop": "blur(8px)" },
+      "panel":  { "bg": "elevated", "border": "1px solid rgba(255,255,255,0.06)", "radius": "r3", "shadow": "elevate" },
+      "close":  { "always": "top-right X with aria-label", "esc": "always closes" }
+    },
+    "forms": {
+      "input": { "bg": "rgba(255,255,255,0.04)", "border": "1px solid rgba(255,255,255,0.08)", "radius": "r1", "padding": "10px 14px" },
+      "label": { "color": "t2", "size": "13px", "letterSpacing": "0.04em", "transform": "uppercase" },
+      "error": { "color": "backend", "size": "12px", "icon": "circle-x" }
+    },
+    "tables": {
+      "row":     { "borderBottom": "1px solid rgba(255,255,255,0.04)" },
+      "header":  { "color": "t3", "size": "11px", "weight": 600, "letterSpacing": "0.06em", "transform": "uppercase" }
+    },
+    "alerts": {
+      "info":     { "bg": "rgba(79,140,255,0.10)", "border": "1px solid rgba(79,140,255,0.25)" },
+      "success":  { "bg": "rgba(74,222,128,0.10)", "border": "1px solid rgba(74,222,128,0.25)" },
+      "warning":  { "bg": "rgba(251,191,36,0.10)", "border": "1px solid rgba(251,191,36,0.25)" },
+      "error":    { "bg": "rgba(255,93,115,0.10)", "border": "1px solid rgba(255,93,115,0.25)" }
+    }
+  },
+
+  "validation": {
+    "rules": [
+      { "id": "color-hex-allowed",     "severity": "HIGH",   "test": "Every hex used must exist in colors.* palette" },
+      { "id": "font-family",           "severity": "HIGH",   "test": "Only Inter or mono-family used" },
+      { "id": "logo-min-size",         "severity": "MEDIUM", "test": "Primary logo ≥24px wide" },
+      { "id": "spacing-multiple-of-4", "severity": "LOW",    "test": "All padding/margin values are multiples of 4" },
+      { "id": "contrast-aa",           "severity": "HIGH",   "test": "Body text ≥4.5:1, large text ≥3:1" },
+      { "id": "tm-on-first-mention",   "severity": "MEDIUM", "test": "First brand mention per page has ™" },
+      { "id": "forbidden-words",       "severity": "MEDIUM", "test": "voice.forbiddenWords absent in copy" },
+      { "id": "focus-ring-present",    "severity": "HIGH",   "test": "Every interactive element has :focus-visible style" },
+      { "id": "modal-has-close",       "severity": "HIGH",   "test": "Every modal has X button + ESC handler + scrim click" },
+      { "id": "cta-has-aria-label",    "severity": "MEDIUM", "test": "Icon-only buttons carry aria-label" }
+    ],
+    "violationMatrix": {
+      "HIGH":   { "action": "block deploy in CI; fail PR check", "fix_window": "before merge" },
+      "MEDIUM": { "action": "warn in CI; create issue", "fix_window": "24 hours" },
+      "LOW":    { "action": "log to lint report", "fix_window": "next sprint" }
+    }
+  }
+}

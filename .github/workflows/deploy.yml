@@ -1,0 +1,119 @@
+name: Deploy CW Leaders
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Deploy target'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - frontend
+          - lambdas
+          - all
+
+permissions:
+  id-token: write   # OIDC for AWS
+  contents: read
+
+env:
+  AWS_REGION: us-east-1
+
+jobs:
+  smoke:
+    name: Smoke tests (pre-deploy)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify /health pre-deploy
+        run: |
+          code=$(curl -sk -o /dev/null -w "%{http_code}" https://api.cwleaders.com/health)
+          test "$code" = "200" || (echo "Pre-deploy /health returned $code"; exit 1)
+
+  deploy-staging:
+    name: Deploy to staging
+    needs: smoke
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::069422358723:role/lead-deploy-staging
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Deploy to staging
+        run: bash backend/infra/deploy.sh staging-${{ inputs.target || 'all' }}
+      - name: Smoke test staging
+        run: |
+          for path in /health /privacy /terms; do
+            code=$(curl -sk -o /dev/null -w "%{http_code}" "https://staging-api.cwleaders.com${path}" || \
+                   curl -sk -o /dev/null -w "%{http_code}" "https://staging.cwleaders.com${path}")
+            test "$code" = "200" || (echo "Staging ${path} returned $code"; exit 1)
+          done
+
+  load-test:
+    name: Load test against staging
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run k6
+        uses: grafana/k6-action@v0.3.1
+        with:
+          filename: tests/load/k6-smoke.js
+        env:
+          API_URL: https://staging-api.cwleaders.com
+          STAGE: warm
+
+  deploy-prod:
+    name: Deploy to production
+    needs: load-test
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://lead.cwleaders.com
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::069422358723:role/lead-deploy-prod
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Tag the deploy
+        run: |
+          TAG=$(date -u +"deploy-%Y%m%d-%H%M%S")
+          echo "DEPLOY_TAG=$TAG" >> $GITHUB_ENV
+          git tag $TAG
+          git push origin $TAG
+      - name: Deploy
+        run: bash backend/infra/deploy.sh ${{ inputs.target || 'all' }}
+      - name: Post-deploy /health verify
+        run: |
+          for i in 1 2 3; do
+            sleep 30
+            code=$(curl -sk -o /dev/null -w "%{http_code}" https://api.cwleaders.com/health)
+            if [ "$code" = "200" ]; then echo "✓ Health OK on attempt $i"; exit 0; fi
+            echo "Attempt $i failed: $code"
+          done
+          echo "Health check failed after 3 attempts — auto-rolling back"
+          bash backend/infra/rollback.sh
+          exit 1
+
+  rollback:
+    name: Manual rollback
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' && inputs.target == 'rollback'
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::069422358723:role/lead-deploy-prod
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Rollback
+        run: bash backend/infra/rollback.sh

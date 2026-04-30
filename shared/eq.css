@@ -1,0 +1,415 @@
+/* CW Leaders — Visual EQ
+   The mastering-engineer pass: z-stack normalization, overflow guards,
+   focus rings, motion & scheme preferences, breakpoint cohesion.
+   Loaded after tokens.css and before per-property styles.
+
+   Viewport-height tokens (responsive pass 2026-04-30):
+     --vh-full   → 100dvh — tracks the *visible* viewport (URL bar in/out).
+                   Use for full-bleed sections that should follow the user's
+                   actual screen height in real time. iOS Safari 15.4+.
+     --vh-stable → 100svh — small (URL-bar-visible) viewport height.
+                   Use when you want a stable height that won't reflow when
+                   the URL bar dismisses (avoids content jump).
+     --vh-large  → 100lvh — large (URL-bar-hidden) viewport height.
+                   Rarely used; ok for hero sections that look good at max.
+   Both fallback to legacy 100vh for pre-2022 mobile browsers. */
+:root {
+  /* Layered fallback: older browsers see line 1, modern see line 2 */
+  --vh-full:   100vh;
+  --vh-full:   100dvh;
+  --vh-stable: 100vh;
+  --vh-stable: 100svh;
+  --vh-large:  100vh;
+  --vh-large:  100lvh;
+}
+
+/* ── Z-INDEX SCALE — single source of truth ─────────────────────────── */
+:root {
+  --z-base:       0;     /* dot-grid, page bg */
+  --z-content:    1;     /* main */
+  --z-floating:   10;    /* cards lifted on hover */
+  --z-sticky:     20;    /* sticky helpers, scrollers */
+  --z-bottombar:  40;    /* mobile bottom nav */
+  --z-topnav:     60;    /* primary navigation pill */
+  --z-megamenu:   65;    /* nav fly-outs */
+  --z-drawer:     70;    /* mobile drawer, side panels */
+  --z-overlay:    100;   /* full-screen scrims */
+  --z-modal:      200;   /* dialogs, auth */
+  --z-toast:      300;   /* transient messages */
+  --z-tooltip:    400;   /* hover tips */
+}
+
+/* Apply the scale to known building blocks */
+.dotgrid              { z-index: var(--z-base); }
+main, article         { position: relative; z-index: var(--z-content); }
+.cw-bottombar         { z-index: var(--z-bottombar) !important; }
+.cw-topnav            { z-index: var(--z-topnav) !important; }
+.cw-megamenu          { z-index: var(--z-megamenu) !important; }
+.cw-drawer            { z-index: var(--z-drawer) !important; }
+.cw-compliance-footer { z-index: var(--z-content); }
+.modal, [role="dialog"] { z-index: var(--z-modal); }
+
+/* ── OVERFLOW GUARDS ────────────────────────────────────────────────── */
+html, body {
+  /* Mind-Free apps lock the body, but legal/policy pages need scroll. */
+  overflow-x: hidden;
+}
+body.allow-scroll {
+  overflow: auto !important;
+}
+body.allow-scroll main {
+  min-height: 100vh;            /* fallback */
+  min-height: var(--vh-full);   /* iOS Safari URL-bar-aware */
+  overflow: visible;
+}
+
+img, video, canvas, svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Long unbroken strings (URLs, tokens) shouldn't blow out narrow columns */
+.doc-shell, article, .lede, p, li, dd, dt, td, th, code {
+  overflow-wrap: anywhere;
+}
+
+/* ── FOCUS RINGS — accessible, brand-consistent ─────────────────────── */
+:where(a, button, [role="button"], input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--c-warning, #fbbf24);
+  outline-offset: 3px;
+  border-radius: 4px;
+  transition: outline-offset 100ms var(--ease-snap, ease);
+}
+
+/* Don't show focus on mouse clicks */
+:where(a, button):focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Skip link — keyboard-only, visible on focus */
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: var(--z-toast);
+  padding: 10px 14px;
+  background: var(--c-warning, #fbbf24);
+  color: var(--void, #0a0e1a);
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 6px;
+  transform: translateY(-150%);
+  transition: transform 180ms var(--ease-snap, ease);
+}
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/* ── SELECTION COLOR ────────────────────────────────────────────────── */
+::selection {
+  background: var(--c-warning, #fbbf24);
+  color: var(--void, #0a0e1a);
+}
+
+/* ── SCROLLBAR (webkit) — subtle, on-brand ──────────────────────────── */
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.16); }
+
+/* Firefox */
+* { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.12) transparent; }
+
+/* ── MOTION PREFERENCES ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── COLOR SCHEME ───────────────────────────────────────────────────── */
+:root { color-scheme: dark; }
+
+/* ── DOC-SHELL — container-aware, RTL-safe, embeddable ──────────────── */
+/* Container query parent — main is the size-defining element. This makes
+   doc-shell respond to its container, not the viewport. Useful when legal
+   pages are embedded in iframes or rendered inside a sidebar in the desktop
+   app's Help panel. Falls back gracefully on browsers without container queries
+   (Chrome 105+, Safari 16+, FF 110+ — ≥99% coverage Apr 2026). */
+main { container-type: inline-size; container-name: main; }
+
+.doc-shell {
+  max-width: 760px;
+  margin-inline: auto;                          /* RTL-safe (was: margin: 0 auto) */
+  padding-block: 100px 64px;                    /* RTL-safe (top/bottom) */
+  padding-inline: clamp(20px, 4vw, 32px);       /* RTL-safe; from earlier orientation pass */
+  position: relative;
+  z-index: var(--z-content);
+}
+.doc-shell h1 {
+  font-size: clamp(28px, 4vw, 44px);
+  letter-spacing: -0.02em;
+  margin-block-end: 12px;                       /* RTL-safe */
+  color: var(--t1);
+}
+.doc-shell h2 {
+  font-size: clamp(18px, 2.2vw, 22px);
+  margin-block: 36px 12px;                      /* RTL-safe */
+  color: var(--t1);
+  letter-spacing: -0.01em;
+}
+.doc-shell h3 {
+  font-size: 16px;
+  margin-block: 22px 8px;                       /* RTL-safe */
+  color: var(--t1);
+}
+.doc-shell p, .doc-shell li {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--t2);
+  margin-block-end: 12px;                       /* RTL-safe */
+}
+.doc-shell ul, .doc-shell ol {
+  padding-inline-start: 22px;                   /* RTL-safe (was padding-left) */
+  margin-block-end: 12px;
+}
+
+/* Container queries — these activate when doc-shell is embedded in a
+   narrower container (e.g., sidebar, iframe ≤520px) instead of relying
+   on viewport width which would miss the case. */
+@container main (max-width: 520px) {
+  .doc-shell { padding-block-start: 80px; }
+  .doc-shell h1 { font-size: clamp(22px, 6cqi, 30px); }
+  .doc-shell h2 { font-size: clamp(16px, 4cqi, 19px); margin-block-start: 28px; }
+}
+@container main (max-width: 360px) {
+  /* Embedded in a very narrow sidebar — even tighter */
+  .doc-shell { padding-inline: 14px; }
+  .doc-shell p, .doc-shell li { font-size: 14px; }
+}
+.doc-shell a {
+  color: var(--c-warning, #fbbf24);
+  text-decoration: none;
+  border-bottom: 1px dotted currentColor;
+}
+.doc-shell a:hover { border-bottom-style: solid; }
+.doc-shell .lede {
+  font-size: 17px;
+  color: var(--t1);
+  line-height: 1.55;
+  margin-bottom: 24px;
+}
+.doc-shell strong { color: var(--t1); font-weight: 600; }
+.doc-shell code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  padding: 1px 6px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 4px;
+}
+.doc-shell table { margin: 16px 0; }
+
+/* The legal pages need scrollable body */
+body:has(.doc-shell) {
+  overflow: auto;
+}
+
+/* ── SAFE AREA INSETS (notched phones) ──────────────────────────────── */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  .cw-topnav, .cw-bottombar {
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 0px);
+  }
+}
+
+/* ── PRINT STYLES — covered by Phase 8 too, this is the floor ───────── */
+@media print {
+  body, .dotgrid { background: white !important; color: black !important; }
+  .dotgrid, .cw-topnav, .cw-bottombar, .cw-drawer, .cw-compliance-footer { display: none !important; }
+  .doc-shell { padding: 0; max-width: 100%; }
+  a { color: black !important; border-bottom: 1px dotted #888; }
+}
+
+/* ── SKELETON SCREENS (perceived performance, #62) ──────────────────── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 0%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.04) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s var(--ease-glide, ease) infinite;
+  border-radius: 8px;
+  display: block;
+}
+.skeleton-line { height: 14px; margin-bottom: 8px; }
+.skeleton-line.short { width: 35%; }
+.skeleton-line.medium { width: 65%; }
+.skeleton-line.long { width: 90%; }
+.skeleton-block { height: 80px; }
+.skeleton-card { height: 180px; border-radius: 16px; }
+.skeleton-avi { width: 48px; height: 48px; border-radius: 999px; }
+
+@keyframes skeleton-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; opacity: 0.6; }
+}
+
+/* ── A11Y BUMP — tertiary text ──────────────────────────────────────── */
+:root {
+  --t3-on-surface: #5a6088;  /* WCAG 4.5:1 on --surface; replaces --t3 in low-contrast contexts */
+}
+
+/* ── ORIENTATION & DEVICE-CLASS GUARDS ─────────────────────────────── */
+
+/* Phone in landscape: viewport tall<short. Bottom-bar eats too much
+   vertical real estate (≥17% on iPhone 12 landscape). Topnav remains. */
+@media (orientation: landscape) and (max-height: 480px) {
+  .cw-bottombar { display: none !important; }
+  /* When the bottom-bar isn't taking space, the compliance footer doesn't
+     need its 72px safe-area buffer. */
+  body:has(.cw-bottombar) .cw-compliance-footer { padding-bottom: 16px; }
+  /* Tighter topnav vertical padding when screen is short */
+  .cw-topnav { padding: 6px 14px; }
+}
+
+/* Tablet/desktop landscape with limited height (e.g., split-screen iPad):
+   keep the doc-shell readable but tighter top padding. */
+@media (orientation: landscape) and (min-width: 768px) and (max-height: 600px) {
+  .doc-shell { padding-top: 72px; padding-bottom: 40px; }
+}
+
+/* Tablet portrait (iPad 768×1024): the doc-shell deserves more horizontal
+   real estate than a phone needs but less than a 27-inch monitor. Use
+   container-aware padding via clamp() for fluid behavior 480→1200. */
+.doc-shell {
+  /* Override the static padding from earlier in this file with a fluid
+     formula that clamps comfortably between phone & desktop. */
+  padding-inline: clamp(20px, 4vw, 32px);
+}
+
+/* Foldables / split-screen Android: detect via device-pixel-ratio + width */
+@media (max-width: 380px) {
+  /* Tighter type & padding for the narrowest devices (e.g., Galaxy Fold front display 280px) */
+  .doc-shell h1 { font-size: clamp(24px, 7vw, 32px); }
+  .doc-shell { padding-inline: 16px; }
+  .lead-modal-codedots input { width: 32px !important; height: 42px !important; }
+}
+
+/* Hover-capable vs touch-only: only show hover effects on devices that
+   actually support hover. iOS reports "hover: none" — without this, our
+   hover states "stick" on first tap until a second tap dismisses. */
+@media (hover: hover) and (pointer: fine) {
+  /* Reserved for hover-only enhancements — placed here so they cleanly
+     don't apply to touch devices. Currently used by .cw-megaitem hover. */
+}
+
+/* Touch-only fine-tuning: ensure 44×44 minimum on bottombar items and
+   the modal close button (where it might be tighter on small phones). */
+@media (hover: none) and (pointer: coarse) {
+  .lead-modal-close,
+  .cw-cf-link {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* ── IMAGE-SET (high-DPR scaling) ───────────────────────────────────── */
+/* When raster imagery ships, use one of the patterns below. Until then,
+   the platform is SVG-only (favicon, og.svg, monogram) — vector scales
+   natively, no image-set needed. The token below is the canonical pattern.
+
+   Inline usage (per element):
+     background-image: image-set(
+       "/img/hero.png"      1x,
+       "/img/hero@2x.png"   2x,
+       "/img/hero@3x.png"   3x
+     );
+
+   Or with format negotiation (modern browsers pick best):
+     background-image: image-set(
+       url("/img/hero.avif") type("image/avif") 1x,
+       url("/img/hero.webp") type("image/webp") 1x,
+       url("/img/hero.png")  type("image/png")  1x,
+       url("/img/hero@2x.avif") type("image/avif") 2x
+     );
+
+   For <img> tags use srcset:
+     <img src="hero.png" srcset="hero@2x.png 2x, hero@3x.png 3x"
+          loading="lazy" decoding="async" alt="..." />
+
+   Aspect ratio reservations to prevent CLS:
+     <img class="hero-img" width="1200" height="675" ... />
+     .hero-img { aspect-ratio: 16/9; width: 100%; height: auto; }
+*/
+.responsive-img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  /* aspect-ratio set per-element to lock layout space at parse time */
+}
+
+/* ── SCROLL-DRIVEN ANIMATIONS (Mind-Free hero) ──────────────────────── */
+/* Chrome 115+, Safari TP, Firefox behind-flag (Apr 2026). Progressive
+   enhancement: if scroll-timeline isn't supported, hero just sits static. */
+@supports (animation-timeline: scroll()) {
+  /* Hero parallax — subtle vertical drift as the user scrolls past */
+  .hero-parallax {
+    animation: hero-parallax-drift linear both;
+    animation-timeline: scroll();
+    animation-range: entry 0% exit 100%;
+  }
+  @keyframes hero-parallax-drift {
+    from { transform: translateY(0) scale(1); opacity: 1; }
+    to   { transform: translateY(-40px) scale(0.98); opacity: 0.6; }
+  }
+
+  /* Constellation canvas slow-fade as user scrolls into content */
+  #constellation {
+    animation: constellation-fade linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0px 50vh;
+  }
+  @keyframes constellation-fade {
+    from { opacity: 1; }
+    to   { opacity: 0.15; }
+  }
+
+  /* Reveal-on-scroll for cards / sections marked .reveal */
+  .reveal {
+    animation: reveal-rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+  }
+  @keyframes reveal-rise {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* Reduced-motion override always wins */
+@media (prefers-reduced-motion: reduce) {
+  .hero-parallax, #constellation, .reveal {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}

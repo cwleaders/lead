@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'" />
+  <title>Welcome to CW Leaders Studio</title>
+  <link rel="stylesheet" href="/tokens.css" />
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    body { display: grid; place-items: center; min-height: 100vh; padding: 32px; }
+    .welcome { max-width: 540px; padding: 36px 28px; border-radius: 22px;
+      background: rgba(22,30,54,0.65); backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.06); box-shadow: 0 30px 80px rgba(0,0,0,.45); }
+    .welcome h1 { font-size: 28px; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .welcome .lede { color: var(--t2); font-size: 15px; line-height: 1.55; margin-bottom: 24px; }
+    .pact { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px; padding: 18px; margin-bottom: 18px; font-size: 13px; line-height: 1.6; color: var(--t2); }
+    .pact strong { color: var(--t1); }
+    .pact a { color: var(--c-warning); text-decoration: none; border-bottom: 1px dotted currentColor; }
+    .check-row { display: flex; gap: 12px; align-items: flex-start; padding: 12px;
+      background: rgba(255,255,255,0.03); border-radius: 10px; margin-bottom: 18px; }
+    .check-row input { margin-top: 3px; }
+    .cta-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .cta { padding: 12px 22px; border-radius: 999px; border: none; font-weight: 600;
+      font-size: 14px; cursor: pointer; }
+    .cta.primary { background: var(--c-warning); color: var(--void); }
+    .cta.primary:disabled { opacity: 0.5; cursor: not-allowed; }
+    .cta.ghost { background: rgba(255,255,255,0.05); color: var(--t1);
+      border: 1px solid rgba(255,255,255,0.08); }
+  </style>
+</head>
+<body>
+  <div class="welcome">
+    <div style="font-size:11px; letter-spacing:0.32em; color:var(--c-creative); margin-bottom:8px">FIRST LAUNCH</div>
+    <h1>Welcome to CW Leaders Studio.</h1>
+    <p class="lede">One free download. Four tools — Record, Send, Hire, Manage. Your work stays on your device unless you choose to share it.</p>
+
+    <div class="pact">
+      <strong>Our four-line pact with you:</strong><br />
+      • <strong>We never sell your data.</strong> Not to anyone, ever.<br />
+      • <strong>We never train AI on your work.</strong> Not ours, not anyone else's.<br />
+      • <strong>Recordings stay on your device.</strong> Cloud sync is opt-in.<br />
+      • <strong>You can leave anytime.</strong> Export everything, then delete with one command.
+    </div>
+
+    <label class="check-row">
+      <input type="checkbox" id="agree" />
+      <span>I've read the <a href="https://lead.cwleaders.com/terms" target="_blank">Terms</a>, <a href="https://lead.cwleaders.com/privacy" target="_blank">Privacy Policy</a>, and the <a href="https://lead.cwleaders.com/eula" target="_blank">EULA</a>, and I agree.</span>
+    </label>
+
+    <div class="cta-row">
+      <button class="cta primary" id="continue" disabled>Continue →</button>
+      <button class="cta ghost" id="quit">Quit</button>
+    </div>
+  </div>
+
+  <script type="module">
+    // Tauri bindings
+    const cb = document.getElementById('agree');
+    const go = document.getElementById('continue');
+    const quit = document.getElementById('quit');
+
+    cb.addEventListener('change', () => { go.disabled = !cb.checked; });
+
+    go.addEventListener('click', async () => {
+      try {
+        // Persist acceptance with timestamp + version of each doc
+        const accepted = {
+          tos_version: '1.0',
+          privacy_version: '1.0',
+          eula_version: '1.0',
+          accepted_at: new Date().toISOString(),
+          app_version: '0.1.1'
+        };
+        // Stored in app data dir via Tauri fs plugin
+        const { writeTextFile, BaseDirectory, mkdir } = await import('@tauri-apps/plugin-fs');
+        try { await mkdir('', { baseDir: BaseDirectory.AppData, recursive: true }); } catch {}
+        await writeTextFile('eula-accepted.json', JSON.stringify(accepted, null, 2),
+                            { baseDir: BaseDirectory.AppData });
+        // Hand off to the main app
+        window.location.href = '/index.html';
+      } catch (e) {
+        alert('Could not save acceptance: ' + e.message);
+      }
+    });
+
+    quit.addEventListener('click', async () => {
+      const { exit } = await import('@tauri-apps/plugin-process');
+      await exit(0);
+    });
+  </script>
+</body>
+</html>

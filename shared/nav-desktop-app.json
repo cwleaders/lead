@@ -1,0 +1,196 @@
+{
+  "$schema": "https://cwleaders.com/schema/nav-desktop-app-v2.json",
+  "version": "2.0.0",
+  "platform": "tauri-desktop",
+  "_authority": "OptiNav v2 — sidebar primary + native menu bar + system tray. The four-tools-in-one shell.",
+
+  "behavior": {
+    "windowSize": { "default": { "w": 1280, "h": 800 }, "min": { "w": 880, "h": 600 } },
+    "rememberWindowState": true,
+    "doubleClickTitlebarMaximizes": true,
+    "fullScreenShortcut": { "mac": "Cmd+Ctrl+F", "win": "F11", "linux": "F11" }
+  },
+
+  "sidebar": {
+    "id": "app-sidebar",
+    "position": "left",
+    "width": { "expanded": 220, "collapsed": 64 },
+    "collapseOn": "user-toggle OR window<1024px",
+    "items": [
+      { "id": "canvas",     "label": "Canvas",     "icon": "🌌",  "route": "/",            "shortcut": "Cmd+1", "badge": null,           "primary": true },
+      { "id": "recordings", "label": "Recordings", "icon": "🎬",  "route": "/recordings",  "shortcut": "Cmd+2", "badge": "newCount" },
+      { "id": "files",      "label": "Files",      "icon": "📦",  "route": "/files",       "shortcut": "Cmd+3", "badge": "incomingCount" },
+      { "id": "agents",     "label": "Agents",     "icon": "🤖",  "route": "/agents",      "shortcut": "Cmd+4", "badge": "armedCount" },
+      { "id": "hire",       "label": "Hire",       "icon": "👥",  "route": "/hire",        "shortcut": "Cmd+5", "badge": "applicationsCount", "showWhen": "tier>=powerhouse" },
+      { "id": "settings",   "label": "Settings & License", "icon": "⚙️",  "route": "/settings", "shortcut": "Cmd+,", "anchorBottom": true }
+    ]
+  },
+
+  "topbar": {
+    "id": "app-topbar",
+    "height": 56,
+    "transparent": true,
+    "left": {
+      "personaSwitcher": {
+        "trigger": "click",
+        "options": ["Recorder", "Sharer", "Subordinate", "Controller", "Applicant", "Admin"],
+        "binds": "user.persona",
+        "rule": "Set once at sign-in; switchable here"
+      }
+    },
+    "center": {
+      "syncStatus": {
+        "states": [
+          { "code": "synced",     "icon": "🟢", "label": "Synced" },
+          { "code": "syncing",    "icon": "🔵", "label": "Syncing…" },
+          { "code": "offline",    "icon": "🟡", "label": "Offline — saving locally" },
+          { "code": "error",      "icon": "🔴", "label": "Sync error — click to retry" }
+        ]
+      }
+    },
+    "right": {
+      "creditsMeter": { "showWhen": "tier>=basic", "format": "{remaining}/{limit} AI credits" },
+      "tierBadge":    { "label": "{tier|upper}", "click": "navigateTo(/settings#license)" },
+      "accountAvatar":{ "click": "navigateTo(/settings#profile)" }
+    }
+  },
+
+  "nativeMenuBar": {
+    "_note": "Tauri Native Menu — appears at top of macOS screen + per-window on Win/Linux",
+    "menus": [
+      {
+        "label": "CW Leaders Studio",
+        "platform": "mac-only",
+        "items": [
+          { "label": "About CW Leaders Studio", "action": "showAboutPanel()" },
+          { "type":  "separator" },
+          { "label": "Settings…",               "shortcut": "Cmd+,", "action": "navigateTo('/settings')" },
+          { "type":  "separator" },
+          { "label": "Hide CW Leaders",         "shortcut": "Cmd+H", "role": "hide" },
+          { "label": "Hide Others",             "shortcut": "Cmd+Alt+H", "role": "hideOthers" },
+          { "type":  "separator" },
+          { "label": "Quit CW Leaders Studio",  "shortcut": "Cmd+Q", "role": "quit" }
+        ]
+      },
+      {
+        "label": "File",
+        "items": [
+          { "label": "New Recording",  "shortcut": "Cmd+Shift+R", "action": "startRecording()" },
+          { "label": "Send a File…",   "shortcut": "Cmd+Shift+S", "action": "openSendDialog()" },
+          { "label": "Open File…",     "shortcut": "Cmd+O",       "action": "openFileDialog()" },
+          { "type": "separator" },
+          { "label": "Import…",        "action": "openImportDialog()" },
+          { "label": "Export…",        "shortcut": "Cmd+E",       "action": "openExportDialog()" },
+          { "type": "separator" },
+          { "label": "Close Window",   "shortcut": "Cmd+W",       "role": "close" }
+        ]
+      },
+      {
+        "label": "Edit",
+        "items": [
+          { "label": "Undo", "shortcut": "Cmd+Z",       "role": "undo" },
+          { "label": "Redo", "shortcut": "Cmd+Shift+Z", "role": "redo" },
+          { "type":  "separator" },
+          { "label": "Cut",          "shortcut": "Cmd+X", "role": "cut" },
+          { "label": "Copy",         "shortcut": "Cmd+C", "role": "copy" },
+          { "label": "Paste",        "shortcut": "Cmd+V", "role": "paste" },
+          { "label": "Select All",   "shortcut": "Cmd+A", "role": "selectAll" },
+          { "type":  "separator" },
+          { "label": "Find…",        "shortcut": "Cmd+F", "action": "openSearch()" }
+        ]
+      },
+      {
+        "label": "View",
+        "items": [
+          { "label": "Canvas",      "shortcut": "Cmd+1", "action": "navigateTo('/')" },
+          { "label": "Recordings",  "shortcut": "Cmd+2", "action": "navigateTo('/recordings')" },
+          { "label": "Files",       "shortcut": "Cmd+3", "action": "navigateTo('/files')" },
+          { "label": "Agents",      "shortcut": "Cmd+4", "action": "navigateTo('/agents')" },
+          { "label": "Hire",        "shortcut": "Cmd+5", "action": "navigateTo('/hire')" },
+          { "type":  "separator" },
+          { "label": "Toggle Sidebar",      "shortcut": "Cmd+Ctrl+S",  "action": "toggleSidebar()" },
+          { "label": "Reduce Motion",       "checkbox": true,           "binds": "prefs.reducedMotion" },
+          { "type":  "separator" },
+          { "label": "Enter Full Screen",   "shortcut": "Cmd+Ctrl+F",  "role": "togglefullscreen" }
+        ]
+      },
+      {
+        "label": "Window",
+        "platform": "mac-only",
+        "items": [
+          { "label": "Minimize",       "shortcut": "Cmd+M", "role": "minimize" },
+          { "label": "Zoom",           "role": "zoom" },
+          { "type":  "separator" },
+          { "label": "Bring All to Front", "role": "front" }
+        ]
+      },
+      {
+        "label": "Help",
+        "items": [
+          { "label": "Welcome",                "action": "navigateTo('/welcome')" },
+          { "label": "Keyboard Shortcuts",     "shortcut": "Cmd+/", "action": "openShortcutsModal()" },
+          { "type":  "separator" },
+          { "label": "Visit lead.cwleaders.com",       "action": "openExternal('https://lead.cwleaders.com/')" },
+          { "label": "Studio Hub (web)",                "action": "openExternal('https://studio.cwleaders.com/')" },
+          { "type":  "separator" },
+          { "label": "Privacy Policy",                  "action": "openExternal('https://lead.cwleaders.com/privacy')" },
+          { "label": "Terms of Service",                "action": "openExternal('https://lead.cwleaders.com/terms')" },
+          { "label": "EULA (this software)",            "action": "openExternal('https://lead.cwleaders.com/eula')" },
+          { "label": "Acceptable Use",                  "action": "openExternal('https://lead.cwleaders.com/aup')" },
+          { "label": "Open-Source Notices",             "action": "showAboutPanel()" },
+          { "type":  "separator" },
+          { "label": "Send Feedback",                   "action": "openFeedbackModal()" },
+          { "label": "Report a Security Issue",         "action": "openExternal('mailto:security@cwleaders.com')" },
+          { "type":  "separator" },
+          { "label": "Check for Updates…",              "action": "checkUpdates()" }
+        ]
+      }
+    ]
+  },
+
+  "systemTray": {
+    "_note": "Optional minimized presence; Cmd+Click tray icon to expand on macOS",
+    "icon": "tray-icon-template",
+    "tooltip": "CW Leaders Studio — {syncStatus}",
+    "menu": [
+      { "label": "Open Studio",      "action": "showWindow()" },
+      { "type":  "separator" },
+      { "label": "Start Recording",  "shortcut": "Cmd+Shift+R", "action": "startRecording()" },
+      { "label": "Stop Recording",   "showWhen": "isRecording", "action": "stopRecording()" },
+      { "type":  "separator" },
+      { "label": "{user.email}",                  "disabled": true },
+      { "label": "Tier: {tier}",                  "disabled": true },
+      { "label": "{credits.remaining}/{credits.limit} credits", "disabled": true },
+      { "type":  "separator" },
+      { "label": "Quit",             "shortcut": "Cmd+Q", "role": "quit" }
+    ]
+  },
+
+  "keyboardShortcuts": {
+    "global": {
+      "Cmd+Shift+R": "startRecording (system-wide)",
+      "Cmd+Shift+S": "openSendDialog (system-wide)",
+      "Cmd+Shift+T": "showWindow"
+    },
+    "inApp": {
+      "Cmd+1..5":   "switch sidebar tab",
+      "Cmd+,":      "settings",
+      "Cmd+/":      "shortcuts modal",
+      "Cmd+E":      "export current",
+      "Cmd+F":      "search",
+      "Esc":        "close modal / cancel current",
+      "/":          "focus omnibar"
+    }
+  },
+
+  "deepLinking": {
+    "scheme": "cwleaders://",
+    "handlers": [
+      { "url": "cwleaders://record",            "action": "startRecording()" },
+      { "url": "cwleaders://send",              "action": "navigateTo('/files')" },
+      { "url": "cwleaders://hire",              "action": "navigateTo('/hire')" },
+      { "url": "cwleaders://license/{key}",     "action": "openLicenseActivationDialog({key})" },
+      { "url": "cwleaders://share/{token}",     "action": "openSharedFile({token})" }
+    ]
+  }
+}

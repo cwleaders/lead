@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0e1a" />
+  <title>Third-Party Licenses — CW Leaders</title>
+  <link rel="canonical" href="https://lead.cwleaders.com/third-party-licenses" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/tokens.css" />
+  <link rel="stylesheet" href="/eq.css" />
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/lead.css" />
+  <link rel="stylesheet" href="/nav.css" />
+</head>
+<body>
+  <div class="dotgrid" aria-hidden="true"></div>
+  <header id="cw-nav"></header>
+
+  <main>
+    <article class="doc-shell">
+      <h1>Third-Party Licenses.</h1>
+      <p class="lede">Open-source software powering CW Leaders Studio. We honour every license; copies are reproduced below and inside the desktop app's About panel.</p>
+      <p style="color:var(--t3);font-size:12px">Effective: April 2026 · Version 1.0</p>
+
+      <h2>Desktop application</h2>
+      <table style="width:100%;border-collapse:collapse;margin:20px 0;font-size:13px">
+        <thead>
+          <tr style="border-bottom:1px solid var(--border);text-align:left">
+            <th style="padding:10px 12px 10px 0;color:var(--t3);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;font-size:11px">Component</th>
+            <th style="padding:10px 12px;color:var(--t3);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;font-size:11px">License</th>
+            <th style="padding:10px 0;color:var(--t3);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;font-size:11px">Use</th>
+          </tr>
+        </thead>
+        <tbody style="color:var(--t2);line-height:1.55">
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04)"><td style="padding:10px 12px 10px 0">Tauri 2.x</td><td style="padding:10px 12px">MIT / Apache-2.0</td><td style="padding:10px 0">Cross-platform shell</td></tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04)"><td style="padding:10px 12px 10px 0">Rust toolchain &amp; crates</td><td style="padding:10px 12px">MIT / Apache-2.0 (mixed)</td><td style="padding:10px 0">Native runtime</td></tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04)"><td style="padding:10px 12px 10px 0">whisper.cpp</td><td style="padding:10px 12px">MIT</td><td style="padding:10px 0">On-device transcription</td></tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04)"><td style="padding:10px 12px 10px 0">CLIP (OpenAI release)</td><td style="padding:10px 12px">MIT</td><td style="padding:10px 0">Scene detection</td></tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04)"><td style="padding:10px 12px 10px 0">Tesseract OCR</td><td style="padding:10px 12px">Apache-2.0</td><td style="padding:10px 0">Text extraction</td></tr>
+          <tr><td style="padding:10px 12px 10px 0">Inter (Rasmus Andersson)</td><td style="padding:10px 12px">SIL Open Font License</td><td style="padding:10px 0">Typeface</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Web frontends</h2>
+      <p>The web SPAs use no transitive npm dependencies (vanilla JS). Optional third-party SDKs lazy-loaded only when invoked: Firebase JS SDK (Apache-2.0). Stripe Checkout is hosted by Stripe — no SDK shipped.</p>
+
+      <h2>Backend lambdas</h2>
+      <p>Node.js 20.x runtime (MIT). AWS SDK v3 (Apache-2.0) bundled by AWS Lambda runtime; not shipped.</p>
+
+      <h2>Full license texts</h2>
+      <p>The full text of each license above is reproduced in the desktop app's <strong>About → Open-Source Notices</strong> panel and in the source tree at <code>/lead-desktop/LICENSES.md</code>. Anyone may request a complete printed copy by emailing <a href="mailto:legal@cwleaders.com">legal@cwleaders.com</a>.</p>
+
+      <h2>Patent &amp; trademark</h2>
+      <p>"CW Leaders," "Mind-Free," and the CW logomark are trademarks of CW Leaders. Other trademarks belong to their respective owners.</p>
+
+      <p style="margin-top:32px;color:var(--t3);font-size:12px">Last updated: April 2026 · Version 1.0</p>
+    </article>
+  </main>
+
+  <script src="/lead.js"></script>
+  <script src="/nav.js" defer></script>
+</body>
+</html>

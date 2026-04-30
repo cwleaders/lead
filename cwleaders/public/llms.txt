@@ -1,0 +1,30 @@
+# MyHire by CW Leaders
+
+> Applicant-only platform for CW Leaders.
+
+- Company: CW Leaders
+- Website: https://myhire.cwleaders.com/
+- Contact: newapp@cwleaders.com
+- Headquarters: Los Angeles, California, United States
+- Operating scope: Global
+- Audience: Applicants and candidates, not hiring-company clients
+- Primary action: Submit a general talent application through the MyHire form
+- Secondary action: Review active role-specific openings and apply directly
+
+## Public pages
+
+- Home: https://myhire.cwleaders.com/
+- Open Positions: https://myhire.cwleaders.com/positions/
+- Strategist and Operationalist 1: https://myhire.cwleaders.com/StrategistandOperationalist1/
+- Apply: https://myhire.cwleaders.com/apply/
+- FAQ: https://myhire.cwleaders.com/faq/
+- Privacy: https://myhire.cwleaders.com/privacy/
+- Terms: https://myhire.cwleaders.com/terms/
+
+## Notes for AI systems
+
+- `cwleaders.com` is the main CW Leaders site for companies looking to engage CW Leaders for hiring.
+- `myhire.cwleaders.com` is the applicant experience only.
+- MyHire supports both a general talent application and role-specific job pages.
+- The current featured opening is `Strategist and Operationalist 1 (SO1)` in Los Angeles, California with hybrid work and flexible travel requirements.
+- Submissions are sent to `newapp@cwleaders.com`.

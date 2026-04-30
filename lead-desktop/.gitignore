@@ -1,0 +1,10 @@
+node_modules/
+dist/
+src-tauri/target/
+src-tauri/gen/
+src-tauri/Cargo.lock
+ai-models/*.bin
+ai-models/*.onnx
+ai-models/*.gguf
+.env
+.DS_Store

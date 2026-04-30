@@ -1,0 +1,59 @@
+[package]
+name = "cwleaders-studio"
+version = "0.1.1"
+description = "CW Leaders Studio — unified desktop app"
+authors = ["CW Leaders"]
+edition = "2021"
+rust-version = "1.77"
+
+[lib]
+name = "cwleaders_studio_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+# devtools is gated to debug builds only — P0-4 closure (release builds get no devtools)
+tauri        = { version = "2", features = ["protocol-asset"] }
+tauri-plugin-dialog          = "2"
+tauri-plugin-fs              = "2"
+tauri-plugin-http            = "2"
+tauri-plugin-os              = "2"
+tauri-plugin-shell           = "2"
+tauri-plugin-updater         = "2"
+tauri-plugin-single-instance = "2"
+keyring                      = "3"
+
+serde       = { version = "1", features = ["derive"] }
+serde_json  = "1"
+reqwest     = { version = "0.12", features = ["json", "rustls-tls"], default-features = false }
+tokio       = { version = "1", features = ["rt-multi-thread", "macros", "process", "io-util", "sync", "time"] }
+sha2        = "0.10"
+hex         = "0.4"
+base64      = "0.22"
+chrono      = { version = "0.4", features = ["serde"] }
+uuid        = { version = "1", features = ["v4"] }
+dirs        = "5"
+tracing     = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+sysinfo     = "0.31"
+which       = "6"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+core-graphics = "0.23"
+
+[target.'cfg(target_os = "windows")'.dependencies]
+winapi = { version = "0.3", features = ["winuser", "wingdi"] }
+
+# Devtools only in debug builds — visible in dev (`cargo tauri dev`), absent in release
+[target.'cfg(debug_assertions)'.dependencies]
+tauri = { version = "2", features = ["devtools"] }
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+lto = true
+incremental = false
+opt-level = "z"     # optimize for size — fits the < 12MB installer goal
+strip = true

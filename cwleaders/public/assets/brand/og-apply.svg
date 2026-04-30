@@ -1,0 +1,39 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="80" y1="50" x2="1080" y2="570" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#12324A" />
+      <stop offset="0.58" stop-color="#3498DB" />
+      <stop offset="1" stop-color="#2ECC71" />
+    </linearGradient>
+    <filter id="blur" x="0" y="0" width="1200" height="630" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="44" />
+    </filter>
+  </defs>
+  <rect width="1200" height="630" rx="48" fill="url(#bg)" />
+  <g opacity="0.28" filter="url(#blur)">
+    <circle cx="1048" cy="120" r="122" fill="#2ECC71" />
+    <circle cx="160" cy="514" r="160" fill="#E67E22" />
+  </g>
+  <rect x="88" y="84" width="1024" height="462" rx="36" fill="white" fill-opacity="0.15" stroke="white" stroke-opacity="0.24" />
+  <rect x="144" y="132" width="390" height="364" rx="32" fill="white" fill-opacity="0.9" />
+  <rect x="182" y="176" width="198" height="18" rx="9" fill="#16324A" fill-opacity="0.12" />
+  <rect x="182" y="216" width="314" height="18" rx="9" fill="#3498DB" fill-opacity="0.18" />
+  <rect x="182" y="256" width="278" height="18" rx="9" fill="#16324A" fill-opacity="0.12" />
+  <rect x="182" y="314" width="160" height="104" rx="20" fill="#EAF8FF" />
+  <rect x="352" y="314" width="144" height="104" rx="20" fill="#F5FFF8" />
+  <circle cx="226" cy="366" r="18" fill="#3498DB" />
+  <path d="M215 367L223 375L238 358" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="396" cy="366" r="18" fill="#2ECC71" />
+  <path d="M385 367L393 375L408 358" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="592" y="178" fill="#E8F8FF" font-family="Poppins, Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="3">CW LEADERS APPLICANT FORM</text>
+  <text x="592" y="278" fill="white" font-family="Poppins, Arial, sans-serif" font-size="66" font-weight="800">Apply with signal,</text>
+  <text x="592" y="348" fill="white" font-family="Poppins, Arial, sans-serif" font-size="66" font-weight="800">not clutter.</text>
+  <text x="592" y="410" fill="#E7F8FF" font-family="Roboto, Arial, sans-serif" font-size="26" font-weight="500">
+    Four-step intake, secure uploads, and operator-minded review.
+  </text>
+  <text x="592" y="448" fill="#E7F8FF" font-family="Roboto, Arial, sans-serif" font-size="26" font-weight="500">
+    MyHire by CW Leaders | Los Angeles, California | Global reach
+  </text>
+  <rect x="592" y="490" width="286" height="52" rx="26" fill="white" fill-opacity="0.16" stroke="white" stroke-opacity="0.22" />
+  <text x="623" y="524" fill="#FFFFFF" font-family="Poppins, Arial, sans-serif" font-size="20" font-weight="700">myhire.cwleaders.com/apply</text>
+</svg>

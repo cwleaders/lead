@@ -1,0 +1,35 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="84" y1="52" x2="1090" y2="582" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#12324A" />
+      <stop offset="0.55" stop-color="#3498DB" />
+      <stop offset="1" stop-color="#2ECC71" />
+    </linearGradient>
+    <filter id="blur" x="0" y="0" width="1200" height="630" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="44" />
+    </filter>
+  </defs>
+  <rect width="1200" height="630" rx="48" fill="url(#bg)" />
+  <g opacity="0.28" filter="url(#blur)">
+    <circle cx="1048" cy="104" r="132" fill="#2ECC71" />
+    <circle cx="168" cy="510" r="158" fill="#E67E22" />
+  </g>
+  <rect x="86" y="82" width="1028" height="466" rx="36" fill="white" fill-opacity="0.14" stroke="white" stroke-opacity="0.24" />
+  <rect x="136" y="130" width="334" height="372" rx="32" fill="white" fill-opacity="0.9" />
+  <rect x="176" y="174" width="150" height="18" rx="9" fill="#16324A" fill-opacity="0.12" />
+  <rect x="176" y="214" width="248" height="18" rx="9" fill="#3498DB" fill-opacity="0.18" />
+  <rect x="176" y="266" width="254" height="124" rx="22" fill="#EAF8FF" />
+  <rect x="176" y="408" width="118" height="44" rx="22" fill="#16324A" fill-opacity="0.1" />
+  <rect x="306" y="408" width="124" height="44" rx="22" fill="#2ECC71" fill-opacity="0.18" />
+  <text x="522" y="180" fill="#E8F8FF" font-family="Poppins, Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="3">CW LEADERS OPEN POSITIONS</text>
+  <text x="522" y="282" fill="white" font-family="Poppins, Arial, sans-serif" font-size="66" font-weight="800">Explore current</text>
+  <text x="522" y="352" fill="white" font-family="Poppins, Arial, sans-serif" font-size="66" font-weight="800">CW Leaders roles.</text>
+  <text x="522" y="414" fill="#E7F8FF" font-family="Roboto, Arial, sans-serif" font-size="26" font-weight="500">
+    Role pages for strategic, operational, and high-trust talent.
+  </text>
+  <text x="522" y="452" fill="#E7F8FF" font-family="Roboto, Arial, sans-serif" font-size="26" font-weight="500">
+    Los Angeles, California headquarters | Global applicant reach
+  </text>
+  <rect x="522" y="490" width="328" height="52" rx="26" fill="white" fill-opacity="0.16" stroke="white" stroke-opacity="0.22" />
+  <text x="553" y="524" fill="#FFFFFF" font-family="Poppins, Arial, sans-serif" font-size="20" font-weight="700">myhire.cwleaders.com/positions</text>
+</svg>

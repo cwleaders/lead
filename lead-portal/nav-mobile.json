@@ -1,0 +1,178 @@
+{
+  "$schema": "https://cwleaders.com/schema/nav-mobile-v2.json",
+  "version": "2.0.0",
+  "platform": "web-mobile",
+  "_authority": "OptiNav v2 — bottom-bar primary + accordion drawer secondary. Adapts at viewport ≤880px.",
+
+  "behavior": {
+    "activatesAt": { "maxViewportWidth": 880 },
+    "topbarPosition": "fixed-top",
+    "topbarHideOnScrollDown": true,
+    "topbarShowOnScrollUp": true,
+    "drawerSwipeToClose": true,
+    "drawerEscClose": true,
+    "drawerLocksBodyScroll": true,
+    "bottomBarPosition": "fixed-bottom",
+    "bottomBarShowsWhen": "signed-in OR /studio path",
+    "bottomBarHidesInLandscape": true,
+    "bottomBarHidesInLandscapeRule": "@media (orientation: landscape) and (max-height: 480px)",
+    "minTouchTarget": "44×44 CSS px"
+  },
+
+  "topbar": {
+    "left": {
+      "burger": {
+        "trigger": "tap",
+        "action": "toggleDrawer()",
+        "ariaLabel": "Open menu",
+        "ariaControls": "cw-drawer",
+        "size": "44×44"
+      }
+    },
+    "center": {
+      "brand": {
+        "label": "CW LEADERS",
+        "href": "https://lead.cwleaders.com/",
+        "logo": "svgMonogram()"
+      }
+    },
+    "right": {
+      "auth": {
+        "showWhen": "signed-out",
+        "label": "Sign in",
+        "action": "LEAD.openAuth()",
+        "style": "primary-pill-compact"
+      },
+      "account": {
+        "showWhen": "signed-in",
+        "label": "{user.initial}",
+        "action": "navigateTo('/studio#profile')",
+        "style": "avatar-only-44px"
+      }
+    }
+  },
+
+  "drawer": {
+    "id": "cw-drawer",
+    "trigger": "tap on .cw-burger",
+    "animation": "fade-and-rise (180ms snap-ease)",
+    "layout": "accordion",
+    "scrollBehavior": "vertical-scroll-internal",
+    "tapOutsideToClose": true,
+
+    "sections": [
+      {
+        "id": "drawer-tools",
+        "title": "Tools",
+        "expanded": true,
+        "items": [
+          { "label": "🎬 Record",  "sub": "Screen + AI overlays",     "href": "https://lead.cwleaders.com/" },
+          { "label": "📦 Send",    "sub": "Drop a file, get a link",  "href": "https://upload.cwleaders.com/" },
+          { "label": "📥 Receive", "sub": "Preview before download",  "href": "https://download.cwleaders.com/" },
+          { "label": "👥 Hire",    "sub": "Show your work",           "href": "https://myhire.cwleaders.com/" }
+        ]
+      },
+      {
+        "id": "drawer-studio",
+        "title": "Studio Hub",
+        "expanded": true,
+        "items": [
+          { "label": "★ Open the Hub", "href": "https://studio.cwleaders.com/" }
+        ]
+      },
+      {
+        "id": "drawer-teams",
+        "title": "For Teams",
+        "expanded": false,
+        "items": [
+          { "label": "Enterprise plans",  "href": "https://lead.cwleaders.com/enterprise" },
+          { "label": "Command tier",      "href": "https://lead.cwleaders.com/command" }
+        ]
+      },
+      {
+        "id": "drawer-pricing",
+        "title": "Pricing",
+        "expanded": false,
+        "items": [
+          { "label": "Plans",       "href": "https://studio.cwleaders.com/#pricing" },
+          { "label": "Refunds",     "href": "https://lead.cwleaders.com/refund" }
+        ]
+      },
+      {
+        "id": "drawer-account",
+        "title": "Your account",
+        "expanded": false,
+        "showWhen": "signed-in",
+        "items": [
+          { "label": "Studio dashboard", "href": "https://studio.cwleaders.com/" },
+          { "label": "My licenses",      "href": "https://studio.cwleaders.com/#licenses" },
+          { "label": "Profile",          "href": "https://studio.cwleaders.com/#profile" },
+          { "label": "Billing",          "href": "https://studio.cwleaders.com/#billing" },
+          { "label": "Privacy controls", "href": "https://studio.cwleaders.com/#privacy" },
+          { "type":  "divider" },
+          { "label": "Sign out", "action": "LEAD.Auth.clear()" }
+        ]
+      },
+      {
+        "id": "drawer-resources",
+        "title": "Resources",
+        "expanded": false,
+        "items": [
+          { "label": "Help — hello@cwleaders.com",  "href": "mailto:hello@cwleaders.com" },
+          { "label": "Security — security@",        "href": "mailto:security@cwleaders.com" },
+          { "label": "Privacy — privacy@",          "href": "mailto:privacy@cwleaders.com" }
+        ]
+      },
+      {
+        "id": "drawer-legal",
+        "title": "Legal & compliance",
+        "expanded": false,
+        "items": [
+          { "label": "Terms",                "href": "https://lead.cwleaders.com/terms" },
+          { "label": "Privacy",              "href": "https://lead.cwleaders.com/privacy" },
+          { "label": "Cookies",              "href": "https://lead.cwleaders.com/cookies" },
+          { "label": "Accessibility",        "href": "https://lead.cwleaders.com/accessibility" },
+          { "label": "DPA",                  "href": "https://lead.cwleaders.com/dpa" },
+          { "label": "Sub-processors",       "href": "https://lead.cwleaders.com/subprocessors" },
+          { "label": "EULA (desktop)",       "href": "https://lead.cwleaders.com/eula" },
+          { "label": "Acceptable Use",       "href": "https://lead.cwleaders.com/aup" },
+          { "label": "SLA",                  "href": "https://lead.cwleaders.com/sla" },
+          { "label": "DMCA",                 "href": "https://lead.cwleaders.com/dmca" },
+          { "label": "Third-party",          "href": "https://lead.cwleaders.com/third-party-licenses" }
+        ]
+      }
+    ],
+
+    "footerCta": {
+      "label": "Download",
+      "glyph": "⬇",
+      "href": "https://api.cwleaders.com/desktop/download?platform=auto",
+      "style": "primary-pill-block-fullwidth"
+    }
+  },
+
+  "bottomBar": {
+    "id": "cw-bottombar",
+    "showWhen": "signed-in OR (path matches /studio)",
+    "hideOnLandscapeShortViewport": true,
+    "items": [
+      { "label": "Studio",  "icon": "🏠",  "href": "https://studio.cwleaders.com/",                "match": "studio.cwleaders.com" },
+      { "label": "Record",  "icon": "🎬",  "href": "https://lead.cwleaders.com/",                  "match": "lead.cwleaders.com" },
+      { "label": "Send",    "icon": "📦",  "href": "https://upload.cwleaders.com/",                "match": "upload.cwleaders.com" },
+      { "label": "Hire",    "icon": "👥",  "href": "https://myhire.cwleaders.com/",                "match": "myhire.cwleaders.com" }
+    ],
+    "ariaCurrentRule": "matches host"
+  },
+
+  "ui": {
+    "drawerTopOffset": "calc(70px + env(safe-area-inset-top, 0))",
+    "drawerSidePadding": 14,
+    "drawerMaxHeight": "calc(var(--vh-full, 100dvh) - 90px - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0))",
+    "drawerBackground": "rgba(22,30,54,0.97)",
+    "drawerBorderRadius": 22,
+    "bottomBarHeight": 64,
+    "bottomBarSafeAreaInset": "env(safe-area-inset-bottom, 0)",
+    "minTouchTarget": "44px",
+    "focusRing": "2px solid var(--c-warning)"
+  }
+}

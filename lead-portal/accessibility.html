@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0e1a" />
+  <title>Accessibility Statement — CW Leaders</title>
+  <meta name="description" content="CW Leaders is committed to WCAG 2.2 AA accessibility across Studio, the desktop app, and every property. Real keyboard support, real screen-reader support, real respect for your preferences." />
+  <link rel="canonical" href="https://lead.cwleaders.com/accessibility" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/tokens.css" />
+  <link rel="stylesheet" href="/eq.css" />
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/lead.css" />
+  <link rel="stylesheet" href="/nav.css" />
+</head>
+<body>
+  <div class="dotgrid" aria-hidden="true"></div>
+  <header id="cw-nav"></header>
+
+  <main>
+    <article class="doc-shell">
+      <h1>Accessibility Statement.</h1>
+      <p class="lede">Accessibility is a core engineering requirement, not an afterthought. We design and build to <strong>WCAG 2.2 Level AA</strong> across every CW Leaders property and the desktop app.</p>
+      <p style="color:var(--t3);font-size:12px">Effective: April 2026 · Version 1.0</p>
+
+      <h2>Our commitment</h2>
+      <p>We believe everyone deserves the same access to professional tools, regardless of ability. We design and build the Services to be perceivable, operable, understandable, and robust.</p>
+
+      <h2>Standards we target</h2>
+      <ul>
+        <li><strong>WCAG 2.2 Level AA</strong> — across all web properties and the desktop application</li>
+        <li><strong>Section 508</strong> conformance for US federal-procurement contexts</li>
+        <li><strong>EN 301 549</strong> alignment for European customers</li>
+      </ul>
+
+      <h2>What we've built in</h2>
+      <ul>
+        <li><strong>Keyboard navigation</strong> — every interactive element reachable and operable with keyboard alone</li>
+        <li><strong>Screen-reader support</strong> — semantic HTML, ARIA labels, live regions for status updates</li>
+        <li><strong>Color contrast</strong> — body text ≥ 4.5:1, large text ≥ 3:1 against backgrounds</li>
+        <li><strong>Focus indicators</strong> — visible on all interactive elements</li>
+        <li><strong>Reduced motion</strong> — animations honor <code>prefers-reduced-motion</code> media query</li>
+        <li><strong>Resizable text</strong> — content works at 200% zoom without horizontal scrolling</li>
+        <li><strong>Touch targets</strong> — minimum 44×44 CSS pixels on mobile per Apple HIG</li>
+        <li><strong>Form accessibility</strong> — every input has an associated label; errors are announced</li>
+        <li><strong>Skip links</strong> — keyboard users can skip past navigation to main content</li>
+        <li><strong>Captions and transcripts</strong> — generated for video features (Whisper local transcription, free)</li>
+        <li><strong>Safe-area awareness</strong> — fixed navigation respects iOS notches and Android system bars</li>
+      </ul>
+
+      <h2>Known limitations and roadmap</h2>
+      <p>We continually audit the Services. Known limitations as of the effective date:</p>
+      <ul>
+        <li>Some recently-added desktop-app sidebar tooltips are not yet announced via screen reader (fix scheduled v0.2.0)</li>
+        <li>Mind-Free infinite-canvas drag interactions in Studio require keyboard alternatives — partial today, full keyboard mode in active development</li>
+        <li>The interactive sandbox demo on lead.cwleaders.com requires pointer input; an animated alternative is under design</li>
+      </ul>
+
+      <h2>How to give feedback or get help</h2>
+      <p>If you encounter any accessibility barrier in the Services, please tell us — we treat accessibility reports as P1 issues:</p>
+      <ul>
+        <li>Email <a href="mailto:accessibility@cwleaders.com">accessibility@cwleaders.com</a></li>
+        <li>Describe what you were trying to do and the barrier you hit</li>
+        <li>Include your assistive technology, browser, and operating system if known</li>
+      </ul>
+      <p>We aim to respond within 5 business days and to remediate critical barriers within 30 days.</p>
+
+      <h2>Alternate formats</h2>
+      <p>If you need any of our policies, contracts, or interface content in an alternate accessible format (large print, plain text, audio, braille-ready, etc.), email <a href="mailto:accessibility@cwleaders.com">accessibility@cwleaders.com</a> and we'll provide it at no cost.</p>
+
+      <h2>Independent assessment</h2>
+      <p>We engage in periodic independent accessibility audits. Reports and remediation plans are available on request to enterprise customers.</p>
+
+      <h2>Contact</h2>
+      <p><a href="mailto:accessibility@cwleaders.com">accessibility@cwleaders.com</a></p>
+
+      <p style="margin-top:32px;color:var(--t3);font-size:12px">Last updated: April 2026 · Version 1.0</p>
+    </article>
+  </main>
+
+  <script src="/lead.js"></script>
+  <script src="/nav.js" defer></script>
+</body>
+</html>

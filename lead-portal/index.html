@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0e1a" />
+  <title>LEAD — The screen recorder that thinks the way you do</title>
+  <meta name="description" content="Record your screen, take visual notes, and organize everything on a clean dashboard — no folders, no clutter. Made for creators, educators, and teams who think visually." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./tokens.css" />
+  <link rel="stylesheet" href="./eq.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./lead.css" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="LEAD — Record. Annotate. Organize. Visually." />
+  <meta property="og:description" content="The clean, distraction-free screen recorder that turns your work into a clickable visual story." />
+  <meta property="og:url" content="https://lead.cwleaders.com" />
+  <meta property="og:image" content="https://lead.cwleaders.com/og.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="LEAD — A screen recorder built for visual thinkers" />
+  <meta name="twitter:description" content="See your work the way you actually think." />
+  <meta name="twitter:image" content="https://lead.cwleaders.com/og.svg" />
+  <link rel="stylesheet" href="/nav.css" />
+  <link rel="canonical" href="https://lead.cwleaders.com/" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://lead.cwleaders.com/#org",
+        "name": "CW Leaders",
+        "url": "https://lead.cwleaders.com",
+        "logo": "https://lead.cwleaders.com/og.svg",
+        "sameAs": [
+          "https://studio.cwleaders.com",
+          "https://upload.cwleaders.com",
+          "https://download.cwleaders.com",
+          "https://myhire.cwleaders.com"
+        ],
+        "contactPoint": [{
+          "@type": "ContactPoint",
+          "email": "hello@cwleaders.com",
+          "contactType": "customer support"
+        }]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://lead.cwleaders.com/#site",
+        "url": "https://lead.cwleaders.com",
+        "name": "LEAD — Screen recorder for visual thinkers",
+        "publisher": { "@id": "https://lead.cwleaders.com/#org" },
+        "inLanguage": "en-US"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://lead.cwleaders.com/#app",
+        "name": "LEAD by CW Leaders",
+        "operatingSystem": "macOS, Windows, Linux",
+        "applicationCategory": "MultimediaApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        "softwareVersion": "0.1.0",
+        "publisher": { "@id": "https://lead.cwleaders.com/#org" }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="dotgrid" aria-hidden="true"></div>
+  <canvas id="constellation" aria-hidden="true"></canvas>
+
+  <header id="cw-nav"></header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-text float-in">
+        <span class="eyebrow">FOR CREATORS · EDUCATORS · TEAMS</span>
+        <h1>Record your screen<br/>the way you <em>actually think.</em></h1>
+        <p class="lede">
+          Show what you mean — fast. Every recording becomes a clickable visual story.
+          Pin colorful notes anywhere on the screen. Find anything by sight, not by digging through folders.
+          Clean. Quick. Yours alone.
+        </p>
+        <form id="waitlist" class="waitlist" autocomplete="off">
+          <input type="email" name="email" placeholder="you@yourwork.com" required aria-label="Your email" />
+          <button type="submit">
+            <span>Get Early Access</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </form>
+        <p class="formnote" id="formnote">Works on Mac, Windows, and Linux · No spam, ever</p>
+      </div>
+
+      <!-- The interactive sandbox: drag the blue node to the green node -->
+      <div class="sandbox glass float-in" aria-label="Interactive demo">
+        <div class="sandbox-label">DRAG <span class="dot dot-blue"></span> TO <span class="dot dot-green"></span></div>
+        <svg id="sandbox-svg" viewBox="0 0 420 280" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <filter id="glow"><feGaussianBlur stdDeviation="3" /></filter>
+          </defs>
+          <path id="thread" d="" stroke="var(--c-frontend)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-dasharray="6 6"/>
+          <g id="node-blue"   class="node node-blue"   transform="translate(80,140)">
+            <circle r="22" filter="url(#glow)" opacity="0.4"/><circle r="14"/>
+          </g>
+          <g id="node-amber"  class="node node-amber"  transform="translate(210,80)">
+            <circle r="20" filter="url(#glow)" opacity="0.3"/><circle r="12"/>
+          </g>
+          <g id="node-green"  class="node node-green"  transform="translate(340,200)">
+            <circle r="22" filter="url(#glow)" opacity="0.4"/><circle r="14"/>
+          </g>
+        </svg>
+        <div class="sandbox-hint" id="sandbox-hint">Connect your ideas — visually</div>
+      </div>
+    </section>
+
+    <!-- WHY -->
+    <section class="why">
+      <h2>Stop fighting your tools.<br/><em>Start showing your work.</em></h2>
+      <p class="section-lede">Other recorders give you a flat video and an empty notes file. LEAD gives you a story you can scroll through, search by picture, and share with one click.</p>
+
+      <div class="why-grid">
+        <article class="why-card glass">
+          <div class="why-glyph" style="--g:var(--c-frontend)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+            </svg>
+          </div>
+          <h3>See it instantly</h3>
+          <p>Your recordings appear as bright, scrollable thumbnails — not file names. Find any moment by glancing, not searching.</p>
+        </article>
+
+        <article class="why-card glass">
+          <div class="why-glyph" style="--g:var(--c-creative)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+          </div>
+          <h3>Note in context</h3>
+          <p>Pause, click anywhere on the screen, and drop a colorful note right where it matters. Notes stay with the moment, not in a separate document.</p>
+        </article>
+
+        <article class="why-card glass">
+          <div class="why-glyph" style="--g:var(--c-theory)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3>Yours alone</h3>
+          <p>Recordings live on your computer first. Nothing uploads unless you choose to share. Privacy isn't a feature — it's the foundation.</p>
+        </article>
+
+        <article class="why-card glass">
+          <div class="why-glyph" style="--g:var(--c-warning)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+            </svg>
+          </div>
+          <h3>Every minute saved</h3>
+          <p>Skip the dead time. Auto-built highlight reels condense long sessions into a quick visual summary you can send in seconds.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- TIERS -->
+    <section id="tiers" class="tiers">
+      <h2>One choice. <em>Yours.</em></h2>
+      <p class="section-lede">Start small. Add what you need, when you need it. Same key works on every computer you own.</p>
+
+      <div class="tier-grid">
+        <article class="tier glass" data-tier="1">
+          <header>
+            <span class="tier-mark mark-1"></span>
+            <span class="tier-name">Starter</span>
+          </header>
+          <div class="price"><span class="amt">$4.99</span><span class="cycle">one time</span></div>
+          <p class="tier-pitch">Perfect for quick how-tos and casual recording.</p>
+          <ul>
+            <li>Crisp, full-quality screen recording</li>
+            <li>Highlight one window or area at a time</li>
+            <li>No watermarks. No time limits.</li>
+            <li>Works on Mac, Windows, and Linux</li>
+          </ul>
+          <button class="buy" data-buy="basic">Get Starter →</button>
+        </article>
+
+        <article class="tier glass featured" data-tier="2">
+          <span class="badge">Most popular</span>
+          <header>
+            <span class="tier-mark mark-2"></span>
+            <span class="tier-name">Creator</span>
+          </header>
+          <div class="price"><span class="amt">$19.99</span><span class="cycle">one time</span></div>
+          <p class="tier-pitch">For teachers, designers, and anyone who explains visually.</p>
+          <ul>
+            <li>Auto-built scene-by-scene storyboards</li>
+            <li>Animated cursor and keystroke highlights</li>
+            <li>Pin colorful notes to any spot on the recording</li>
+            <li>Draw on top of your screen as you record</li>
+            <li>One-click "skip the boring parts" highlights</li>
+          </ul>
+          <button class="buy" data-buy="powerhouse">Get Creator →</button>
+        </article>
+
+        <article class="tier glass" data-tier="3">
+          <header>
+            <span class="tier-mark mark-3"></span>
+            <span class="tier-name">Pro</span>
+          </header>
+          <div class="price"><span class="amt">$29.99</span><span class="cycle">+ $4.99/mo</span></div>
+          <p class="tier-pitch">When your work needs to follow you everywhere.</p>
+          <ul>
+            <li>Sync your library across all your devices</li>
+            <li>Share live whiteboards with up to 7 collaborators</li>
+            <li>Send recordings straight to Notion or Obsidian</li>
+            <li>Hide the messy backstage with quick-clean tools</li>
+            <li>Premium support, every time</li>
+          </ul>
+          <button class="buy" data-buy="agentic">Get Pro →</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- ECOSYSTEM -->
+    <section id="ecosystem" class="ecosystem">
+      <h2>Three tools. <em>One simple workflow.</em></h2>
+      <p class="section-lede">Record, share, and receive — all without ever opening a new tab.</p>
+      <div class="eco-grid">
+        <a class="eco glass" href="https://lead.cwleaders.com">
+          <span class="eco-glyph" style="--g:var(--c-creative)"></span>
+          <h3>Record<span>lead.cwleaders.com</span></h3>
+          <p>The desktop app that captures, annotates, and organizes everything you make.</p>
+        </a>
+        <a class="eco glass" href="https://upload.cwleaders.com">
+          <span class="eco-glyph" style="--g:var(--c-frontend)"></span>
+          <h3>Send<span>upload.cwleaders.com</span></h3>
+          <p>Drag any file, get a clean link in seconds. No accounts needed for quick sends.</p>
+        </a>
+        <a class="eco glass" href="https://download.cwleaders.com">
+          <span class="eco-glyph" style="--g:var(--c-theory)"></span>
+          <h3>Receive<span>download.cwleaders.com</span></h3>
+          <p>Recipients see a clear preview of every file before they download. No more surprises.</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- ENTERPRISE TEASER -->
+    <section class="enterprise-teaser">
+      <div class="enterprise-teaser-inner glass">
+        <div>
+          <span class="eyebrow" style="--c-creative:var(--c-warning);color:var(--c-warning);background:rgba(251,191,36,0.08);border-color:rgba(251,191,36,0.22)">FOR REMOTE TEAMS</span>
+          <h2 style="margin-top:18px">Manage your team<br/><em style="background:linear-gradient(120deg,var(--c-warning),var(--c-backend));-webkit-background-clip:text;background-clip:text;color:transparent">without micromanaging.</em></h2>
+          <p class="section-lede" style="margin-bottom:22px">See your whole team's progress at a glance. Spot security issues the moment they happen. Privacy-respecting by default — and a fraction of the cost of legacy workforce software.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <a href="/enterprise" class="cta-pill">Learn more →</a>
+            <a href="/enterprise#pricing" class="cta-pill ghost">See pricing</a>
+          </div>
+        </div>
+        <div class="enterprise-teaser-mark"></div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span>© <span id="yr"></span> CW Leaders · Made for visual thinkers</span>
+      <span class="foot-r">
+        <a href="mailto:hello@cwleaders.com">hello@cwleaders.com</a>
+      </span>
+    </footer>
+  </main>
+
+  <script src="./lead.js"></script>
+  <script src="./app.js"></script>
+  <script src="/nav.js" defer></script>
+</body>
+</html>

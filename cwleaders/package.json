@@ -1,0 +1,23 @@
+{
+  "name": "myhire-cwleaders",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Applicant-only CW Leaders web app for myhire.cwleaders.com",
+  "scripts": {
+    "build:lambda": "esbuild api/applications.mjs --bundle --platform=node --target=node20 --format=cjs --outfile=dist/lambda/applications.js",
+    "dev": "node scripts/dev-server.mjs",
+    "render:assets": "node scripts/render-brand-assets.mjs",
+    "start": "node scripts/dev-server.mjs",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.775.0",
+    "@aws-sdk/client-sesv2": "^3.775.0",
+    "@aws-sdk/s3-request-presigner": "^3.775.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.3",
+    "sharp": "^0.33.5"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "LEAD Universal Color System",
+  "description": "Used across desktop app, web portals, and shared CSS variables. Visual learners depend on consistent color semantics.",
+  "background": {
+    "void":     "#0a0e1a",
+    "surface":  "#11172a",
+    "elevated": "#161e36",
+    "dotgrid":  "#1c2444"
+  },
+  "text": {
+    "primary":   "#e8eaf2",
+    "secondary": "#8a93b3",
+    "muted":     "#4a5176",
+    "inverse":   "#0a0e1a"
+  },
+  "semantic": {
+    "frontend":  "#4f8cff",
+    "backend":   "#ff5d73",
+    "theory":    "#4ade80",
+    "warning":   "#fbbf24",
+    "creative":  "#c084fc",
+    "neutral":   "#94a3b8"
+  },
+  "tier": {
+    "basic":      "#94a3b8",
+    "powerhouse": "#c084fc",
+    "agentic":    "#fbbf24"
+  },
+  "fx": {
+    "glowBlue":   "0 0 24px rgba(79,140,255,0.45)",
+    "glowGreen":  "0 0 24px rgba(74,222,128,0.45)",
+    "glowAmber":  "0 0 24px rgba(251,191,36,0.45)",
+    "glassBlur":  "blur(18px) saturate(140%)"
+  }
+}

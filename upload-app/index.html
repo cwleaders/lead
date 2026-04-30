@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0e1a" />
+  <title>Send a file in seconds — CW Leaders</title>
+  <meta name="description" content="Drag any file, get a clean shareable link in seconds. No accounts needed. Free up to 100 MB. Sign in for 5 GB and permanent storage." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./tokens.css" />
+  <link rel="stylesheet" href="./eq.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./lead.css" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="UPLOAD — Drop. Done. Mind-Free file sharing." />
+  <meta property="og:description" content="Anonymous uploads in 3 seconds. Visual receipts. No bloat. Free 5GB with an account." />
+  <meta property="og:url" content="https://upload.cwleaders.com" />
+  <link rel="stylesheet" href="/nav.css" />
+</head>
+<body>
+  <div class="dotgrid" aria-hidden="true"></div>
+
+  <header id="cw-nav"></header>
+
+  <main>
+    <!-- The drop zone is the entire screen until something happens -->
+    <section id="drop" class="drop" aria-label="Drop files anywhere">
+      <div class="drop-inner">
+        <div class="drop-glyph" aria-hidden="true">
+          <svg viewBox="0 0 64 64" width="80" height="80" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M32 8v34"/>
+            <path d="M20 24l12-12 12 12"/>
+            <rect x="8" y="42" width="48" height="14" rx="3"/>
+          </svg>
+        </div>
+        <h1>Drop a file.<br/>Get a link.</h1>
+        <p class="sub">Drag anywhere on this page. <span class="kbd">⌘V</span> to paste a screenshot.</p>
+        <button class="picker" id="pick">Or pick a file</button>
+        <input id="file-input" type="file" multiple hidden />
+        <p class="meta" id="meta">Free · up to 100 MB · link works for 24 hours · <a href="#" id="upgrade-link" style="color:var(--c-frontend);text-decoration:none">Sign in for 5 GB free →</a></p>
+      </div>
+    </section>
+
+    <!-- Active uploads canvas -->
+    <section id="canvas" class="canvas hidden" aria-live="polite">
+      <div class="canvas-head">
+        <span class="canvas-title">Your files</span>
+        <button class="ghost" id="new-upload">+ Send another</button>
+      </div>
+      <div class="grid" id="grid"></div>
+    </section>
+  </main>
+
+  <!-- Pasted-image preview / drag overlay -->
+  <div id="overlay" class="overlay" aria-hidden="true">
+    <div class="overlay-inner">
+      <div class="overlay-icon">
+        <svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+      </div>
+      <div class="overlay-text">Drop to send</div>
+    </div>
+  </div>
+
+  <script src="./lead.js"></script>
+  <script src="./app.js"></script>
+  <script>
+    (function() {
+      const link = document.getElementById('signin-btn');
+      function refresh() {
+        const u = LEAD.Auth.user;
+        if (u) {
+          link.outerHTML = `<a href="https://lead.cwleaders.com/unlock" class="lead-account-btn"><span class="avi">${u.email[0].toUpperCase()}</span><span>${u.email.split('@')[0]}</span></a>`;
+        }
+      }
+      if (link) link.onclick = e => { e.preventDefault(); LEAD.openAuth({ onSuccess: refresh }); };
+      refresh();
+      document.addEventListener('lead-auth-change', refresh);
+    })();
+  </script>
+  <script src="/nav.js" defer></script>
+</body>
+</html>

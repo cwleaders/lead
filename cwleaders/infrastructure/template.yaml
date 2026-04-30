@@ -1,0 +1,315 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: MyHire by CW Leaders production infrastructure
+
+Parameters:
+  DomainName:
+    Type: String
+    Default: myhire.cwleaders.com
+  HostedZoneId:
+    Type: String
+    Default: Z05030081Z3KL9S2LPYR0
+  SiteBucketName:
+    Type: String
+  SubmissionBucketName:
+    Type: String
+  LambdaArtifactBucket:
+    Type: String
+  LambdaArtifactKey:
+    Type: String
+  NotificationEmail:
+    Type: String
+    Default: newapp@cwleaders.com
+  ContactEmail:
+    Type: String
+    Default: newapp@cwleaders.com
+  SesFromEmail:
+    Type: String
+    Default: MyHire <no-reply@cwleaders.com>
+  FileUrlTtlSeconds:
+    Type: Number
+    Default: 604800
+
+Resources:
+  SiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref SiteBucketName
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+  SiteBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref SiteBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: AllowCloudFrontRead
+            Effect: Allow
+            Principal:
+              Service: cloudfront.amazonaws.com
+            Action: s3:GetObject
+            Resource: !Sub "${SiteBucket.Arn}/*"
+            Condition:
+              StringEquals:
+                AWS:SourceArn: !Sub "arn:aws:cloudfront::${AWS::AccountId}:distribution/${SiteDistribution}"
+
+  SiteOriginAccessControl:
+    Type: AWS::CloudFront::OriginAccessControl
+    Properties:
+      OriginAccessControlConfig:
+        Name: myhire-cwleaders-site-oac
+        Description: Origin access control for MyHire site bucket
+        OriginAccessControlOriginType: s3
+        SigningBehavior: always
+        SigningProtocol: sigv4
+
+  SiteRewriteFunction:
+    Type: AWS::CloudFront::Function
+    Properties:
+      Name: myhire-cwleaders-site-rewrite
+      AutoPublish: true
+      FunctionConfig:
+        Comment: Rewrites clean applicant paths to index.html objects
+        Runtime: cloudfront-js-1.0
+      FunctionCode: |
+        function handler(event) {
+          var request = event.request;
+          var uri = request.uri;
+
+          if (uri.startsWith('/api/')) {
+            return request;
+          }
+
+          if (uri.endsWith('/')) {
+            request.uri = uri + 'index.html';
+            return request;
+          }
+
+          if (!uri.includes('.')) {
+            request.uri = uri + '/index.html';
+          }
+
+          return request;
+        }
+
+  SubmissionBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref SubmissionBucketName
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+  ApplicationsFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: SubmissionBucketAccess
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:GetObject
+                Resource: !Sub "${SubmissionBucket.Arn}/*"
+        - PolicyName: SesDelivery
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ses:SendEmail
+                  - ses:SendRawEmail
+                Resource: "*"
+
+  ApplicationsFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: myhire-cwleaders-applications
+      Runtime: nodejs20.x
+      Architectures:
+        - arm64
+      Handler: applications.handler
+      MemorySize: 512
+      Timeout: 30
+      Role: !GetAtt ApplicationsFunctionRole.Arn
+      Code:
+        S3Bucket: !Ref LambdaArtifactBucket
+        S3Key: !Ref LambdaArtifactKey
+      Environment:
+        Variables:
+          DELIVERY_MODE: aws
+          S3_BUCKET: !Ref SubmissionBucket
+          SES_FROM_EMAIL: !Ref SesFromEmail
+          INTERNAL_NOTIFICATION_EMAIL: !Ref NotificationEmail
+          CONTACT_EMAIL: !Ref ContactEmail
+          PUBLIC_SITE_URL: !Sub "https://${DomainName}"
+          FILE_URL_TTL_SECONDS: !Ref FileUrlTtlSeconds
+
+  ApplicationsApi:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: myhire-cwleaders-http-api
+      ProtocolType: HTTP
+      CorsConfiguration:
+        AllowOrigins:
+          - !Sub "https://${DomainName}"
+        AllowMethods:
+          - POST
+          - OPTIONS
+        AllowHeaders:
+          - Content-Type
+
+  ApplicationsIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref ApplicationsApi
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !GetAtt ApplicationsFunction.Arn
+      PayloadFormatVersion: "2.0"
+
+  ApplicationsRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref ApplicationsApi
+      RouteKey: "POST /api/applications"
+      Target: !Sub "integrations/${ApplicationsIntegration}"
+
+  ApplicationsStage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      ApiId: !Ref ApplicationsApi
+      StageName: "$default"
+      AutoDeploy: true
+
+  ApplicationsPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref ApplicationsFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ApplicationsApi}/*/*/api/applications"
+
+  SiteCertificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Ref DomainName
+      ValidationMethod: DNS
+      DomainValidationOptions:
+        - DomainName: !Ref DomainName
+          HostedZoneId: !Ref HostedZoneId
+
+  SiteDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Aliases:
+          - !Ref DomainName
+        Comment: MyHire by CW Leaders production distribution
+        DefaultRootObject: index.html
+        Enabled: true
+        HttpVersion: http2and3
+        IPV6Enabled: true
+        PriceClass: PriceClass_100
+        Origins:
+          - Id: SiteOrigin
+            DomainName: !GetAtt SiteBucket.RegionalDomainName
+            OriginAccessControlId: !Ref SiteOriginAccessControl
+            S3OriginConfig: {}
+          - Id: ApiOrigin
+            DomainName: !Sub "${ApplicationsApi}.execute-api.${AWS::Region}.amazonaws.com"
+            CustomOriginConfig:
+              HTTPPort: 80
+              HTTPSPort: 443
+              OriginProtocolPolicy: https-only
+              OriginSSLProtocols:
+                - TLSv1.2
+        DefaultCacheBehavior:
+          TargetOriginId: SiteOrigin
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods:
+            - GET
+            - HEAD
+          CachedMethods:
+            - GET
+            - HEAD
+          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
+          Compress: true
+          FunctionAssociations:
+            - EventType: viewer-request
+              FunctionARN: !GetAtt SiteRewriteFunction.FunctionMetadata.FunctionARN
+        CacheBehaviors:
+          - PathPattern: /api/*
+            TargetOriginId: ApiOrigin
+            ViewerProtocolPolicy: https-only
+            AllowedMethods:
+              - GET
+              - HEAD
+              - OPTIONS
+              - PUT
+              - PATCH
+              - POST
+              - DELETE
+            CachedMethods:
+              - GET
+              - HEAD
+            CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+            OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac
+            Compress: true
+        ViewerCertificate:
+          AcmCertificateArn: !Ref SiteCertificate
+          MinimumProtocolVersion: TLSv1.2_2021
+          SslSupportMethod: sni-only
+
+  SiteAliasRecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: !Ref DomainName
+      Type: A
+      AliasTarget:
+        HostedZoneId: Z2FDTNDATAQYW2
+        DNSName: !GetAtt SiteDistribution.DomainName
+
+  SiteAliasRecordIpv6:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: !Ref DomainName
+      Type: AAAA
+      AliasTarget:
+        HostedZoneId: Z2FDTNDATAQYW2
+        DNSName: !GetAtt SiteDistribution.DomainName
+
+Outputs:
+  SiteBucketName:
+    Value: !Ref SiteBucket
+  SubmissionBucketName:
+    Value: !Ref SubmissionBucket
+  DistributionId:
+    Value: !Ref SiteDistribution
+  DistributionDomainName:
+    Value: !GetAtt SiteDistribution.DomainName
+  ApiEndpoint:
+    Value: !Sub "https://${ApplicationsApi}.execute-api.${AWS::Region}.amazonaws.com"
+  SiteUrl:
+    Value: !Sub "https://${DomainName}"

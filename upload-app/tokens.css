@@ -1,0 +1,109 @@
+/* LEAD Design Tokens — Mind-Free Visual System
+   Single source of truth for colors, motion, type, spacing.
+   Imported by every SPA. */
+
+:root {
+  /* Canvas */
+  --void:     #0a0e1a;
+  --surface:  #11172a;
+  --elevated: #161e36;
+  --dot:      #1c2444;
+
+  /* Text */
+  --t1: #e8eaf2;
+  --t2: #8a93b3;
+  --t3: #4a5176;
+
+  /* Semantic palette — universal across ecosystem */
+  --c-frontend:  #4f8cff;
+  --c-backend:   #ff5d73;
+  --c-theory:    #4ade80;
+  --c-warning:   #fbbf24;
+  --c-creative:  #c084fc;
+  --c-neutral:   #94a3b8;
+
+  /* Tier accents */
+  --tier-1: #94a3b8;
+  --tier-2: #c084fc;
+  --tier-3: #fbbf24;
+
+  /* Motion — fluid, spatial, never abrupt */
+  --ease-snap:   cubic-bezier(0.2, 0.9, 0.2, 1);
+  --ease-glide:  cubic-bezier(0.45, 0, 0.15, 1);
+  --dur-fast:    140ms;
+  --dur-base:    280ms;
+  --dur-cinema:  520ms;
+
+  /* Spatial rhythm */
+  --r-1: 6px;
+  --r-2: 12px;
+  --r-3: 22px;
+  --r-pill: 999px;
+
+  /* Type */
+  --font-display: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--void);
+  color: var(--t1);
+  font-family: var(--font-display);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow: hidden; /* Mind-Free: never scroll the page itself */
+}
+
+body { position: relative; }
+
+/* The dot-grid — the universal base layer */
+.dotgrid {
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: 0 0;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: radial-gradient(ellipse at center, black 50%, transparent 90%);
+}
+
+button, input, textarea {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+button { cursor: pointer; }
+
+/* Floating glass surface — the only chrome we ever show */
+.glass {
+  background: rgba(22, 30, 54, 0.6);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--r-3);
+  box-shadow: 0 18px 60px -20px rgba(0,0,0,0.6);
+}
+
+/* Kinetic primitives — the ripple, used everywhere */
+@keyframes ripple {
+  0%   { transform: scale(0.4); opacity: 0.65; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+@keyframes float-in {
+  0%   { transform: translateY(12px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(79,140,255,0.0); }
+  50%      { box-shadow: 0 0 32px 4px rgba(79,140,255,0.25); }
+}
+
+.float-in { animation: float-in var(--dur-base) var(--ease-snap) both; }

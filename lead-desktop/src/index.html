@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://api.cwleaders.com https://*.cwleaders.com https://*.amazonaws.com">
+  <title>CW Leaders Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./tokens.css" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="dotgrid" aria-hidden="true"></div>
+
+  <!-- Title bar (custom because tauri.conf has hiddenTitle + Overlay) -->
+  <div class="titlebar" data-tauri-drag-region>
+    <div class="brand">
+      <svg viewBox="0 0 32 32" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="8" cy="10" r="3"/><circle cx="24" cy="10" r="3"/>
+        <circle cx="16" cy="22" r="3"/>
+        <path d="M11 10h10M9.5 12.5L14 19.5M22.5 12.5L18 19.5" stroke-linecap="round"/>
+      </svg>
+      <span>CW Leaders Studio</span>
+    </div>
+    <div class="titlebar-status">
+      <span id="tier-pill" class="pill pill-warn">FREE</span>
+      <span id="hardware-pill" class="pill pill-mute" title="Detected hardware tier">…</span>
+    </div>
+  </div>
+
+  <!-- Onboarding panel (license entry) — shown until license is valid -->
+  <section id="onboarding" class="panel">
+    <div class="onboard-card glass">
+      <span class="eyebrow">FIRST TIME HERE?</span>
+      <h1>Welcome to <em>Studio.</em></h1>
+      <p class="lede">Free forever. No credit card. Use Record + Send + Hire right away — paste a license key any time to unlock the full Creator, Pro, or Teams toolkit.</p>
+
+      <div class="onboard-actions">
+        <button class="cta-pill" id="continue-free">Continue free →</button>
+        <button class="cta-pill ghost" id="enter-license">I have a license key</button>
+        <button class="cta-pill ghost" id="open-pricing">See pricing</button>
+      </div>
+
+      <details class="hardware-detail">
+        <summary>Your machine</summary>
+        <pre id="hardware-detail-text">probing…</pre>
+        <p class="muted">We pick a sensible recording quality automatically. You can override anywhere in the app.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- License entry modal -->
+  <div id="license-modal" class="modal" hidden>
+    <div class="modal-bg"></div>
+    <div class="modal-card glass">
+      <button class="modal-close" id="license-modal-close" aria-label="Close">×</button>
+      <span class="eyebrow">UNLOCK</span>
+      <h2>Paste your key.</h2>
+      <p class="muted">Sixteen characters, four groups of four. Same key works on Mac, Windows, and Linux — up to 3 machines per license.</p>
+      <input type="text" id="license-input" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19" autocomplete="off" />
+      <div id="license-msg" class="msg"></div>
+      <button class="cta-pill" id="license-redeem">Unlock →</button>
+    </div>
+  </div>
+
+  <!-- Main shell — shown after onboarding -->
+  <main id="shell" hidden>
+    <!-- Sidebar (slim, vertical) -->
+    <aside class="sidenav glass">
+      <button class="navbtn active" data-tab="record" title="Record">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="6" width="14" height="12" rx="2"/><path d="M22 8l-6 4 6 4V8z"/>
+        </svg>
+        <span>Record</span>
+      </button>
+      <button class="navbtn" data-tab="send" title="Send files">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+        <span>Send</span>
+      </button>
+      <button class="navbtn" data-tab="hire" title="Hire">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        <span>Hire</span>
+      </button>
+      <button class="navbtn" data-tab="agents" title="Agents">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+        </svg>
+        <span>Agents</span>
+      </button>
+      <div class="navspacer"></div>
+      <button class="navbtn" id="open-studio-hub" title="Open Studio Hub in browser">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/>
+          <line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+        <span>Studio</span>
+      </button>
+      <button class="navbtn" data-tab="settings" title="Settings">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.36.06.7.18 1 .35"/>
+        </svg>
+        <span>Settings</span>
+      </button>
+    </aside>
+
+    <!-- Tab panels -->
+    <section class="panel" data-panel="record">
+      <header class="panel-head">
+        <div>
+          <h2>Record your screen.</h2>
+          <p class="lede">One click. Saves locally. Share to the world later — only when you choose to.</p>
+        </div>
+        <button class="cta-pill" id="open-recordings">Open recordings folder</button>
+      </header>
+
+      <div class="record-card glass">
+        <div class="record-status" id="record-status">Ready</div>
+        <div class="record-clock" id="record-clock">00:00</div>
+        <div class="record-actions">
+          <button class="cta-pill record-go" id="record-go">● Start recording</button>
+          <button class="cta-pill ghost" id="record-stop" hidden>■ Stop</button>
+        </div>
+        <div class="record-meta" id="record-meta">
+          <span id="record-fps">— fps</span> · <span id="record-resolution">—</span> · <span id="record-display">primary display</span>
+        </div>
+      </div>
+
+      <h3 class="section-title">Recent recordings</h3>
+      <div id="recordings-list" class="recordings-grid">
+        <p class="muted small">Your recordings will appear here.</p>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="send" hidden>
+      <header class="panel-head">
+        <div>
+          <h2>Send a file.</h2>
+          <p class="lede">Drop a file (or pick one) — get a link in seconds. Track who downloads it from your browser at any time.</p>
+        </div>
+      </header>
+      <div class="send-card glass" id="send-dropzone">
+        <div class="send-glyph">
+          <svg viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M32 8v34"/><path d="M20 24l12-12 12 12"/><rect x="8" y="42" width="48" height="14" rx="3"/>
+          </svg>
+        </div>
+        <p class="send-text">Drag a file anywhere on this window<br/>or click to browse</p>
+        <button class="cta-pill" id="send-browse">Choose a file</button>
+      </div>
+      <p class="muted small">For now, sending opens the web app. Native multipart upload arrives in the next desktop release.</p>
+    </section>
+
+    <section class="panel" data-panel="hire" hidden>
+      <header class="panel-head">
+        <div>
+          <h2>Hire &amp; get hired.</h2>
+          <p class="lede">Manage your roles, send Skill Check links, and review applicants — all without leaving Studio.</p>
+        </div>
+      </header>
+      <div class="hire-card glass">
+        <p>MyHire opens in your browser for now (full native pipeline ships in the next release).</p>
+        <button class="cta-pill" id="open-hire">Open MyHire →</button>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="agents" hidden>
+      <header class="panel-head">
+        <div>
+          <h2>Your 5 foundation agents.</h2>
+          <p class="lede">Each one works locally where possible. Cloud calls use AI credits. Local transcription, OCR, and scene detection are always free.</p>
+        </div>
+      </header>
+      <div class="agents-grid">
+        <article class="agent-card glass" data-agent="capture">
+          <div class="agent-glyph" style="--g:var(--c-creative)">🎬</div>
+          <h3>Capture</h3>
+          <p>Auto-record your next meeting and tag the action items.</p>
+          <button class="agent-launch">Arm agent →</button>
+        </article>
+        <article class="agent-card glass" data-agent="courier">
+          <div class="agent-glyph" style="--g:var(--c-frontend)">📦</div>
+          <h3>Courier</h3>
+          <p>Send the latest file in a folder to a recipient on a schedule.</p>
+          <button class="agent-launch">Arm agent →</button>
+        </article>
+        <article class="agent-card glass" data-agent="triage">
+          <div class="agent-glyph" style="--g:var(--c-warning)">📋</div>
+          <h3>Triage</h3>
+          <p>Rank incoming applicants by fit to the role description.</p>
+          <button class="agent-launch">Arm agent →</button>
+        </article>
+        <article class="agent-card glass" data-agent="coach">
+          <div class="agent-glyph" style="--g:var(--c-theory)">🎯</div>
+          <h3>Coach</h3>
+          <p>End-of-day visual debrief delivered to your inbox.</p>
+          <button class="agent-launch">Arm agent →</button>
+        </article>
+        <article class="agent-card glass" data-agent="bridge">
+          <div class="agent-glyph" style="--g:var(--c-backend)">🔗</div>
+          <h3>Bridge</h3>
+          <p>Cross-tool workflows — connect any event to any action.</p>
+          <button class="agent-launch">Arm agent →</button>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="settings" hidden>
+      <header class="panel-head">
+        <div>
+          <h2>Settings.</h2>
+          <p class="lede">Just the essentials. Studio stays out of your way.</p>
+        </div>
+      </header>
+
+      <div class="setting-row glass">
+        <div>
+          <h3>License</h3>
+          <p class="muted small" id="license-summary">Free — unlock more by entering a key.</p>
+        </div>
+        <div class="setting-actions">
+          <button class="ghost-btn" id="settings-redeem">Enter key</button>
+          <button class="ghost-btn danger" id="settings-clear-license">Clear</button>
+        </div>
+      </div>
+
+      <div class="setting-row glass">
+        <div>
+          <h3>Hardware mode</h3>
+          <p class="muted small" id="settings-hardware">probing…</p>
+        </div>
+        <button class="ghost-btn" id="open-recordings-2">Recordings folder</button>
+      </div>
+
+      <div class="setting-row glass">
+        <div>
+          <h3>Updates</h3>
+          <p class="muted small">Studio auto-updates in the background. Check now if you're feeling restless.</p>
+        </div>
+        <button class="ghost-btn" id="check-updates">Check for updates</button>
+      </div>
+
+      <div class="setting-row glass">
+        <div>
+          <h3>About</h3>
+          <p class="muted small">v0.1.0 · Made for visual thinkers · cwleaders.com</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Toast region -->
+  <div id="toast-region" class="toast-region" aria-live="polite"></div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+# CW Leaders monorepo .gitignore
+
+# OS / IDE
+.DS_Store
+*.swp
+*.swo
+.vscode/
+.idea/
+*.iml
+
+# Build artifacts
+node_modules/
+dist/
+build/
+target/
+.next/
+out/
+
+# Tauri build output
+lead-desktop/src-tauri/target/
+lead-desktop/src-tauri/gen/schemas/
+lead-desktop/src-tauri/WixTools/
+
+# Backend build cache
+backend/.build/
+backend/.state.env
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Local env / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+*.pfx
+*.key
+!*.pub.key
+
+# Tauri signing private key — NEVER commit
+**/cwleaders-tauri-private.key
+**/*.minisign.key
+**/private-key
+
+# AWS / cloud creds
+.aws/
+*.credentials
+secrets/
+
+# OS keychains
+*.keychain
+*.keychain-db
+
+# Backups
+*.bak
+*.v1.json.bak
+*.v0.bak
+.tokens.css.bak
+
+# Tests output
+coverage/
+.nyc_output/
+
+# Cargo
+**/target/
+Cargo.lock.bak
+
+# Python (for tooling)
+__pycache__/
+*.pyc
+
+# Misc
+.tmp/
+*.zip
+function.zip
+deploy-bundle/
+
+# Historical archives
+LAUNCH-STATE.md.old
+*.old

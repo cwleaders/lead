@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0e1a" />
+  <title>Got it — MyHire by CW Leaders</title>
+  <meta name="description" content="Your application is in. We'll reply within 5 business days." />
+  <meta name="robots" content="noindex,follow" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/tokens.css" />
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/lead.css" />
+  <link rel="stylesheet" href="/nav.css" />
+</head>
+<body>
+  <div class="dotgrid" aria-hidden="true"></div>
+
+  <header id="cw-nav"></header>
+
+  <main>
+    <div class="thanks-shell">
+      <div class="thanks-mark"></div>
+      <h1>Got it. Thanks.</h1>
+      <p class="lede">A real person reads every application. We'll reply — yes, no, or "let's talk" — within five business days. Watch your inbox (and your spam folder, just in case).</p>
+      <p id="ref-line" hidden>Reference: <span class="ref-id" id="ref-id"></span></p>
+      <p style="margin-top:32px"><a href="/" class="cta-pill ghost">← Back home</a></p>
+    </div>
+
+    <footer class="foot">
+      <span>© <span id="yr"></span> CW Leaders</span>
+      <span class="foot-r">
+        <a href="/">Home</a>
+        <a href="/positions/">Roles</a>
+        <a href="/faq/">FAQ</a>
+        <a href="/privacy/">Privacy</a>
+      </span>
+    </footer>
+  </main>
+
+  <script src="/lead.js"></script>
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+    const ref = new URLSearchParams(location.search).get('submission');
+    if (ref && ref !== 'screened') {
+      document.getElementById('ref-line').hidden = false;
+      document.getElementById('ref-id').textContent = ref;
+    }
+  </script>
+  <script src="/nav.js" defer></script>
+</body>
+</html>

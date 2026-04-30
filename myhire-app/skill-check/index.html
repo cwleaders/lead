@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0e1a" />
+  <title>Skill Check — MyHire by CW Leaders</title>
+  <meta name="description" content="Show what you can do. A short, recorded task on your own machine." />
+  <meta name="robots" content="noindex,follow" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/tokens.css" />
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/lead.css" />
+  <link rel="stylesheet" href="/nav.css" />
+</head>
+<body>
+  <div class="dotgrid" aria-hidden="true"></div>
+
+  <header id="cw-nav"></header>
+
+  <main>
+    <div class="apply-shell" id="sc-shell">
+      <div id="sc-loading" style="text-align:center;padding:60px 0">
+        <div class="spinner" style="width:36px;height:36px;border:2px solid rgba(255,255,255,0.08);border-top-color:var(--c-frontend);border-radius:50%;animation:spin 720ms linear infinite;margin:0 auto"></div>
+        <p style="color:var(--t2);margin-top:16px">Loading your task…</p>
+      </div>
+
+      <div id="sc-task" hidden>
+        <span class="role-chip" id="sc-role-chip">SKILL CHECK</span>
+        <h1 id="sc-title">Your Skill Check</h1>
+        <p class="lede" id="sc-intro">Take a few minutes to read the brief, then download LEAD and record your attempt. We'll review it the same day you submit.</p>
+
+        <div class="form-card glass">
+          <h2>The brief</h2>
+          <p style="color:var(--t2);line-height:1.6;white-space:pre-wrap" id="sc-brief"></p>
+
+          <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:8px">
+            <span class="pill"><span id="sc-duration">10</span> min</span>
+            <span class="pill" id="sc-recording-required">Screen recording required</span>
+          </div>
+        </div>
+
+        <div class="form-card glass" style="margin-top:18px">
+          <h2>How to record</h2>
+          <ol style="color:var(--t2);line-height:1.7;padding-left:20px">
+            <li><strong>Download LEAD</strong> — the free desktop recorder we use for Skill Checks. Quick install for Mac, Windows, or Linux.</li>
+            <li><strong>Open the launch link</strong> below — LEAD will load your task brief automatically.</li>
+            <li><strong>Record and submit</strong> — the recording is encrypted and only seen by your hiring lead.</li>
+          </ol>
+
+          <div class="cta-row" style="margin-top:14px">
+            <a href="https://lead.cwleaders.com" class="cta-pill" target="_blank" rel="noopener">Download LEAD →</a>
+            <a id="sc-launch" class="cta-pill ghost" href="#">Open in LEAD app →</a>
+          </div>
+          <p style="color:var(--t3);font-size:12px;margin-top:14px">No LEAD installed yet? Download it first, then come back to this page and click "Open in LEAD app".</p>
+        </div>
+
+        <div class="form-card glass" style="margin-top:18px">
+          <h2>Already done? Submit your application</h2>
+          <p style="color:var(--t2);line-height:1.6">Once your recording uploads, finish your application — we'll attach the recording automatically.</p>
+          <div class="cta-row" style="margin-top:14px">
+            <a id="sc-apply" class="cta-pill" href="/apply/">Continue to application →</a>
+          </div>
+        </div>
+      </div>
+
+      <div id="sc-error" hidden style="text-align:center;padding:60px 24px">
+        <div class="thanks-mark" style="background:linear-gradient(135deg,var(--c-backend),var(--c-warning));box-shadow:0 24px 80px -10px rgba(255,93,115,0.4)"></div>
+        <h1 style="margin-top:8px">This link's expired.</h1>
+        <p class="lede" id="sc-errmsg">Skill Check links are valid for 30 days. Reach out to your hiring lead for a new one.</p>
+        <a href="/" class="cta-pill ghost">← Back home</a>
+      </div>
+    </div>
+
+    <footer class="foot">
+      <span>© <span id="yr"></span> CW Leaders</span>
+      <span class="foot-r">
+        <a href="/">Home</a>
+        <a href="/faq/">FAQ</a>
+        <a href="/privacy/">Privacy</a>
+      </span>
+    </footer>
+  </main>
+
+  <script src="/lead.js"></script>
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+    const API = window.LEAD_API || 'https://api.cwleaders.com';
+    const t = new URLSearchParams(location.search).get('t');
+
+    if (!t) {
+      document.getElementById('sc-loading').hidden = true;
+      document.getElementById('sc-error').hidden = false;
+      document.getElementById('sc-errmsg').textContent = 'No Skill Check token found in the URL.';
+    } else {
+      fetch(`${API}/skillcheck/${encodeURIComponent(t)}`)
+        .then(r => r.ok ? r.json() : Promise.reject(r))
+        .then(data => {
+          document.getElementById('sc-loading').hidden = true;
+          document.getElementById('sc-task').hidden = false;
+          document.getElementById('sc-brief').textContent = data.taskBrief;
+          document.getElementById('sc-duration').textContent = data.durationMinutes;
+          if (!data.recordingRequired) document.getElementById('sc-recording-required').textContent = 'Recording optional';
+          document.getElementById('sc-launch').href = `lead://skillcheck/${data.token}`;
+          document.getElementById('sc-apply').href = `/apply/?role=${encodeURIComponent(data.positionId || '')}&skillCheck=${encodeURIComponent(data.token)}`;
+        })
+        .catch(() => {
+          document.getElementById('sc-loading').hidden = true;
+          document.getElementById('sc-error').hidden = false;
+        });
+    }
+  </script>
+  <script src="/nav.js" defer></script>
+</body>
+</html>

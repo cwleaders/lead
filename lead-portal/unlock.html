@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0a0e1a" />
+  <title>Unlock LEAD — Redeem your license key</title>
+  <meta name="description" content="Paste your LEAD license key. Activate Tier 1, 2, 3, or Enterprise." />
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./tokens.css" />
+  <link rel="stylesheet" href="./eq.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./lead.css" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <style>
+    main { height: 100vh; padding: 90px 20px 40px;
+      display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    @media (max-width: 760px) {
+      main { padding: 80px 14px 30px; }
+      .unlock-card { padding: 28px 22px; }
+      .unlock-card h1 { font-size: 24px; }
+      .key-input { font-size: 16px; padding: 14px 12px; letter-spacing: 0.12em; }
+      .acct-card { padding: 18px; flex-wrap: wrap; gap: 12px; }
+      .lic-list-card { padding: 20px; }
+      .lic-row { flex-wrap: wrap; gap: 6px; padding: 12px 0; }
+      .lic-row code { font-size: 11px; word-break: break-all; }
+    }
+    .unlock-wrap { width: 100%; max-width: 560px; display: flex; flex-direction: column; gap: 18px; }
+    .unlock-card { padding: 36px 32px; }
+    .unlock-card h1 { font-size: 28px; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .unlock-card .sub { color: var(--t2); font-size: 14px; margin-bottom: 22px; line-height: 1.5; }
+    .key-input {
+      width: 100%;
+      padding: 16px 18px;
+      border-radius: var(--r-2);
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--t1);
+      font-family: var(--font-mono);
+      font-size: 18px; letter-spacing: 0.18em; text-align: center;
+      text-transform: uppercase;
+      transition: border-color var(--dur-fast) ease;
+    }
+    .key-input:focus { border-color: var(--c-creative); }
+    .key-row { display: flex; gap: 8px; margin-top: 14px; }
+    .key-row button {
+      flex: 1;
+      padding: 14px;
+      border-radius: var(--r-2);
+      background: var(--c-warning); color: var(--void);
+      font-weight: 600; font-size: 14px;
+      transition: transform var(--dur-fast) var(--ease-snap);
+    }
+    .key-row button:hover { transform: translateY(-1px); }
+    .key-row button[disabled] { opacity: 0.55; cursor: progress; }
+    .key-result {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: var(--r-2);
+      background: rgba(74,222,128,0.08);
+      border: 1px solid rgba(74,222,128,0.25);
+      display: none;
+    }
+    .key-result.shown { display: block; animation: float-in 280ms var(--ease-snap) both; }
+    .key-result h3 { font-size: 16px; color: var(--c-theory); margin-bottom: 6px; }
+    .key-result p { font-size: 13px; color: var(--t2); line-height: 1.5; }
+    .feature-pill {
+      display: inline-block; margin: 4px 4px 0 0;
+      padding: 3px 10px; border-radius: var(--r-pill);
+      background: rgba(255,255,255,0.05); color: var(--t2);
+      font-size: 11px; letter-spacing: 0.04em;
+      font-family: var(--font-mono);
+    }
+    .key-error {
+      margin-top: 14px; padding: 12px 16px; border-radius: var(--r-2);
+      background: rgba(255,93,115,0.08); border: 1px solid rgba(255,93,115,0.25);
+      color: var(--c-backend); font-size: 13px;
+      display: none;
+    }
+    .key-error.shown { display: block; }
+    .acct-card { padding: 24px 28px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .acct-card .left { display:flex; align-items:center; gap:12px; }
+    .acct-card .avi {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--c-creative), var(--c-frontend));
+      display:inline-flex; align-items:center; justify-content:center;
+      font-weight: 600; color: var(--void);
+    }
+    .acct-card .meta { font-size: 12px; color: var(--t3); }
+    .acct-card .meta strong { color: var(--t1); font-weight: 500; font-size: 13px; display:block; }
+    .acct-card button {
+      padding: 8px 14px; border-radius: var(--r-pill);
+      background: rgba(255,255,255,0.05); color: var(--t2);
+      font-size: 12px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .acct-card button:hover { color: var(--t1); }
+    .lic-list-card { padding: 24px 28px; }
+    .lic-list-card h3 { font-size: 11px; letter-spacing: 0.3em; color: var(--t3); margin-bottom: 14px; }
+    .lic-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 13px;
+    }
+    .lic-row:last-child { border: none; }
+    .lic-row code {
+      font-family: var(--font-mono); color: var(--t1);
+      letter-spacing: 0.06em; font-size: 12px;
+    }
+    .lic-row .tier-tag {
+      padding: 3px 10px; border-radius: var(--r-pill);
+      font-size: 10px; letter-spacing: 0.18em; font-weight: 600;
+    }
+    .tier-tag.basic      { background: rgba(148,163,184,0.18); color: var(--tier-1); }
+    .tier-tag.powerhouse { background: rgba(192,132,252,0.18); color: var(--tier-2); }
+    .tier-tag.agentic    { background: rgba(251,191,36,0.18);  color: var(--tier-3); }
+    .tier-tag.enterprise_seat,.tier-tag.enterprise_org {
+      background: rgba(255,93,115,0.18); color: var(--c-backend);
+    }
+    .lic-empty { color: var(--t3); font-size: 13px; text-align: center; padding: 18px 0; }
+  </style>
+  <link rel="stylesheet" href="/nav.css" />
+</head>
+<body>
+  <div class="dotgrid" aria-hidden="true"></div>
+
+  <header id="cw-nav"></header>
+
+  <main>
+    <div class="unlock-wrap">
+      <!-- Account card (visible when signed in) -->
+      <div id="acct-card" class="acct-card glass float-in" style="display:none">
+        <div class="left">
+          <span class="avi" id="acct-avi">—</span>
+          <div class="meta"><strong id="acct-email">—</strong>plan: <span id="acct-plan">free</span></div>
+        </div>
+        <button id="acct-signout">Sign out</button>
+      </div>
+
+      <article class="unlock-card glass float-in">
+        <h1>Redeem your key.</h1>
+        <p class="sub">Paste the 16-character key from your purchase email. We'll verify, attach it to your account, and reveal your unlocked features.</p>
+        <input id="key" class="key-input" placeholder="XXXX-XXXX-XXXX-XXXX" autocomplete="off" maxlength="19" />
+        <div class="key-row">
+          <button id="redeem">Redeem →</button>
+        </div>
+        <div id="key-error" class="key-error"></div>
+        <div id="key-result" class="key-result">
+          <h3 id="kr-tier">—</h3>
+          <p id="kr-features">—</p>
+        </div>
+      </article>
+
+      <article class="lic-list-card glass float-in" id="lic-list-wrap" style="display:none">
+        <h3>YOUR LICENSES</h3>
+        <div id="lic-list"></div>
+      </article>
+    </div>
+  </main>
+
+  <script src="./lead.js"></script>
+  <script>
+    const keyInp = document.getElementById('key');
+    const redeemBtn = document.getElementById('redeem');
+    const errBox = document.getElementById('key-error');
+    const resBox = document.getElementById('key-result');
+    const krTier = document.getElementById('kr-tier');
+    const krFeatures = document.getElementById('kr-features');
+    const acctCard = document.getElementById('acct-card');
+    const licWrap = document.getElementById('lic-list-wrap');
+    const licList = document.getElementById('lic-list');
+
+    // Auto-format key as user types (16 chars + dashes)
+    keyInp.addEventListener('input', () => {
+      let v = keyInp.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 16);
+      keyInp.value = v.match(/.{1,4}/g)?.join('-') || v;
+    });
+
+    function machineId() {
+      let m = localStorage.getItem('lead.machine');
+      if (!m) {
+        m = crypto.randomUUID();
+        localStorage.setItem('lead.machine', m);
+      }
+      return m;
+    }
+
+    redeemBtn.onclick = async () => {
+      errBox.classList.remove('shown');
+      resBox.classList.remove('shown');
+      const key = keyInp.value.trim();
+      if (key.replace(/-/g,'').length !== 16) {
+        errBox.textContent = 'A license key is exactly 16 characters.';
+        errBox.classList.add('shown'); return;
+      }
+      redeemBtn.disabled = true; redeemBtn.textContent = 'Verifying…';
+      try {
+        const res = await LEAD.api('/license/validate', {
+          method: 'POST',
+          body: { key, machineId: machineId() },
+          auth: true
+        });
+        krTier.textContent = `✓ Unlocked: ${res.tier}`;
+        krFeatures.innerHTML = res.features.map(f => `<span class="feature-pill">${f}</span>`).join('');
+        resBox.classList.add('shown');
+        if (LEAD.Auth.user) refreshMe();
+      } catch (err) {
+        errBox.textContent = err.message || 'redemption failed';
+        errBox.classList.add('shown');
+      } finally {
+        redeemBtn.disabled = false; redeemBtn.textContent = 'Redeem →';
+      }
+    };
+
+    keyInp.addEventListener('keydown', e => { if (e.key === 'Enter') redeemBtn.click(); });
+
+    // ----- Account display -----
+    function renderAcct() {
+      const u = LEAD.Auth.user;
+      if (!u) {
+        acctCard.style.display = 'none';
+        licWrap.style.display = 'none';
+        return;
+      }
+      acctCard.style.display = 'flex';
+      document.getElementById('acct-avi').textContent = u.email[0].toUpperCase();
+      document.getElementById('acct-email').textContent = u.email;
+      document.getElementById('acct-plan').textContent = u.plan || 'free';
+      refreshMe();
+    }
+
+    async function refreshMe() {
+      try {
+        const me = await LEAD.api('/auth/me', { auth: true });
+        if (!me.licenses?.length) {
+          licWrap.style.display = 'none';
+          return;
+        }
+        licWrap.style.display = 'block';
+        licList.innerHTML = me.licenses.map(l => `
+          <div class="lic-row">
+            <code>${l.key}</code>
+            <span class="tier-tag ${l.tier}">${l.tier}</span>
+          </div>`).join('');
+      } catch {}
+    }
+
+    document.getElementById('acct-signout').onclick = () => {
+      LEAD.Auth.clear();
+      LEAD.toast('Signed out', 'info');
+    };
+
+    // Initial: show auth modal if not signed in
+    if (!LEAD.Auth.user) {
+      LEAD.openAuth({ onSuccess: renderAcct });
+    } else {
+      renderAcct();
+    }
+    document.addEventListener('lead-auth-change', renderAcct);
+
+    // Stripe success redirect: ?session=cs_xxx
+    const sp = new URLSearchParams(location.search);
+    if (sp.get('session')) {
+      LEAD.toast('✓ Payment received — license email is on the way', 'success', 5000);
+      history.replaceState(null, '', '/unlock');
+    }
+  </script>
+  <script src="/nav.js" defer></script>
+</body>
+</html>

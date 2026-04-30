@@ -1,0 +1,176 @@
+{
+  "$schema": "https://cwleaders.com/schema/nav-desktop-v2.json",
+  "version": "2.0.0",
+  "platform": "web-desktop",
+  "_authority": "OptiNav v2 — supersedes v1.bak; produced from causal scan of 25 verified routes.",
+
+  "behavior": {
+    "container": "topbar-pill",
+    "position": "fixed",
+    "stickyOnScroll": true,
+    "hideOnScrollDown": false,
+    "minViewportWidth": 881,
+    "globalShortcuts": {
+      "g h": "go home",
+      "g s": "go to studio dashboard",
+      "?":   "open help"
+    }
+  },
+
+  "brand": {
+    "label": "CW LEADERS",
+    "logoComponent": "svgMonogram()",
+    "href": "https://lead.cwleaders.com/",
+    "trigger": "click",
+    "propertyBadge": {
+      "lead":     "",
+      "studio":   "STUDIO",
+      "upload":   "SEND",
+      "download": "RECEIVE",
+      "myhire":   "MYHIRE"
+    }
+  },
+
+  "primary": [
+    {
+      "id": "tools",
+      "label": "Tools",
+      "trigger": "hover",
+      "openDelay": 0,
+      "closeDelay": 220,
+      "layout": "mega-menu",
+      "ariaHasPopup": "menu",
+      "items": [
+        { "id": "tool-record",  "label": "Record",  "sub": "Screen + AI overlays",     "href": "https://lead.cwleaders.com/",     "glyph": "🎬", "activeProperty": "lead" },
+        { "id": "tool-send",    "label": "Send",    "sub": "Drop a file, get a link",  "href": "https://upload.cwleaders.com/",   "glyph": "📦", "activeProperty": "upload" },
+        { "id": "tool-receive", "label": "Receive", "sub": "Preview before download",  "href": "https://download.cwleaders.com/", "glyph": "📥", "activeProperty": "download" },
+        { "id": "tool-hire",    "label": "Hire",    "sub": "Show your work",           "href": "https://myhire.cwleaders.com/",   "glyph": "👥", "activeProperty": "myhire" }
+      ],
+      "footer": {
+        "label": "All four tools on one canvas",
+        "cta":   "Studio Hub →",
+        "href":  "https://studio.cwleaders.com/"
+      }
+    },
+    {
+      "id": "teams",
+      "label": "For Teams",
+      "trigger": "click",
+      "layout": "single-link",
+      "href": "https://lead.cwleaders.com/enterprise",
+      "subroutes": [
+        { "id": "command", "label": "Command tier", "href": "https://lead.cwleaders.com/command" }
+      ]
+    },
+    {
+      "id": "pricing",
+      "label": "Pricing",
+      "trigger": "click",
+      "layout": "single-link",
+      "href": "https://studio.cwleaders.com/#pricing"
+    },
+    {
+      "id": "resources",
+      "label": "Resources",
+      "trigger": "hover",
+      "openDelay": 0,
+      "closeDelay": 220,
+      "layout": "mega-menu",
+      "columns": 3,
+      "sections": [
+        {
+          "title": "Help",
+          "items": [
+            { "label": "Contact",  "href": "mailto:hello@cwleaders.com" },
+            { "label": "Security", "href": "mailto:security@cwleaders.com" },
+            { "label": "Privacy",  "href": "mailto:privacy@cwleaders.com" }
+          ]
+        },
+        {
+          "title": "Legal",
+          "items": [
+            { "label": "Terms",          "href": "https://lead.cwleaders.com/terms" },
+            { "label": "Privacy Policy", "href": "https://lead.cwleaders.com/privacy" },
+            { "label": "Cookies",        "href": "https://lead.cwleaders.com/cookies" },
+            { "label": "Accessibility",  "href": "https://lead.cwleaders.com/accessibility" },
+            { "label": "DPA",            "href": "https://lead.cwleaders.com/dpa" },
+            { "label": "Sub-processors", "href": "https://lead.cwleaders.com/subprocessors" }
+          ]
+        },
+        {
+          "title": "More",
+          "items": [
+            { "label": "EULA (desktop)",      "href": "https://lead.cwleaders.com/eula" },
+            { "label": "Acceptable Use",      "href": "https://lead.cwleaders.com/aup" },
+            { "label": "Refund policy",       "href": "https://lead.cwleaders.com/refund" },
+            { "label": "SLA",                 "href": "https://lead.cwleaders.com/sla" },
+            { "label": "DMCA",                "href": "https://lead.cwleaders.com/dmca" },
+            { "label": "Third-party",         "href": "https://lead.cwleaders.com/third-party-licenses" }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "ctaCluster": {
+    "position": "right",
+    "ctas": [
+      {
+        "id": "download",
+        "label": "Download",
+        "glyph": "⬇",
+        "trigger": "click",
+        "href": "https://api.cwleaders.com/desktop/download?platform=auto",
+        "style": "ghost",
+        "showWhen": "always",
+        "tracking": "billing.download_click"
+      },
+      {
+        "id": "signin",
+        "label": "Sign in",
+        "trigger": "click",
+        "action": "LEAD.openAuth()",
+        "style": "primary-pill",
+        "showWhen": "signed-out"
+      },
+      {
+        "id": "account",
+        "label": "{user.firstPart}",
+        "trigger": "click",
+        "action": "openAccountMenu()",
+        "style": "account-pill",
+        "showWhen": "signed-in",
+        "dropdown": {
+          "trigger": "click",
+          "layout": "vertical-list",
+          "items": [
+            { "label": "Studio dashboard", "href": "https://studio.cwleaders.com/",          "icon": "🏠" },
+            { "label": "My licenses",      "href": "https://studio.cwleaders.com/#licenses", "icon": "🪪" },
+            { "label": "Profile",          "href": "https://studio.cwleaders.com/#profile",  "icon": "👤" },
+            { "label": "Billing",          "href": "https://studio.cwleaders.com/#billing",  "icon": "💳" },
+            { "label": "Privacy controls", "href": "https://studio.cwleaders.com/#privacy",  "icon": "🛡" },
+            { "type":  "divider" },
+            { "label": "Help",             "href": "mailto:hello@cwleaders.com",             "icon": "?" },
+            { "label": "Sign out",         "action": "LEAD.Auth.clear()",                    "icon": "↪" }
+          ]
+        }
+      }
+    ]
+  },
+
+  "ui": {
+    "topbarHeight": 56,
+    "topbarBackground": "rgba(22,30,54,0.6)",
+    "topbarBackdropFilter": "blur(18px) saturate(140%)",
+    "topbarBorderRadius": 999,
+    "topbarShadow": "0 14px 40px -16px rgba(0,0,0,0.6)",
+    "megaMenuOffset": 14,
+    "megaMenuBackground": "rgba(22,30,54,0.96)",
+    "megaMenuMaxWidth": 720,
+    "focusRing": "2px solid var(--c-warning)",
+    "transitions": {
+      "open":  "opacity 180ms ease, transform 220ms cubic-bezier(0.2,0.9,0.2,1)",
+      "close": "opacity 220ms ease"
+    }
+  }
+}

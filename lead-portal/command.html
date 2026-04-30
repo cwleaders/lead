@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0e1a" />
+  <title>LEAD Command Center — The Manager's Omniscient Canvas</title>
+  <meta name="description" content="Live visual telemetry from your team. Spatial fleet view. Red-node alerts. Storyboards." />
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./tokens.css" />
+  <link rel="stylesheet" href="./eq.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./lead.css" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <style>
+    body { overflow: hidden; }
+    main { height: 100vh; display: flex; flex-direction: column; padding-top: 64px; }
+    .cmd-bar {
+      position: fixed; top: 14px; left: 14px; right: 14px; z-index: 30;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 18px;
+      background: rgba(22,30,54,0.6);
+      backdrop-filter: blur(18px);
+      border-radius: var(--r-pill);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .cmd-bar .left { display: flex; align-items: center; gap: 14px; }
+    .cmd-bar .org-pick {
+      background: rgba(255,255,255,0.05);
+      padding: 6px 12px;
+      border-radius: var(--r-pill);
+      font-size: 12px;
+      color: var(--t1);
+      cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .cmd-bar .right { display: flex; gap: 14px; align-items: center; font-size: 12px; color: var(--t3); }
+    .pulse {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--c-theory);
+      box-shadow: 0 0 8px var(--c-theory);
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    .canvas-wrap {
+      flex: 1; position: relative;
+      background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+      background-size: 36px 36px;
+      overflow: hidden;
+    }
+    #canvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      cursor: grab;
+    }
+    #canvas:active { cursor: grabbing; }
+
+    .empty-state {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 14px;
+      text-align: center;
+      padding: 40px;
+    }
+    .empty-state h2 { font-size: 28px; letter-spacing: -0.02em; }
+    .empty-state p { color: var(--t2); max-width: 460px; line-height: 1.5; font-size: 14px; }
+    .empty-state .actions { display: flex; gap: 10px; margin-top: 14px; }
+
+    .telemetry-feed {
+      position: fixed; right: 14px; bottom: 14px; width: 320px; max-height: 360px;
+      overflow-y: auto;
+      background: rgba(22,30,54,0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: var(--r-3);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 18px; display: flex; flex-direction: column; gap: 8px;
+      z-index: 40;
+      -webkit-overflow-scrolling: touch;
+    }
+    .telemetry-feed-toggle {
+      display: none;
+      position: fixed; right: 14px; bottom: 14px;
+      z-index: 45;
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: var(--c-warning);
+      color: var(--void);
+      box-shadow: 0 12px 32px -8px rgba(251,191,36,0.6);
+      align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 700;
+    }
+    @media (max-width: 760px) {
+      .cmd-bar { top: 10px; left: 10px; right: 10px; padding: 8px 12px; flex-wrap: wrap; gap: 8px; }
+      .cmd-bar .left { gap: 8px; }
+      .cmd-bar .right { font-size: 11px; gap: 8px; }
+      .cmd-bar .org-pick { font-size: 11px; padding: 5px 10px; }
+      .telemetry-feed-toggle { display: inline-flex; }
+      .telemetry-feed {
+        right: 10px; left: 10px; bottom: 76px;
+        width: auto; max-height: 60vh;
+        transform: translateY(calc(100% + 96px));
+        transition: transform 280ms var(--ease-snap);
+      }
+      .telemetry-feed.open { transform: translateY(0); }
+      .empty-state { padding: 80px 22px; }
+      .empty-state h2 { font-size: 22px; }
+      .empty-state p { font-size: 13px; }
+      .sample-banner { font-size: 9px; letter-spacing: 0.14em; padding: 5px 10px; max-width: 90%; text-align: center; }
+    }
+    .telemetry-feed h3 {
+      font-size: 10px; letter-spacing: 0.3em; color: var(--t3);
+      margin-bottom: 6px;
+    }
+    .tlm-row {
+      display: flex; gap: 10px; align-items: flex-start;
+      font-size: 12px; padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .tlm-row:last-child { border: none; }
+    .tlm-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
+    .tlm-row.info .tlm-dot     { background: var(--c-frontend); }
+    .tlm-row.high .tlm-dot     { background: var(--c-warning); }
+    .tlm-row.critical .tlm-dot { background: var(--c-backend); box-shadow: 0 0 8px var(--c-backend); }
+    .tlm-meta { color: var(--t3); font-size: 10px; letter-spacing: 0.04em; }
+    .tlm-summary { color: var(--t1); }
+
+    .sample-banner {
+      position: fixed; top: 78px; left: 50%; transform: translateX(-50%);
+      background: rgba(192,132,252,0.18);
+      color: var(--c-creative);
+      padding: 6px 14px;
+      border-radius: var(--r-pill);
+      font-size: 11px; letter-spacing: 0.18em;
+      border: 1px solid rgba(192,132,252,0.3);
+      z-index: 25;
+    }
+  </style>
+  <link rel="stylesheet" href="/nav.css" />
+</head>
+<body>
+  <div class="cmd-bar">
+    <div class="left">
+      <a href="/" class="brand" style="text-decoration:none;color:var(--t1);font-weight:600;letter-spacing:0.18em;font-size:13px;display:inline-flex;align-items:center;gap:10px">
+        <svg viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="var(--c-warning)" stroke-width="2">
+          <circle cx="8" cy="10" r="3"/><circle cx="24" cy="10" r="3"/><circle cx="16" cy="22" r="3"/>
+          <path d="M11 10h10M9.5 12.5L14 19.5M22.5 12.5L18 19.5" stroke-linecap="round"/>
+        </svg>
+        COMMAND
+      </a>
+      <span class="org-pick" id="org-pick">No org · Create →</span>
+    </div>
+    <div class="right">
+      <span><span class="pulse"></span> live</span>
+      <span id="acct-mini">signed out</span>
+    </div>
+  </div>
+
+  <div class="sample-banner" id="sample-banner" style="display:none">SAMPLE TELEMETRY · Connect a desktop agent to see real data</div>
+
+  <main>
+    <div class="canvas-wrap">
+      <svg id="canvas"></svg>
+
+      <div id="empty" class="empty-state" style="display:none">
+        <h2>Spin up your first org.</h2>
+        <p>Create a tenant, invite up to 7 managers, send the desktop installer to your team, and watch their kinetic timelines materialize on this canvas in real time.</p>
+        <div class="actions">
+          <button class="cta-pill" id="create-org">Create org →</button>
+          <a href="/enterprise#pricing" class="cta-pill ghost">See pricing</a>
+        </div>
+      </div>
+    </div>
+
+    <aside class="telemetry-feed" id="feed">
+      <h3>RECENT ACTIVITY</h3>
+      <div id="feed-rows"><div class="tlm-row info"><div class="tlm-dot"></div><div><div class="tlm-summary">Loading…</div></div></div></div>
+    </aside>
+    <button class="telemetry-feed-toggle" id="feed-toggle" aria-label="Toggle activity feed">≡</button>
+  </main>
+
+  <script src="./lead.js"></script>
+  <script>
+    const acctMini = document.getElementById('acct-mini');
+    const orgPick = document.getElementById('org-pick');
+    const empty = document.getElementById('empty');
+    const banner = document.getElementById('sample-banner');
+    const canvas = document.getElementById('canvas');
+    const feedRows = document.getElementById('feed-rows');
+    const SVG = 'http://www.w3.org/2000/svg';
+
+    let currentOrg = null;
+
+    async function init() {
+      if (!LEAD.Auth.user) {
+        LEAD.openAuth({ onSuccess: init });
+        empty.style.display = 'flex';
+        return;
+      }
+      acctMini.textContent = LEAD.Auth.user.email;
+      try {
+        const res = await LEAD.api('/enterprise/org', { auth: true });
+        if (!res.orgs?.length) {
+          empty.style.display = 'flex';
+          orgPick.textContent = 'No org · Create →';
+          renderSample();
+          return;
+        }
+        currentOrg = res.orgs[0];
+        orgPick.textContent = `${currentOrg.name} · ${currentOrg.role}`;
+        empty.style.display = 'none';
+        await loadOrg();
+      } catch (e) {
+        empty.style.display = 'flex';
+        renderSample();
+      }
+    }
+
+    async function loadOrg() {
+      try {
+        const r = await LEAD.api(`/enterprise/org/${currentOrg.id}/telemetry`, { auth: true });
+        if (!r.events?.length) {
+          renderSample();
+          return;
+        }
+        renderTelemetry(r.events);
+      } catch {
+        renderSample();
+      }
+    }
+
+    function renderSample() {
+      banner.style.display = 'block';
+      // build a fake fleet on the canvas
+      drawFleet([
+        { name: 'Maya',  role: 'iOS',     x: 0.22, y: 0.28, color: '#4f8cff' },
+        { name: 'Ruben', role: 'Backend', x: 0.78, y: 0.22, color: '#4ade80' },
+        { name: 'Aki',   role: 'Design',  x: 0.18, y: 0.78, color: '#fbbf24' },
+        { name: 'Sasha', role: 'QA',      x: 0.82, y: 0.78, color: '#ff5d73', alert: true },
+        { name: 'Jules', role: 'Mgmt',    x: 0.5,  y: 0.86, color: '#c084fc' }
+      ]);
+      feedRows.innerHTML = `
+        <div class="tlm-row critical"><div class="tlm-dot"></div><div><div class="tlm-summary">⚠ Sasha — clipboard contains 4kb sensitive payload</div><div class="tlm-meta">2 min ago · QA</div></div></div>
+        <div class="tlm-row info"><div class="tlm-dot"></div><div><div class="tlm-summary">Maya — milestone: PR #482 merged</div><div class="tlm-meta">12 min ago · iOS</div></div></div>
+        <div class="tlm-row info"><div class="tlm-dot"></div><div><div class="tlm-summary">Ruben — active: Xcode + Terminal</div><div class="tlm-meta">14 min ago · Backend</div></div></div>
+        <div class="tlm-row high"><div class="tlm-dot"></div><div><div class="tlm-summary">Aki — idle 22 min (lunch?)</div><div class="tlm-meta">22 min ago · Design</div></div></div>
+        <div class="tlm-row info"><div class="tlm-dot"></div><div><div class="tlm-summary">Jules — overwatch on Sasha cleared</div><div class="tlm-meta">1 hr ago · Mgmt</div></div></div>
+      `;
+    }
+
+    function renderTelemetry(events) {
+      banner.style.display = 'none';
+      feedRows.innerHTML = events.slice(0, 8).map(e => `
+        <div class="tlm-row ${e.severity || 'info'}">
+          <div class="tlm-dot"></div>
+          <div>
+            <div class="tlm-summary">${e.summary || e.kind}</div>
+            <div class="tlm-meta">${new Date(e.at).toLocaleTimeString()} · ${e.email.split('@')[0]}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function drawFleet(employees) {
+      const W = canvas.clientWidth, H = canvas.clientHeight;
+      canvas.innerHTML = '';
+      // edges
+      const cx = W * 0.5, cy = H * 0.5;
+      employees.forEach(e => {
+        const ex = e.x * W, ey = e.y * H;
+        const path = document.createElementNS(SVG, 'path');
+        const c1x = cx + (ex - cx) * 0.4, c2x = cx + (ex - cx) * 0.7;
+        path.setAttribute('d', `M${cx},${cy} C${c1x},${cy} ${c2x},${ey} ${ex},${ey}`);
+        path.setAttribute('stroke', e.color);
+        path.setAttribute('stroke-width', '1.4');
+        path.setAttribute('fill', 'none');
+        path.setAttribute('opacity', '0.4');
+        if (e.alert) path.setAttribute('stroke-dasharray', '6 4');
+        canvas.appendChild(path);
+      });
+      // central manager node
+      addNode(cx, cy, 28, '#c084fc', 'YOU', true);
+      // employees
+      employees.forEach(e => {
+        const ex = e.x * W, ey = e.y * H;
+        addNode(ex, ey, 20, e.color, e.name, false, e.alert);
+      });
+    }
+
+    function addNode(x, y, r, color, label, isYou, alert) {
+      const halo = document.createElementNS(SVG, 'circle');
+      halo.setAttribute('cx', x); halo.setAttribute('cy', y);
+      halo.setAttribute('r', r * 1.6);
+      halo.setAttribute('fill', color); halo.setAttribute('opacity', alert ? '0.4' : '0.2');
+      if (alert) {
+        halo.innerHTML = `<animate attributeName="r" values="${r*1.4};${r*2};${r*1.4}" dur="1.6s" repeatCount="indefinite"/>`;
+      }
+      canvas.appendChild(halo);
+      const c = document.createElementNS(SVG, 'circle');
+      c.setAttribute('cx', x); c.setAttribute('cy', y);
+      c.setAttribute('r', r); c.setAttribute('fill', color);
+      canvas.appendChild(c);
+      const t = document.createElementNS(SVG, 'text');
+      t.setAttribute('x', x); t.setAttribute('y', y + r + 18);
+      t.setAttribute('text-anchor', 'middle');
+      t.setAttribute('font-size', '11');
+      t.setAttribute('fill', alert ? color : 'var(--t2)');
+      t.setAttribute('font-weight', alert ? '700' : '400');
+      t.textContent = (alert ? '⚠ ' : '') + label;
+      canvas.appendChild(t);
+    }
+
+    document.getElementById('create-org').onclick = async () => {
+      const name = prompt('Org name?');
+      if (!name) return;
+      try {
+        const r = await LEAD.api('/enterprise/org', { method:'POST', body:{ name }, auth:true });
+        currentOrg = r.org;
+        empty.style.display = 'none';
+        orgPick.textContent = `${r.org.name} · owner`;
+        loadOrg();
+        LEAD.toast(`Org "${name}" created`, 'success');
+      } catch (e) {
+        LEAD.toast(e.message || 'failed', 'error');
+      }
+    };
+
+    // Feed toggle (mobile)
+    const feedEl = document.getElementById('feed');
+    const feedTog = document.getElementById('feed-toggle');
+    if (feedTog) feedTog.addEventListener('click', () => feedEl.classList.toggle('open'));
+
+    addEventListener('resize', () => { if (banner.style.display === 'block') renderSample(); });
+    init();
+    document.addEventListener('lead-auth-change', init);
+  </script>
+  <script src="/nav.js" defer></script>
+</body>
+</html>

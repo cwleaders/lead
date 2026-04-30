@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0e1a" />
+  <title>Sub-Processor List — CW Leaders</title>
+  <meta name="description" content="Every third-party service CW Leaders uses to operate Studio, the desktop app, and our properties. Updated whenever it changes." />
+  <link rel="canonical" href="https://lead.cwleaders.com/subprocessors" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/tokens.css" />
+  <link rel="stylesheet" href="/eq.css" />
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/lead.css" />
+  <link rel="stylesheet" href="/nav.css" />
+</head>
+<body>
+  <div class="dotgrid" aria-hidden="true"></div>
+  <header id="cw-nav"></header>
+
+  <main>
+    <article class="doc-shell">
+      <h1>Sub-Processors.</h1>
+      <p class="lede">Every external service we share data with to operate the Services. Each is bound by data-protection terms (DPAs and Standard Contractual Clauses where applicable).</p>
+      <p style="color:var(--t3);font-size:12px">Effective: April 2026 · Version 1.0</p>
+
+      <table style="width:100%;border-collapse:collapse;margin:24px 0;font-size:14px">
+        <thead>
+          <tr style="border-bottom:1px solid var(--border, #252b48);text-align:left">
+            <th style="padding:10px 12px 10px 0;color:var(--t3);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;font-size:11px">Service</th>
+            <th style="padding:10px 12px;color:var(--t3);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;font-size:11px">Purpose</th>
+            <th style="padding:10px 12px;color:var(--t3);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;font-size:11px">Data shared</th>
+            <th style="padding:10px 0;color:var(--t3);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;font-size:11px">Region</th>
+          </tr>
+        </thead>
+        <tbody style="color:var(--t2);line-height:1.55">
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+            <td style="padding:12px 12px 12px 0"><strong>Amazon Web Services (AWS)</strong></td>
+            <td style="padding:12px">Compute, storage, database, CDN, email, monitoring</td>
+            <td style="padding:12px">All Service data</td>
+            <td style="padding:12px 0">United States</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+            <td style="padding:12px 12px 12px 0"><strong>Stripe</strong></td>
+            <td style="padding:12px">Payment processing</td>
+            <td style="padding:12px">Email, payment-card data, billing addresses</td>
+            <td style="padding:12px 0">Global</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+            <td style="padding:12px 12px 12px 0"><strong>Google (Firebase Authentication)</strong></td>
+            <td style="padding:12px">Optional Google Sign-In</td>
+            <td style="padding:12px">Email, Google profile (only if you choose Google sign-in)</td>
+            <td style="padding:12px 0">Global</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+            <td style="padding:12px 12px 12px 0"><strong>Google AI (Gemini)</strong></td>
+            <td style="padding:12px">Cloud AI for premium agent runs</td>
+            <td style="padding:12px">Prompts you submit to AI agents (when cloud AI is invoked)</td>
+            <td style="padding:12px 0">Global</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+            <td style="padding:12px 12px 12px 0"><strong>Anthropic (Claude)</strong></td>
+            <td style="padding:12px">Premium-quality AI for Pro and Enterprise tiers</td>
+            <td style="padding:12px">Prompts you submit to AI agents (when Claude is invoked)</td>
+            <td style="padding:12px 0">United States</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+            <td style="padding:12px 12px 12px 0"><strong>Groq</strong></td>
+            <td style="padding:12px">Fast fallback AI inference</td>
+            <td style="padding:12px">Prompts you submit to AI agents (when Groq is invoked)</td>
+            <td style="padding:12px 0">United States</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+            <td style="padding:12px 12px 12px 0"><strong>Cloudflare</strong> (planned)</td>
+            <td style="padding:12px">Future R2 storage migration; DDoS protection</td>
+            <td style="padding:12px">File metadata and content (when migrated)</td>
+            <td style="padding:12px 0">Global</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>How we vet sub-processors</h2>
+      <p>Before we add a sub-processor, we evaluate:</p>
+      <ul>
+        <li>Their data-protection certifications (SOC 2, ISO 27001, GDPR DPA available)</li>
+        <li>Their security practices (encryption at rest and in transit, breach notification timelines)</li>
+        <li>Their stance on training AI models on customer data — we choose providers that contractually exclude this</li>
+        <li>Their sub-processor transparency</li>
+      </ul>
+
+      <h2>Notification of changes</h2>
+      <p>We update this page whenever sub-processors change. Material additions are also communicated to active users by email at least 30 days before the new sub-processor begins processing your data, giving you the opportunity to object before the change.</p>
+      <p>Subscribe to changes by emailing <a href="mailto:privacy@cwleaders.com">privacy@cwleaders.com</a> with subject "subprocessor updates."</p>
+
+      <h2>Local-first AI</h2>
+      <p>We minimize sub-processor data exposure by running most AI features on your device, not in the cloud. Whisper transcription, Tesseract OCR, CLIP scene detection, and selfie segmentation all execute locally and never send data to a sub-processor.</p>
+
+      <h2>Contact</h2>
+      <p><a href="mailto:privacy@cwleaders.com">privacy@cwleaders.com</a></p>
+
+      <p style="margin-top:32px;color:var(--t3);font-size:12px">Last updated: April 2026 · Version 1.0</p>
+    </article>
+  </main>
+
+  <script src="/lead.js"></script>
+  <script src="/nav.js" defer></script>
+</body>
+</html>

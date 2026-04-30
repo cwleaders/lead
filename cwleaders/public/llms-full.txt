@@ -1,0 +1,39 @@
+# MyHire by CW Leaders
+
+MyHire by CW Leaders is the applicant-only web app for CW Leaders. It is based in Los Angeles, California and supports global talent discovery. The site is designed for strategic, operational, executive support, and other high-trust applicants who want to be considered for CW Leaders opportunities.
+
+## Key facts
+
+- Purpose: applicant intake and talent discovery
+- Public contact: `newapp@cwleaders.com`
+- Main company site for hiring clients: `cwleaders.com`
+- Applicant platform: `myhire.cwleaders.com`
+- Application model: general talent application plus role-specific opening pages
+
+## What applicants can do here
+
+- Browse active openings
+- Review a role-specific page for Strategist and Operationalist 1
+- Learn how the applicant process works
+- Read applicant-focused FAQ content
+- Submit a structured multi-step application
+- Upload a resume and optional cover letter
+- Review privacy and terms content
+
+## What happens after submission
+
+- Applicant materials are submitted through the MyHire form
+- CW Leaders receives the submission through its internal applicant inbox
+- Applicants receive a simple confirmation email
+- There is no guarantee of interview, placement, or response timing
+
+## Structured summary
+
+- Organization: CW Leaders
+- Applicant product name: MyHire by CW Leaders
+- Headquarters: Los Angeles, California, United States
+- Coverage: worldwide
+- Audience: candidates and applicants
+- Contact: newapp@cwleaders.com
+- Open positions page: https://myhire.cwleaders.com/positions/
+- Current featured role: https://myhire.cwleaders.com/StrategistandOperationalist1/

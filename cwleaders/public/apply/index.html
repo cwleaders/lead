@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apply to CW Leaders | MyHire Applicant Form</title>
+    <meta
+      name="description"
+      content="Complete the MyHire application for CW Leaders. Share your background, upload your resume, and submit securely to a Los Angeles-based team with global reach."
+    />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#3498db" />
+    <meta name="geo.region" content="US-CA" />
+    <meta name="geo.placename" content="Los Angeles" />
+    <link rel="canonical" href="https://myhire.cwleaders.com/apply/" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="icon" href="/assets/brand/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/assets/brand/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Roboto:wght@400;500;700&display=swap"
+    />
+    <link rel="stylesheet" href="/assets/styles.css" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="MyHire by CW Leaders" />
+    <meta property="og:title" content="Apply to CW Leaders" />
+    <meta
+      property="og:description"
+      content="A four-step applicant experience for strategic and operational talent."
+    />
+    <meta property="og:url" content="https://myhire.cwleaders.com/apply/" />
+    <meta property="og:image" content="https://myhire.cwleaders.com/assets/brand/og-apply.png" />
+    <meta property="og:image:alt" content="Apply to CW Leaders social card" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Apply to CW Leaders" />
+    <meta
+      name="twitter:description"
+      content="A calm, structured application built for strategic, operational, and high-trust roles."
+    />
+    <meta name="twitter:image" content="https://myhire.cwleaders.com/assets/brand/og-apply.png" />
+    <meta name="twitter:image:alt" content="Apply to CW Leaders social card" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://myhire.cwleaders.com/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Apply",
+                "item": "https://myhire.cwleaders.com/apply/"
+              }
+            ]
+          },
+          {
+            "@type": "WebPage",
+            "name": "Apply to CW Leaders",
+            "url": "https://myhire.cwleaders.com/apply/",
+            "about": {
+              "@type": "Organization",
+              "name": "CW Leaders",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Los Angeles",
+                "addressRegion": "CA",
+                "addressCountry": "US"
+              }
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href="/">
+          <img class="brand__mark" src="/assets/brand/cw-monogram.svg" alt="CW Leaders monogram" />
+          <span>
+            <span class="brand__eyebrow">Applicant Platform</span>
+            <span class="brand__name">MyHire by CW Leaders</span>
+          </span>
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a data-nav-link href="/">Home</a>
+          <a data-nav-link href="/positions/">Open Positions</a>
+          <a data-nav-link href="/apply/">Apply</a>
+          <a data-nav-link href="/faq/">FAQ</a>
+          <a data-nav-link href="/privacy/">Privacy</a>
+          <a data-nav-link href="/terms/">Terms</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div class="site-shell page-hero__layout">
+          <div data-reveal>
+            <span class="eyebrow">Application intake | Based in Los Angeles, serving globally</span>
+            <h1>Apply with signal, not clutter.</h1>
+            <p class="lede">
+              This four-step application is designed for strategic, operational, and high-trust
+              candidates. It should take only a few minutes if your materials are ready.
+            </p>
+            <p class="microcopy" data-role-context hidden></p>
+          </div>
+          <aside class="panel" data-reveal>
+            <span class="status-chip">Secure upload and confirmation email</span>
+            <span class="status-chip status-chip--teal" data-role-chip hidden></span>
+            <p style="margin-top: 1rem">
+              Resume is required. Cover letter is optional. If your background aligns with a current
+              or emerging search, our team will reach out directly.
+            </p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="content-page">
+        <div class="site-shell apply-layout">
+          <div class="panel form-shell" data-reveal>
+            <ol class="stepper" aria-label="Application steps">
+              <li class="stepper__item is-active"><strong>Step 1</strong><span>Identity</span></li>
+              <li class="stepper__item"><strong>Step 2</strong><span>Professional</span></li>
+              <li class="stepper__item"><strong>Step 3</strong><span>Context</span></li>
+              <li class="stepper__item"><strong>Step 4</strong><span>Review</span></li>
+            </ol>
+
+            <p class="form-status" role="status" aria-live="polite"></p>
+
+            <form
+              id="application-form"
+              data-api-endpoint="/api/applications"
+              action="/api/applications"
+              method="post"
+              enctype="multipart/form-data"
+            >
+              <input type="hidden" name="sourcePage" value="/apply/" />
+              <input type="hidden" name="referrer" value="" />
+              <div class="visually-hidden" aria-hidden="true">
+                <label for="companyWebsite">Leave this field empty</label>
+                <input type="text" id="companyWebsite" name="companyWebsite" autocomplete="off" />
+              </div>
+
+              <section class="step-panel" data-step-panel>
+                <h2>Identity and location</h2>
+                <p class="helper">
+                  Share the essentials first so we know how to reach you and where you are operating
+                  from.
+                </p>
+                <div class="field-grid">
+                  <div class="field">
+                    <label for="firstName">First name</label>
+                    <input id="firstName" name="firstName" autocomplete="given-name" required />
+                  </div>
+                  <div class="field">
+                    <label for="lastName">Last name</label>
+                    <input id="lastName" name="lastName" autocomplete="family-name" required />
+                  </div>
+                  <div class="field">
+                    <label for="email">Email address</label>
+                    <input id="email" name="email" type="email" autocomplete="email" required />
+                  </div>
+                  <div class="field">
+                    <label for="phone">Phone number</label>
+                    <input id="phone" name="phone" type="tel" autocomplete="tel" required />
+                  </div>
+                  <div class="field">
+                    <label for="city">City</label>
+                    <input id="city" name="city" autocomplete="address-level2" required />
+                  </div>
+                  <div class="field">
+                    <label for="state">State / region <span>Optional</span></label>
+                    <input id="state" name="state" autocomplete="address-level1" />
+                  </div>
+                  <div class="field field--full">
+                    <label for="country">Country</label>
+                    <input id="country" name="country" autocomplete="country-name" required />
+                  </div>
+                  <div class="field">
+                    <label for="linkedin">LinkedIn URL <span>Optional</span></label>
+                    <input
+                      id="linkedin"
+                      name="linkedin"
+                      type="url"
+                      placeholder="https://www.linkedin.com/in/yourname"
+                    />
+                  </div>
+                  <div class="field">
+                    <label for="portfolio">Portfolio or website <span>Optional</span></label>
+                    <input
+                      id="portfolio"
+                      name="portfolio"
+                      type="url"
+                      placeholder="https://your-site.com"
+                    />
+                  </div>
+                </div>
+              </section>
+
+              <section class="step-panel" data-step-panel>
+                <h2>Professional signal</h2>
+                <p class="helper">
+                  Show us the role you want to be considered for and the context you bring.
+                </p>
+                <div class="field-grid">
+                  <div class="field field--full">
+                    <label for="targetRole">Target role</label>
+                    <input
+                      id="targetRole"
+                      name="targetRole"
+                      placeholder="Chief of Staff, Executive Assistant, Operations Director"
+                      required
+                    />
+                  </div>
+                  <div class="field">
+                    <label for="currentTitle">Current title</label>
+                    <input id="currentTitle" name="currentTitle" required />
+                  </div>
+                  <div class="field">
+                    <label for="currentCompany">Current company <span>Optional</span></label>
+                    <input id="currentCompany" name="currentCompany" />
+                  </div>
+                  <div class="field">
+                    <label for="yearsExperience">Years of experience</label>
+                    <input
+                      id="yearsExperience"
+                      name="yearsExperience"
+                      type="number"
+                      min="0"
+                      step="1"
+                      required
+                    />
+                  </div>
+                  <div class="field">
+                    <label for="compensation">Compensation expectations <span>Optional</span></label>
+                    <input
+                      id="compensation"
+                      name="compensation"
+                      placeholder="$150k-$180k, hourly, or open to discussion"
+                    />
+                  </div>
+                  <div class="field">
+                    <label for="availability">Availability</label>
+                    <select id="availability" name="availability" required>
+                      <option value="">Select one</option>
+                      <option>Immediately</option>
+                      <option>Within 2 weeks</option>
+                      <option>Within 30 days</option>
+                      <option>Within 60 days</option>
+                      <option>Timing depends on opportunity</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label for="workAuthorization">Work authorization</label>
+                    <select id="workAuthorization" name="workAuthorization" required>
+                      <option value="">Select one</option>
+                      <option>Authorized to work in my region</option>
+                      <option>Will require sponsorship</option>
+                      <option>Prefer to discuss directly</option>
+                    </select>
+                  </div>
+                  <div class="field field--full">
+                    <label for="travelPreference">Travel / relocation preference</label>
+                    <select id="travelPreference" name="travelPreference" required>
+                      <option value="">Select one</option>
+                      <option>Open to travel</option>
+                      <option>Open to relocation</option>
+                      <option>Open to both travel and relocation</option>
+                      <option>Prefer remote or local opportunities</option>
+                      <option>Prefer to discuss based on role</option>
+                    </select>
+                  </div>
+                </div>
+              </section>
+
+              <section class="step-panel" data-step-panel>
+                <h2>Context and supporting documents</h2>
+                <p class="helper">
+                  This is where we get signal beyond the headline of your resume.
+                </p>
+                <div class="field-grid">
+                  <div class="field field--full">
+                    <label for="whyCwLeaders"
+                      >Why are you a strong fit for CW Leaders opportunities?</label
+                    >
+                    <textarea
+                      id="whyCwLeaders"
+                      name="whyCwLeaders"
+                      required
+                      placeholder="Share the environments you thrive in, the caliber of work you are prepared for, and the kind of mandate you want next."
+                    ></textarea>
+                    <small>Give us enough detail to understand your operating range and judgment.</small>
+                  </div>
+                  <div class="field field--full">
+                    <label for="standoutStrength">Standout strength <span>Optional</span></label>
+                    <textarea
+                      id="standoutStrength"
+                      name="standoutStrength"
+                      placeholder="What is one capability or pattern that consistently sets you apart?"
+                    ></textarea>
+                  </div>
+                  <div class="field upload">
+                    <label for="resume">Resume</label>
+                    <input id="resume" name="resume" type="file" accept=".pdf,.doc,.docx" required />
+                    <small>Accepted formats: PDF, DOC, DOCX. Maximum 5 MB.</small>
+                  </div>
+                  <div class="field upload">
+                    <label for="coverLetter">Cover letter <span>Optional</span></label>
+                    <input
+                      id="coverLetter"
+                      name="coverLetter"
+                      type="file"
+                      accept=".pdf,.doc,.docx"
+                    />
+                    <small>Optional, but welcome if it adds context to your profile.</small>
+                  </div>
+                </div>
+              </section>
+
+              <section class="step-panel" data-step-panel>
+                <h2>Review and submit</h2>
+                <p class="helper">
+                  Confirm everything below. When you submit, your application is delivered to
+                  <a href="mailto:newapp@cwleaders.com">newapp@cwleaders.com</a> and you will receive
+                  a confirmation email.
+                </p>
+                <div class="review-grid" data-review-grid></div>
+                <fieldset class="checkbox-group field--full" style="margin-top: 1rem">
+                  <legend>Consent</legend>
+                  <label class="checkbox" for="privacyConsent">
+                    <input id="privacyConsent" name="privacyConsent" type="checkbox" required />
+                    <span>
+                      I agree to the <a href="/privacy/">privacy notice</a> and understand my data
+                      will be used to review this application and related opportunities.
+                    </span>
+                  </label>
+                  <label class="checkbox" for="accuracyConsent">
+                    <input id="accuracyConsent" name="accuracyConsent" type="checkbox" required />
+                    <span>I confirm the information I am submitting is accurate to the best of my knowledge.</span>
+                  </label>
+                </fieldset>
+              </section>
+
+              <div class="form-actions" style="margin-top: 1.25rem">
+                <button class="button button--ghost" type="button" hidden data-back-step>Back</button>
+                <button class="button button--secondary" type="button" hidden data-next-step>Next step</button>
+                <button class="button button--primary" type="submit" data-submit-application>
+                  Submit application
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <aside class="form-sidebar" data-reveal>
+            <article class="form-sidebar__card">
+              <span class="eyebrow">What to expect</span>
+              <h3 style="margin-top: 0.7rem">Operator-minded review</h3>
+              <p>
+                MyHire is built for thoughtful intake. We look for clarity, judgment, pace, and fit
+                for complex environments.
+              </p>
+            </article>
+            <article class="form-sidebar__card">
+              <h3>Contact</h3>
+              <p>
+                Applicant updates and questions can be sent to
+                <a href="mailto:newapp@cwleaders.com">newapp@cwleaders.com</a>.
+              </p>
+            </article>
+            <article class="form-sidebar__card">
+              <h3>Before you submit</h3>
+              <ul class="check-list">
+                <li>Resume ready</li>
+                <li>Target role clear</li>
+                <li>Context-rich narrative</li>
+              </ul>
+            </article>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <div class="site-footer__meta">
+          <p>
+            MyHire by CW Leaders is an applicant-only experience operated from Los Angeles,
+            California for global talent searches.
+          </p>
+          <p>
+            Contact: <a href="mailto:newapp@cwleaders.com">newapp@cwleaders.com</a> |
+            <span data-year></span> CW Leaders
+          </p>
+        </div>
+        <div class="site-footer__links">
+          <a href="/">Home</a>
+          <a href="/positions/">Open Positions</a>
+          <a href="/apply/">Apply</a>
+          <a href="/faq/">FAQ</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/terms/">Terms</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/assets/site.js" defer></script>
+    <script src="/assets/apply.js" defer></script>
+  </body>
+</html>

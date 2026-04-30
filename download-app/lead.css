@@ -1,0 +1,265 @@
+/* lead.css — shared widgets across all lead-portal pages */
+
+/* ---------- BROWSER COMPAT: backdrop-filter prefixes ----------------------
+   Apply across all glass surfaces — Safari needs -webkit-backdrop-filter. */
+.glass {
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+
+/* ---------- MOBILE BURGER MENU (works across all topnavs) --------------- */
+.topnav-burger {
+  display: none;
+  width: 32px; height: 32px;
+  background: transparent;
+  flex-direction: column; justify-content: center; align-items: center;
+  gap: 5px;
+  border-radius: var(--r-1);
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.topnav-burger span {
+  display: block;
+  width: 18px; height: 2px;
+  background: var(--t1);
+  border-radius: 2px;
+  transition: transform 220ms var(--ease-snap), opacity 180ms ease;
+}
+.topnav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.topnav-burger.open span:nth-child(2) { opacity: 0; }
+.topnav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 760px) {
+  .topnav-burger { display: inline-flex; }
+  .topnav nav, .topbar nav {
+    position: fixed;
+    top: 70px; left: 14px; right: 14px;
+    flex-direction: column;
+    align-items: stretch;
+    background: rgba(22,30,54,0.96);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--r-3);
+    padding: 12px;
+    gap: 4px;
+    transform: translateY(-12px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 220ms var(--ease-snap), opacity 180ms ease;
+    z-index: 60;
+  }
+  .topnav nav.open, .topbar nav.open {
+    transform: translateY(0); opacity: 1; pointer-events: auto;
+  }
+  .topnav nav a, .topbar nav a {
+    padding: 12px 14px;
+    border-radius: var(--r-2);
+    font-size: 14px;
+  }
+  .topnav nav a:hover, .topbar nav a:hover {
+    background: rgba(255,255,255,0.04);
+  }
+  .topnav nav a.cta, .topbar nav a.cta {
+    margin-top: 4px;
+    text-align: center;
+  }
+}
+
+@keyframes lead-toast-in  { 0%{transform:translateY(-12px);opacity:0} 100%{transform:translateY(0);opacity:1} }
+@keyframes lead-toast-out { 0%{opacity:1} 100%{opacity:0;transform:translateY(-8px)} }
+
+/* ---------- AUTH MODAL --------------------------------------------------- */
+#lead-auth-modal {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+  animation: lead-toast-in 220ms var(--ease-snap) both;
+}
+#lead-auth-modal .lead-modal-bg {
+  position: absolute; inset: 0;
+  background: rgba(10, 14, 26, 0.7);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.lead-modal {
+  position: relative;
+  width: min(440px, calc(100vw - 24px));
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  padding: 32px 24px 24px;
+  text-align: center;
+  display: flex; flex-direction: column; gap: 14px;
+  -webkit-overflow-scrolling: touch;
+}
+@media (max-width: 420px) {
+  .lead-modal h2 { font-size: 22px; }
+  .lead-modal-codedots input { width: 38px; height: 48px; font-size: 20px; }
+  .lead-modal-codedots { gap: 4px; }
+}
+.lead-modal-close {
+  position: absolute; top: 14px; right: 14px;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  font-size: 22px; line-height: 1;
+  color: var(--t3);
+  background: rgba(255,255,255,0.04);
+  transition: background var(--dur-fast) ease;
+}
+.lead-modal-close:hover { background: rgba(255,255,255,0.08); color: var(--t1); }
+.lead-modal-eyebrow {
+  font-size: 11px; letter-spacing: 0.32em; color: var(--c-creative);
+}
+.lead-modal h2 {
+  font-size: 24px; line-height: 1.15; letter-spacing: -0.02em; font-weight: 700;
+}
+.lead-modal-sub {
+  color: var(--t2); font-size: 13px; line-height: 1.5;
+  margin-bottom: 8px;
+}
+.lead-modal-form {
+  display: flex; flex-direction: column; gap: 10px;
+  margin-top: 4px;
+}
+.lead-modal-form input[type=email] {
+  padding: 12px 16px;
+  border-radius: var(--r-2);
+  background: rgba(0,0,0,0.3);
+  color: var(--t1); font-size: 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: border-color var(--dur-fast) ease;
+}
+.lead-modal-form input[type=email]:focus { border-color: var(--c-creative); }
+.lead-modal-form button[type=submit] {
+  padding: 12px;
+  border-radius: var(--r-2);
+  background: var(--c-creative);
+  color: var(--void);
+  font-weight: 600; font-size: 14px;
+  transition: transform var(--dur-fast) var(--ease-snap);
+}
+.lead-modal-form button[type=submit]:hover { transform: translateY(-1px); }
+.lead-modal-form button[type=submit][disabled] { opacity: 0.55; cursor: progress; }
+
+/* Google Sign-In button */
+.lead-google-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 12px 16px;
+  border-radius: var(--r-2);
+  background: #fff;
+  color: #1f1f1f;
+  font-size: 14px; font-weight: 500;
+  letter-spacing: 0.01em;
+  border: 1px solid rgba(0,0,0,0.08);
+  transition: transform var(--dur-fast) var(--ease-snap), box-shadow var(--dur-fast) ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.lead-google-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px -6px rgba(0,0,0,0.4);
+}
+.lead-google-btn[disabled] { opacity: 0.6; cursor: progress; transform: none; }
+.lead-google-btn svg { flex-shrink: 0; }
+
+.lead-divider {
+  display: flex; align-items: center; gap: 12px;
+  margin: 4px 0 2px;
+  color: var(--t3); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.lead-divider::before, .lead-divider::after {
+  content: ''; flex: 1; height: 1px;
+  background: rgba(255,255,255,0.06);
+}
+
+/* PERSONA PICKER */
+#lead-persona-modal {
+  position: fixed; inset: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.lead-persona-card {
+  position: relative;
+  width: min(560px, calc(100vw - 24px));
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  padding: 32px 26px 22px;
+  text-align: center;
+  display: flex; flex-direction: column; gap: 14px;
+  -webkit-overflow-scrolling: touch;
+}
+.lead-persona-card h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; }
+.lead-persona-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 8px 0 12px;
+}
+.lead-persona-tile {
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--r-2);
+  padding: 16px 14px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  color: var(--t1);
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-snap), background var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+.lead-persona-tile:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.18);
+  background: rgba(0,0,0,0.4);
+}
+.lead-persona-glyph {
+  width: 38px; height: 38px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.lead-persona-tile strong { font-size: 13px; font-weight: 600; }
+.lead-persona-tile small { font-size: 11px; color: var(--t3); line-height: 1.4; }
+.lead-persona-skip {
+  background: transparent; border: none;
+  color: var(--t3); font-size: 12px; cursor: pointer;
+  padding: 6px;
+}
+.lead-persona-skip:hover { color: var(--t1); }
+
+@media (max-width: 480px) {
+  .lead-persona-grid { grid-template-columns: 1fr; }
+}
+.lead-modal-textbtn {
+  background: none; color: var(--t3); font-size: 12px; padding: 6px;
+  letter-spacing: 0.04em;
+}
+.lead-modal-textbtn:hover { color: var(--t2); }
+.lead-modal-codedots {
+  display: flex; gap: 6px; justify-content: center;
+}
+.lead-modal-codedots input {
+  width: 44px; height: 54px;
+  border-radius: var(--r-2);
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--t1);
+  font-size: 22px; font-weight: 600; text-align: center;
+  font-family: var(--font-mono);
+  transition: border-color var(--dur-fast) ease, transform var(--dur-fast) var(--ease-snap);
+}
+.lead-modal-codedots input:focus { border-color: var(--c-creative); transform: translateY(-1px); }
+
+/* ---------- ACCOUNT BUTTON IN NAV --------------------------------------- */
+.lead-account-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 12px 6px 6px;
+  border-radius: var(--r-pill);
+  background: rgba(255,255,255,0.04);
+  color: var(--t1);
+  font-size: 12px;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.lead-account-btn .avi {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--c-creative), var(--c-frontend));
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 600; color: var(--void);
+}

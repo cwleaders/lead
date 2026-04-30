@@ -1,0 +1,47 @@
+{
+  "name": "CW Leaders Studio",
+  "short_name": "Studio",
+  "description": "Your unified workspace — record, send, hire, and manage your team. One free dashboard, four billion-dollar tools, agentic-AI built in.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0a0e1a",
+  "theme_color": "#0a0e1a",
+  "lang": "en",
+  "categories": ["productivity", "business", "utilities"],
+  "icons": [
+    { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "any" },
+    { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Record screen",
+      "short_name": "Record",
+      "description": "Open the LEAD recorder",
+      "url": "https://lead.cwleaders.com",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "Send a file",
+      "short_name": "Send",
+      "description": "Drop a file, get a link",
+      "url": "https://upload.cwleaders.com",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "Hire someone",
+      "short_name": "Hire",
+      "description": "Open MyHire",
+      "url": "https://myhire.cwleaders.com",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "Run agents",
+      "short_name": "Agents",
+      "description": "Manage your foundation agents",
+      "url": "/#agents",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
+    }
+  ]
+}

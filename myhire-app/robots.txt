@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /apply/
+Disallow: /thank-you/
+Disallow: /skill-check/
+
+Sitemap: https://myhire.cwleaders.com/sitemap.xml

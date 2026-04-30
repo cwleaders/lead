@@ -1,0 +1,131 @@
+name: Release CW Leaders Studio
+
+# Triggered by pushing a tag like v0.2.0
+on:
+  push:
+    tags: ['v*.*.*']
+  workflow_dispatch:
+
+permissions:
+  contents: write     # to attach binaries to GitHub release
+  id-token: write     # to assume the AWS role for S3 upload
+
+env:
+  AWS_REGION: us-east-1
+  INSTALLERS_BUCKET: lead-installers-069422358723
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-14            # Apple Silicon
+            target: aarch64-apple-darwin
+            artifact_dir: src-tauri/target/aarch64-apple-darwin/release/bundle
+            platform_id: mac-aarch64
+          - os: macos-13            # Intel
+            target: x86_64-apple-darwin
+            artifact_dir: src-tauri/target/x86_64-apple-darwin/release/bundle
+            platform_id: mac-x86_64
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            artifact_dir: src-tauri/target/x86_64-pc-windows-msvc/release/bundle
+            platform_id: win-x86_64
+          - os: ubuntu-22.04
+            target: x86_64-unknown-linux-gnu
+            artifact_dir: src-tauri/target/x86_64-unknown-linux-gnu/release/bundle
+            platform_id: linux-x86_64
+
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: lead-desktop
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: lead-desktop/src-tauri -> target
+
+      - name: Install Linux deps
+        if: matrix.os == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libssl-dev libgtk-3-dev \
+            libayatana-appindicator3-dev librsvg2-dev
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with: { node-version: '20' }
+
+      - name: Install JS deps
+        run: npm install
+
+      - name: Build Tauri bundle
+        env:
+          TAURI_SIGNING_PRIVATE_KEY:          ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          APPLE_CERTIFICATE:        ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          APPLE_SIGNING_IDENTITY:   ${{ secrets.APPLE_SIGNING_IDENTITY }}
+          APPLE_ID:                 ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD:           ${{ secrets.APPLE_PASSWORD }}
+          APPLE_TEAM_ID:            ${{ secrets.APPLE_TEAM_ID }}
+        run: npx tauri build --target ${{ matrix.target }}
+
+      - name: List built artifacts
+        run: find ${{ matrix.artifact_dir }} -maxdepth 3 -type f
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::069422358723:role/github-actions-installers
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Upload installers to S3
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          for f in $(find ${{ matrix.artifact_dir }} -type f \
+                       -name '*.dmg' -o -name '*.msi' -o -name '*.AppImage' -o -name '*.deb'); do
+            name=$(basename "$f")
+            key="v${VERSION}/${{ matrix.platform_id }}/${name}"
+            echo "Uploading $f → s3://${{ env.INSTALLERS_BUCKET }}/$key"
+            aws s3 cp "$f" "s3://${{ env.INSTALLERS_BUCKET }}/$key" --acl private
+          done
+
+  publish-manifest:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::069422358723:role/github-actions-installers
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Generate and upload manifest
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          cat > manifest.json <<EOF
+          {
+            "version": "${VERSION}",
+            "notes": "See https://github.com/cwleaders/studio/releases/tag/v${VERSION}",
+            "pub_date": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "platforms": {
+              "mac-aarch64":   { "installerKey": "v${VERSION}/mac-aarch64/CW Leaders Studio.dmg",   "installerName": "CW-Leaders-Studio.dmg" },
+              "mac-x86_64":    { "installerKey": "v${VERSION}/mac-x86_64/CW Leaders Studio.dmg",    "installerName": "CW-Leaders-Studio.dmg" },
+              "win-x86_64":    { "installerKey": "v${VERSION}/win-x86_64/CW Leaders Studio_${VERSION}_x64_en-US.msi", "installerName": "CW-Leaders-Studio.msi" },
+              "linux-x86_64":  { "installerKey": "v${VERSION}/linux-x86_64/cwleaders-studio_${VERSION}_amd64.AppImage", "installerName": "CW-Leaders-Studio.AppImage" }
+            }
+          }
+          EOF
+          aws s3 cp manifest.json "s3://${{ env.INSTALLERS_BUCKET }}/manifest/latest.json" --acl private
+          aws s3 cp manifest.json "s3://${{ env.INSTALLERS_BUCKET }}/manifest/v${VERSION}.json" --acl private

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1024" y2="1024" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0a0e1a"/>
+      <stop offset="100%" stop-color="#161e36"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1024" y2="1024" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#c084fc"/>
+      <stop offset="50%" stop-color="#4f8cff"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(192,132,252,0.4)"/>
+      <stop offset="100%" stop-color="rgba(192,132,252,0)"/>
+    </radialGradient>
+  </defs>
+  <!-- background with rounded corners (mac auto-rounds, but include for non-mac) -->
+  <rect width="1024" height="1024" rx="220" fill="url(#bg)"/>
+  <!-- soft glow under the mark -->
+  <circle cx="512" cy="512" r="380" fill="url(#glow)"/>
+  <!-- The 3-node mind-map mark -->
+  <g stroke="url(#accent)" stroke-width="36" stroke-linecap="round" fill="none">
+    <path d="M340 360 L 684 360"/>
+    <path d="M310 410 L 470 690"/>
+    <path d="M714 410 L 554 690"/>
+  </g>
+  <!-- Three nodes -->
+  <circle cx="310" cy="360" r="100" fill="#4f8cff"/>
+  <circle cx="714" cy="360" r="100" fill="#fbbf24"/>
+  <circle cx="512" cy="700" r="100" fill="#4ade80"/>
+</svg>

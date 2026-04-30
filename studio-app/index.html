@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0e1a" />
+  <title>Studio — Your CW Leaders dashboard</title>
+  <meta name="description" content="Your unified workspace. Recordings, file shares, hiring, and AI agents — all on one canvas." />
+  <link rel="canonical" href="https://studio.cwleaders.com/" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="apple-touch-icon" href="/favicon.svg" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Studio" />
+  <meta name="robots" content="noindex,follow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/tokens.css" />
+  <link rel="stylesheet" href="/eq.css" />
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/lead.css" />
+  <link rel="stylesheet" href="/nav.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "CW Leaders Studio",
+    "url": "https://studio.cwleaders.com",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CW Leaders",
+      "url": "https://lead.cwleaders.com"
+    },
+    "inLanguage": "en-US"
+  }
+  </script>
+</head>
+<body>
+  <div class="dotgrid" aria-hidden="true"></div>
+
+  <header id="cw-nav"></header>
+
+  <!-- ── SIGNED-OUT VIEW ────────────────────────────────────────────────── -->
+  <main id="signed-out" hidden>
+    <section class="welcome">
+      <span class="eyebrow">YOUR UNIFIED WORKSPACE</span>
+      <h1>Sign in to <em>Studio.</em></h1>
+      <p class="lede">Your single dashboard for recordings, file shares, hiring, and AI agents — all working together. One free account unlocks all four tools.</p>
+      <div class="cta-row">
+        <button class="cta-pill" id="signed-out-cta">Sign in with email or Google →</button>
+        <a href="https://lead.cwleaders.com" class="cta-pill ghost">Learn more about CW Leaders</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ── SIGNED-IN VIEW ─────────────────────────────────────────────────── -->
+  <main id="signed-in" hidden>
+    <!-- ── PERSONA HERO (swaps based on user's selected persona) ────────── -->
+    <section id="persona-hero" class="persona-hero" hidden></section>
+
+    <!-- Status / hero strip -->
+    <section class="status-strip glass float-in">
+      <div class="status-greet">
+        <div class="avi" id="status-avi">?</div>
+        <div>
+          <div class="greet" id="status-name">Welcome back</div>
+          <div class="greet-sub" id="status-email"></div>
+        </div>
+      </div>
+      <div class="status-meters">
+        <div class="meter">
+          <div class="meter-label">PLAN</div>
+          <div class="meter-val" id="meter-plan">Free</div>
+        </div>
+        <div class="meter">
+          <div class="meter-label">AI CREDITS</div>
+          <div class="meter-bar"><i id="meter-credits-bar" style="width:0%"></i></div>
+          <div class="meter-val small" id="meter-credits">— / —</div>
+        </div>
+        <div class="meter">
+          <div class="meter-label">FILE STORAGE</div>
+          <div class="meter-bar"><i id="meter-storage-bar" style="width:0%"></i></div>
+          <div class="meter-val small" id="meter-storage">— / —</div>
+        </div>
+      </div>
+      <div class="status-actions">
+        <button class="ghost-btn" id="persona-switch-btn" title="Change persona">⊕ Persona</button>
+        <a href="#pricing" class="cta-pill" id="upgrade-cta">Upgrade →</a>
+      </div>
+    </section>
+
+    <!-- DESKTOP DOWNLOAD HERO -->
+    <section class="download-hero glass">
+      <div class="download-text">
+        <span class="eyebrow" style="color:var(--c-theory);background:rgba(74,222,128,0.08);border-color:rgba(74,222,128,0.22)">FREE FOREVER · MAC · WINDOWS · LINUX</span>
+        <h2>Get Studio on your <em>computer.</em></h2>
+        <p class="section-lede" style="margin-top:14px">~12 MB installer. Runs on any modern machine. All four tools in one app — record, send, hire, and command. No upgrade required to start using it.</p>
+        <div class="cta-row" style="justify-content:flex-start">
+          <a id="dl-primary" href="https://api.cwleaders.com/desktop/download?platform=auto" class="cta-pill">
+            <span id="dl-primary-text">Download for your platform →</span>
+          </a>
+          <a id="dl-mac" href="https://api.cwleaders.com/desktop/download?platform=mac" class="cta-pill ghost">Mac</a>
+          <a id="dl-win" href="https://api.cwleaders.com/desktop/download?platform=win" class="cta-pill ghost">Windows</a>
+          <a id="dl-linux" href="https://api.cwleaders.com/desktop/download?platform=linux" class="cta-pill ghost">Linux</a>
+        </div>
+        <p class="muted small" style="margin-top:14px;color:var(--t3)">Installer is signed and notarized · Auto-updates · Privacy-first by default</p>
+      </div>
+      <div class="download-shot">
+        <svg viewBox="0 0 240 160" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+          <rect width="240" height="160" rx="14" fill="#0a0e1a" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+          <rect x="0" y="0" width="240" height="22" rx="14" fill="#11172a"/>
+          <circle cx="14" cy="11" r="4" fill="#ff5d73"/>
+          <circle cx="28" cy="11" r="4" fill="#fbbf24"/>
+          <circle cx="42" cy="11" r="4" fill="#4ade80"/>
+          <rect x="14" y="36" width="40" height="116" rx="10" fill="#161e36"/>
+          <rect x="20" y="44" width="28" height="28" rx="6" fill="rgba(251,191,36,0.18)"/>
+          <rect x="68" y="36" width="158" height="116" rx="10" fill="#161e36"/>
+          <text x="80" y="64" font-family="Inter,system-ui" font-size="10" fill="#e8eaf2" font-weight="700">Record your screen.</text>
+          <text x="80" y="82" font-family="ui-monospace" font-size="22" fill="#fbbf24" font-weight="700">00:42</text>
+          <rect x="80" y="100" width="80" height="22" rx="11" fill="#ff5d73"/>
+          <text x="120" y="116" font-family="Inter,system-ui" font-size="9" fill="white" font-weight="700" text-anchor="middle">● STOP</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- The four tools grid -->
+    <section class="tools">
+      <h2>Your tools. <em>All four.</em></h2>
+      <p class="section-lede">Pick up where you left off — or kick off something new.</p>
+
+      <div class="tools-grid">
+        <a class="tool-card glass" href="https://lead.cwleaders.com" data-tool="lead">
+          <div class="tool-glyph" style="--g:var(--c-creative)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="6" width="14" height="12" rx="2"/><path d="M22 8l-6 4 6 4V8z"/>
+            </svg>
+          </div>
+          <div class="tool-body">
+            <h3>Record</h3>
+            <p>Screen recordings, kinetic overlays, and AI storyboards.</p>
+            <div class="tool-stat" id="stat-lead">— recordings made</div>
+          </div>
+          <span class="arrow">→</span>
+        </a>
+
+        <a class="tool-card glass" href="https://upload.cwleaders.com" data-tool="send">
+          <div class="tool-glyph" style="--g:var(--c-frontend)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+          </div>
+          <div class="tool-body">
+            <h3>Send files</h3>
+            <p>Drag a file, get a clean link in seconds.</p>
+            <div class="tool-stat" id="stat-send">— files shared</div>
+          </div>
+          <span class="arrow">→</span>
+        </a>
+
+        <a class="tool-card glass" href="https://download.cwleaders.com" data-tool="receive">
+          <div class="tool-glyph" style="--g:var(--c-theory)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </div>
+          <div class="tool-body">
+            <h3>Visual receipts</h3>
+            <p>Recipients see what's inside before they download.</p>
+            <div class="tool-stat" id="stat-receive">— total downloads</div>
+          </div>
+          <span class="arrow">→</span>
+        </a>
+
+        <a class="tool-card glass" href="https://myhire.cwleaders.com" data-tool="myhire">
+          <div class="tool-glyph" style="--g:var(--c-warning)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <div class="tool-body">
+            <h3>Hire &amp; get hired</h3>
+            <p>Show what you can do — not just what's on paper.</p>
+            <div class="tool-stat" id="stat-myhire">Open jobs &amp; applicants</div>
+          </div>
+          <span class="arrow">→</span>
+        </a>
+
+        <a class="tool-card glass" href="https://lead.cwleaders.com/command" data-tool="command" id="card-command">
+          <div class="tool-glyph" style="--g:var(--c-backend)">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 10v6m11-11h-6m-10 0H1"/>
+            </svg>
+          </div>
+          <div class="tool-body">
+            <h3>Command <span class="tier-badge" id="command-badge">Pro</span></h3>
+            <p>Visual workforce telemetry. Quiet by default.</p>
+            <div class="tool-stat" id="stat-command">For Pro &amp; Teams</div>
+          </div>
+          <span class="arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Foundation Agents (live) -->
+    <section class="agents" id="agents">
+      <div class="agents-head">
+        <div>
+          <h2>Your <em>5 foundation agents</em>
+            <span class="ai-disclosure" tabindex="0" role="button"
+                  aria-label="What does AI mean here?"
+                  title="Cloud AI runs through Gemini Flash → Groq → Claude. Your prompts are sent to whichever provider answers fastest. Models DO NOT train on your data (contractually excluded). Switch to local-only any time in Settings → AI."
+                  style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:rgba(192,132,252,0.18);color:#c084fc;font-size:12px;font-weight:600;margin-left:8px;cursor:help;vertical-align:middle">i</span>
+          </h2>
+          <p class="section-lede">Arm an agent once — it runs on schedule across all your tools. Local models are free; cloud calls use your monthly AI credits.</p>
+          <p class="ai-transparency-note" style="font-size:11px;color:var(--t3);letter-spacing:0.04em;margin-top:6px;text-transform:uppercase">
+            Powered by Gemini · Groq · Claude · We never train AI on your data.
+          </p>
+        </div>
+        <button class="ghost-btn" id="refresh-agents">↻ Refresh</button>
+      </div>
+
+      <div class="agents-grid" id="agents-grid">
+        <p class="muted small" style="grid-column: 1 / -1; text-align:center; padding: 30px">Loading agents…</p>
+      </div>
+
+      <p class="agents-note">Local models (transcription, OCR, scene detection) are free forever. Cloud AI runs through Gemini Flash → Groq → Claude in that order to keep your bill tiny.</p>
+    </section>
+
+    <!-- Agent arm/run modal -->
+    <div id="agent-modal" class="modal-shell" hidden>
+      <div class="modal-shell-bg"></div>
+      <div class="modal-shell-card glass">
+        <button class="modal-shell-close" id="agent-modal-close" aria-label="Close">×</button>
+        <div id="agent-modal-content"></div>
+      </div>
+    </div>
+
+    <!-- Pricing -->
+    <section class="pricing" id="pricing">
+      <h2>Upgrade <em>when you're ready.</em></h2>
+      <p class="section-lede">All four tools. One license. Cancel anytime, no trickery.</p>
+
+      <div class="plans-grid">
+        <article class="plan-card glass" data-plan="studio">
+          <header><span class="plan-mark mark-1"></span><span class="plan-name">Studio</span></header>
+          <div class="plan-price"><span class="amt">$4.99</span><span class="cycle">one-time</span></div>
+          <p class="plan-pitch">For your first few projects.</p>
+          <ul>
+            <li>30-min HD recordings, no watermark</li>
+            <li>25 GB file storage · 5 GB per file</li>
+            <li>Post 1 job, 5 active applicants</li>
+            <li>1,000 AI credits / month</li>
+          </ul>
+          <button class="plan-buy" data-buy="studio">Get Studio →</button>
+        </article>
+
+        <article class="plan-card glass featured" data-plan="creator">
+          <span class="badge">Most popular</span>
+          <header><span class="plan-mark mark-2"></span><span class="plan-name">Creator</span></header>
+          <div class="plan-price"><span class="amt">$9.99</span><span class="cycle">/month</span></div>
+          <p class="plan-pitch">For creators &amp; small teams.</p>
+          <ul>
+            <li>4K recording + AI storyboards + glassboard</li>
+            <li>250 GB · 50 GB per file · custom branded links</li>
+            <li>Unlimited jobs · 25 applicants · Skill Check</li>
+            <li>10,000 AI credits / month</li>
+          </ul>
+          <button class="plan-buy" data-buy="creator">Get Creator →</button>
+        </article>
+
+        <article class="plan-card glass" data-plan="pro">
+          <header><span class="plan-mark mark-3"></span><span class="plan-name">Pro</span></header>
+          <div class="plan-price"><span class="amt">$19.99</span><span class="cycle">/month</span></div>
+          <p class="plan-pitch">For pros who live in Studio.</p>
+          <ul>
+            <li>Unlimited cloud-synced recordings</li>
+            <li>1 TB · custom domain · branded receipts</li>
+            <li>Full ATS pipeline + talent CRM</li>
+            <li>5-seat Command monitoring · 50,000 credits</li>
+          </ul>
+          <button class="plan-buy" data-buy="pro">Get Pro →</button>
+        </article>
+
+        <article class="plan-card glass" data-plan="teams">
+          <header><span class="plan-mark mark-3"></span><span class="plan-name">Teams</span></header>
+          <div class="plan-price"><span class="amt">$14.99</span><span class="cycle">/seat/mo · min 3</span></div>
+          <p class="plan-pitch">For collaborative teams.</p>
+          <ul>
+            <li>Shared workspaces + multiplayer Glassboard</li>
+            <li>SSO (Google / Microsoft / Okta)</li>
+            <li>10 monitored Command seats included</li>
+            <li>200,000 pooled credits · Slack/Teams integration</li>
+          </ul>
+          <button class="plan-buy" data-buy="teams">Get Teams →</button>
+        </article>
+
+        <article class="plan-card glass enterprise" data-plan="enterprise">
+          <span class="badge enterprise-badge">Enterprise</span>
+          <header><span class="plan-mark mark-3"></span><span class="plan-name">Enterprise</span></header>
+          <div class="plan-price"><span class="amt">$99</span><span class="cycle">/year activation + per seat</span></div>
+          <p class="plan-pitch">For organizations.</p>
+          <ul>
+            <li>$9.99/seat/mo (non-monitored) · $19.99 (Command)</li>
+            <li>Custom domain + bring-your-own AI inference</li>
+            <li>Full audit logs · SOC2 · CPRA/GDPR pack</li>
+            <li>1M credits · dedicated success manager (100+)</li>
+          </ul>
+          <a href="mailto:teams@cwleaders.com?subject=Enterprise%20activation" class="plan-buy">Talk to us →</a>
+        </article>
+      </div>
+
+      <div class="vs-strip glass">
+        <div class="vs-cell">
+          <div class="vs-them">Competitors charge</div>
+          <div class="vs-amt">$45<small>/seat/mo</small></div>
+          <div class="vs-detail">Loom + Dropbox + Greenhouse</div>
+        </div>
+        <div class="vs-arrow">→</div>
+        <div class="vs-cell us">
+          <div class="vs-them">CW Leaders Studio</div>
+          <div class="vs-amt">$14.99<small>/seat/mo</small></div>
+          <div class="vs-detail">All four tools, one bill</div>
+        </div>
+        <div class="vs-cell">
+          <div class="vs-them">You save</div>
+          <div class="vs-amt save">66%</div>
+          <div class="vs-detail">$362/seat/year back in your pocket</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Account / sign-out -->
+    <section class="account-strip glass">
+      <div>
+        <div class="account-label">SIGNED IN AS</div>
+        <div class="account-email" id="account-email">—</div>
+      </div>
+      <div class="account-actions">
+        <button id="copy-id" class="ghost-btn">Copy account ID</button>
+        <button id="sign-out" class="ghost-btn danger">Sign out</button>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span>© <span id="yr"></span> CW Leaders Studio · One free download. Four billion-dollar tools.</span>
+      <span><a href="mailto:hello@cwleaders.com">hello@cwleaders.com</a></span>
+    </footer>
+  </main>
+
+  <script src="/firebase-config.js"></script>
+  <script src="/lead.js"></script>
+  <script src="/app.js"></script>
+  <script src="/nav.js" defer></script>
+</body>
+</html>
