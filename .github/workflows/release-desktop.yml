@@ -217,7 +217,9 @@ jobs:
             codesign -dv --verbose=4 "$ARTIFACT" 2>&1 | head -20
             spctl -a -v "$ARTIFACT"
           fi
-          shasum -a 256 "$ARTIFACT" > "${ARTIFACT}.sha256"
+          # OpenSSL ships everywhere (Mac, Linux, Git-Bash on Windows). shasum doesn't.
+          openssl dgst -sha256 -r "$ARTIFACT" > "${ARTIFACT}.sha256"
+          cat "${ARTIFACT}.sha256"
         shell: bash
 
       # ── Upload to S3 + signature ──
