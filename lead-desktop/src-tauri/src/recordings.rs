@@ -61,9 +61,23 @@ pub fn recordings_open_folder() -> Result<(), String> {
 pub fn recordings_delete(path: String) -> Result<(), String> {
     let dir = ensure_recordings_dir().map_err(|e| e.to_string())?;
     let candidate = PathBuf::from(&path);
-    // Safety: only delete inside the recordings dir
-    if !candidate.starts_with(&dir) {
-        return Err("refused to delete outside recordings folder".to_string());
+
+    // Defense 1: refuse any path that contains a `..` segment.
+    // `Path::starts_with` is lexical, not canonical, so `/dir/../../etc/passwd`
+    // would otherwise pass the prefix check.
+    if candidate.components().any(|c| c == std::path::Component::ParentDir) {
+        return Err("refused: path-traversal segment not allowed".to_string());
     }
-    std::fs::remove_file(&candidate).map_err(|e| e.to_string())
+
+    // Defense 2: canonicalize and re-check the prefix (handles symlink escapes).
+    // canonicalize() requires the file to exist; if it doesn't, we refuse early.
+    let canon_dir = std::fs::canonicalize(&dir).map_err(|e| e.to_string())?;
+    let canon_candidate = std::fs::canonicalize(&candidate)
+        .map_err(|_| "refused: target does not exist".to_string())?;
+
+    if !canon_candidate.starts_with(&canon_dir) {
+        return Err("refused: target resolves outside recordings folder".to_string());
+    }
+
+    std::fs::remove_file(&canon_candidate).map_err(|e| e.to_string())
 }
