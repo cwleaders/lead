@@ -43,7 +43,7 @@ jobs:
       - name: Install cargo-audit + cargo-deny
         # Pinned to versions compatible with rustc 1.85 (rust-toolchain.toml).
         # 0.22.x / 0.18.x are latest that work with 1.85 (0.19+ requires 1.88+).
-        run: cargo install cargo-audit@0.22.1 cargo-deny@0.18.4 --locked
+        run: cargo install cargo-audit@0.22.1 cargo-deny@0.18.3 --locked
       - name: cargo audit
         working-directory: lead-desktop/src-tauri
         # Pin the advisory DB to a known-good commit. As of 2026-05 the live
