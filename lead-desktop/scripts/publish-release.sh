@@ -33,19 +33,19 @@ INSTALLER_NAME=""
 if [[ "$(uname -s)" == "Darwin" ]]; then
   ARCH=$(uname -m)
   if [ "$ARCH" = "arm64" ]; then PLATFORM_KEY="mac-aarch64"; else PLATFORM_KEY="mac-x86_64"; fi
-  INSTALLER=$(/usr/bin/find src-tauri/target -maxdepth 6 -type f -name '*.dmg' 2>/dev/null | /usr/bin/sort | /usr/bin/tail -1)
+  INSTALLER=$(find src-tauri/target -maxdepth 6 -type f -name '*.dmg' 2>/dev/null | sort | tail -1)
 elif [[ "$(uname -s)" == "Linux" ]]; then
   PLATFORM_KEY="linux-x86_64"
-  INSTALLER=$(/usr/bin/find src-tauri/target -maxdepth 6 -type f -name '*.AppImage' 2>/dev/null | /usr/bin/sort | /usr/bin/tail -1)
+  INSTALLER=$(find src-tauri/target -maxdepth 6 -type f -name '*.AppImage' 2>/dev/null | sort | tail -1)
 elif [[ "$(uname -s)" =~ "MINGW" ]] || [[ -n "${OS:-}" && "$OS" == "Windows_NT" ]]; then
   PLATFORM_KEY="win-x86_64"
-  INSTALLER=$(/usr/bin/find src-tauri/target -maxdepth 6 -type f -name '*.msi' 2>/dev/null | /usr/bin/sort | /usr/bin/tail -1)
+  INSTALLER=$(find src-tauri/target -maxdepth 6 -type f -name '*.msi' 2>/dev/null | sort | tail -1)
 fi
 
 [ -z "$INSTALLER" ] && fail "No installer found. Run 'npm run tauri build' first."
 [ ! -f "$INSTALLER" ] && fail "Installer file missing: $INSTALLER"
 INSTALLER_NAME=$(basename "$INSTALLER")
-say "Found installer: $INSTALLER_NAME ($(/usr/bin/du -sh "$INSTALLER" | /usr/bin/awk '{print $1}'))"
+say "Found installer: $INSTALLER_NAME ($(du -sh "$INSTALLER" | awk '{print $1}'))"
 
 # ── Sign installer with Tauri minisign (creates .sig) ──────────────────
 # This is REQUIRED — without .sig the Tauri updater rejects every update.
@@ -63,7 +63,7 @@ npx --yes @tauri-apps/cli@latest signer sign \
 ok "  signed → ${INSTALLER_NAME}.sig"
 
 # ── Compute SHA256 ──────────────────────────────────────────────────────
-SHA256=$(/usr/bin/openssl dgst -sha256 -binary "$INSTALLER" | /usr/bin/openssl base64 -A)
+SHA256=$(openssl dgst -sha256 -binary "$INSTALLER" | openssl base64 -A)
 echo "$SHA256  $INSTALLER_NAME" > "${INSTALLER}.sha256"
 ok "  sha256 computed"
 
@@ -73,7 +73,7 @@ say "Uploading → s3://${INSTALLERS_BUCKET}/${S3_KEY}"
 aws s3 cp "$INSTALLER"          "s3://${INSTALLERS_BUCKET}/${S3_KEY}"        --region "$REGION"
 aws s3 cp "${INSTALLER}.sig"    "s3://${INSTALLERS_BUCKET}/${S3_KEY}.sig"    --region "$REGION"
 aws s3 cp "${INSTALLER}.sha256" "s3://${INSTALLERS_BUCKET}/${S3_KEY}.sha256" --region "$REGION"
-SIG_CONTENT=$(/bin/cat "${INSTALLER}.sig")
+SIG_CONTENT=$(cat "${INSTALLER}.sig")
 ok "  installer + .sig + .sha256 uploaded"
 
 # ── Fetch existing manifest (so other platforms keep their entries) ─────
@@ -97,7 +97,7 @@ console.log(JSON.stringify({
 
 echo "$NEW_MANIFEST" > /tmp/lead-manifest.json
 say "Publishing manifest:"
-/bin/cat /tmp/lead-manifest.json
+cat /tmp/lead-manifest.json
 
 # Archive existing latest as previous (for rollback channel)
 say "Archiving prior manifest as previous.json (rollback channel)…"
@@ -113,7 +113,7 @@ ok "Manifest published — desktop apps will auto-update on next launch."
 # ── Verify the public download endpoint serves the new installer ────────
 say "Verifying public download endpoint…"
 sleep 4   # let the desktop-update Lambda's 60s cache miss
-HTTP_CODE=$(/usr/bin/curl -sS -o /dev/null -w "%{http_code}" "https://api.cwleaders.com/desktop/download?platform=${PLATFORM_KEY}")
+HTTP_CODE=$(curl -sS -o /dev/null -w "%{http_code}" "https://api.cwleaders.com/desktop/download?platform=${PLATFORM_KEY}")
 if [ "$HTTP_CODE" = "302" ]; then
   ok "  /desktop/download → 302 (redirects to S3 presigned URL)"
 else
