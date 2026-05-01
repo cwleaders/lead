@@ -41,9 +41,9 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@stable
       - name: Install cargo-audit + cargo-deny
-        # Pinned to versions compatible with rustc 1.82 (rust-toolchain.toml).
-        # Bump these together when rust-toolchain.toml is bumped.
-        run: cargo install cargo-audit@0.21.2 cargo-deny@0.17.0 --locked
+        # Pinned to versions compatible with rustc 1.85 (rust-toolchain.toml).
+        # 0.22.x / 0.18.x are latest that work with 1.85 (0.19+ requires 1.88+).
+        run: cargo install cargo-audit@0.22.1 cargo-deny@0.18.4 --locked
       - name: cargo audit
         working-directory: lead-desktop/src-tauri
         # Pin the advisory DB to a known-good commit. As of 2026-05 the live
