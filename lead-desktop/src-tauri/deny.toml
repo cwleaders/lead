@@ -31,9 +31,15 @@ allow = [
   "Unlicense",
   "BSL-1.0",
   "0BSD",
+  "CDLA-Permissive-2.0",       # Mozilla's webpki-roots & webpki-root-certs (trust roots) — IBM-pioneered permissive data license
+  "LicenseRef-Proprietary",     # Our own cwleaders-studio crate — proprietary, marked publish=false
 ]
 confidence-threshold = 0.93
 exceptions = []
+# Tell cargo-deny our workspace's own crates are private — they're never published,
+# so license enforcement on them is purely an internal hygiene check satisfied by
+# the LicenseRef-Proprietary entry above.
+private = { ignore = true }
 
 # Block GPL/AGPL/LGPL/CC-NC family — incompatible with proprietary distribution
 [[licenses.clarify]]
