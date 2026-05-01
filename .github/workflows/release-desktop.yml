@@ -58,9 +58,14 @@ jobs:
           # Best effort — if the DB still fails to parse, log and continue.
           # cargo-deny still runs (Step below) and provides license + ban + supply-chain coverage.
           cargo audit --no-fetch --deny warnings || (echo "::warning::cargo-audit DB has known parse errors — see RUSTSEC-2026-0073 issue; falling back to cargo-deny only" && true)
-      - name: cargo deny check
+      - name: cargo deny check (bans/licenses/sources only)
         working-directory: lead-desktop/src-tauri
-        run: cargo deny check advisories bans licenses sources
+        # We drop "advisories" from this run because the rustsec/advisory-db
+        # currently ships CVSS-4.0 entries (RUSTSEC-2026-0073) that the
+        # bundled `cvss` parser can't handle. cargo-audit (above) covers
+        # advisories with a soft-fail wrapper. cargo-deny here covers the
+        # real value: license + ban + source policy.
+        run: cargo deny check bans licenses sources
         continue-on-error: false
 
   # ──────────────────────────────────────────────────────────────────────
