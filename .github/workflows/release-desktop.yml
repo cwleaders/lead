@@ -73,14 +73,21 @@ jobs:
   # ──────────────────────────────────────────────────────────────────────
   test:
     name: Test (Rust + integrity)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: audit
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
+      # Tauri's glib-sys build script needs the same system libs the build job uses.
+      - name: Install Tauri system deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libssl-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev patchelf
       - name: Run cargo test
         working-directory: lead-desktop/src-tauri
-        run: cargo test --release --no-fail-fast
+        # --tests scopes to the tests/ dir so we don't compile the full Tauri runtime
+        # (which would still want WKWebView etc.). Our 6 smoke tests are pure-Rust assertions.
+        run: cargo test --release --no-fail-fast --tests
 
   # ──────────────────────────────────────────────────────────────────────
   # 3. Build matrix — macOS, Windows, Linux
