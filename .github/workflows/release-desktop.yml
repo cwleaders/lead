@@ -231,6 +231,11 @@ jobs:
         env:
           PLATFORM_KEY: ${{ matrix.platform_key }}
           VERSION_OVERRIDE: ${{ github.ref_name }}
+          # publish-release.sh calls `npx tauri signer sign` to produce the .sig
+          # file that the Tauri updater requires. Pass the same secrets the
+          # Build step uses so signing happens here too.
+          TAURI_SIGNING_PRIVATE_KEY:          ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
 
       # ── SBOM ──
       - name: Generate SBOM (CycloneDX)
