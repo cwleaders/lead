@@ -191,7 +191,9 @@ jobs:
 
       # ── Windows: sign the MSI ──
       - name: Sign Windows MSI
-        if: matrix.os == 'windows-latest'
+        # Only sign if we have an EV cert configured. v0.1.1 ships unsigned per
+        # release plan ($300/yr cert deferred to v0.2). Documented in CHANGELOG.
+        if: matrix.os == 'windows-latest' && env.WIN_CERT_BASE64 != ''
         env:
           WIN_CERT_BASE64:    ${{ secrets.WIN_CERT_BASE64 }}
           WIN_CERT_PASSWORD:  ${{ secrets.WIN_CERT_PASSWORD }}
@@ -265,7 +267,10 @@ jobs:
       - name: Generate build provenance
         uses: actions/attest-build-provenance@v1
         with:
-          subject-path: ${{ matrix.artifact_glob }}
+          # Path is relative to repo root (this action ignores defaults.run.working-directory).
+          # The shell-based steps above run inside lead-desktop/ so they use bare path; this one needs the prefix.
+          subject-path: lead-desktop/${{ matrix.artifact_glob }}
+        continue-on-error: true   # nice-to-have; not a release blocker
 
   # ──────────────────────────────────────────────────────────────────────
   # 4. Post-build: smoke-verify the public download endpoint serves the new bits
